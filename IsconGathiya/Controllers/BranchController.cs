@@ -62,7 +62,6 @@ namespace IsconGathiya.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // If the model is invalid, return the same view with the model to show validation errors
                 return View("BranchForm", model);
             }
 
