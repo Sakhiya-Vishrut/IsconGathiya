@@ -116,7 +116,7 @@ namespace IsconGathiya.Controllers
         /// <param name="message">Message</param>
         protected virtual void AddSweetAlertErrorPopup(string message)
         {
-            string dataKey = string.Format("Housmart.sweet.error.alert.popup");
+            string dataKey = string.Format("IsconGathiya.sweet.error.alert.popup");
             TempData[dataKey] = message;
         }
 
@@ -126,7 +126,7 @@ namespace IsconGathiya.Controllers
         /// <param name="message">Message</param>
         protected virtual void AddSweetAlertSuccessPopup(string message)
         {
-            string dataKey = string.Format("Housmart.sweet.success.alert.popup");
+            string dataKey = string.Format("IsconGathiya.sweet.success.alert.popup");
             TempData[dataKey] = message;
         }
 
@@ -136,7 +136,7 @@ namespace IsconGathiya.Controllers
         /// <param name="message">Message</param>
         protected virtual void AddSweetAlertWarningPopup(string message)
         {
-            string dataKey = string.Format("Housmart.sweet.warning.alert.popup");
+            string dataKey = string.Format("IsconGathiya.sweet.warning.alert.popup");
             TempData[dataKey] = message;
         }
 
