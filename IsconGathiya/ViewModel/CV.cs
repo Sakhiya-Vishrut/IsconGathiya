@@ -1,0 +1,71 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using IsconGathiya.ViewModel;
+
+namespace IsconGathiya.ViewModel
+{
+    public class CV
+    {
+        private static IHttpContextAccessor _contextAccessor;
+
+        static CV()
+        {
+            _contextAccessor = new HttpContextAccessor();
+        }
+        public static string? AdminId()
+        {
+            string cookieValue;
+            string UserID = null;
+
+            if (_contextAccessor.HttpContext.Request.Cookies["AuthValidator"] != null)
+            {
+                cookieValue = _contextAccessor.HttpContext.Request.Cookies["AuthValidator"].ToString();
+
+                UserID = DecodeToken.DecodeJwt(DecodeToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "AdminID").Value;
+            }
+
+            return UserID;
+        }
+        public static string? Email()
+        {
+            string cookieValue;
+            string UserID = null;
+
+            if (_contextAccessor.HttpContext.Request.Cookies["AuthValidator"] != null)
+            {
+                cookieValue = _contextAccessor.HttpContext.Request.Cookies["AuthValidator"].ToString();
+
+                UserID = DecodeToken.DecodeJwt(DecodeToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "Email").Value;
+            }
+
+            return UserID;
+        }
+        public static string? Username()
+        {
+            string cookieValue;
+            string UserID = null;
+
+            if (_contextAccessor.HttpContext.Request.Cookies["AuthValidator"] != null)
+            {
+                cookieValue = _contextAccessor.HttpContext.Request.Cookies["AuthValidator"].ToString();
+
+                UserID = DecodeToken.DecodeJwt(DecodeToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "Username").Value;
+            }
+
+            return UserID;
+        }
+        public static string? AspNetUserId()
+        {
+            string cookieValue;
+            string UserID = null;
+
+            if (_contextAccessor.HttpContext.Request.Cookies["AuthValidator"] != null)
+            {
+                cookieValue = _contextAccessor.HttpContext.Request.Cookies["AuthValidator"].ToString();
+
+                UserID = DecodeToken.DecodeJwt(DecodeToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "AspNetUserId").Value;
+            }
+
+            return UserID;
+        }
+    }
+}

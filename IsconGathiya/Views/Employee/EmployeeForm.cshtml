@@ -1,0 +1,136 @@
+﻿<div class="container my-5">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header text-white text-center py-4 rounded-top-4">
+            <h3 class="mb-0 fw-bold">Employee Registration Form</h3>
+            <p class="text-white-50 mb-0">Complete the details below</p>
+        </div>
+        <div class="card-body p-5">
+            <form>
+                <!-- Personal Information Section -->
+                <h5 class="mb-4 text-primary fw-semibold">Personal Information</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label for="staffId" class="form-label fw-medium">Staff ID</label>
+                        <input type="text" class="form-control rounded-3" id="staffId" placeholder="Enter staff ID" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="firstName" class="form-label fw-medium">First Name</label>
+                        <input type="text" class="form-control rounded-3" id="firstName" placeholder="Enter first name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="middleName" class="form-label fw-medium">Middle Name</label>
+                        <input type="text" class="form-control rounded-3" id="middleName" placeholder="Enter middle name">
+                    </div>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label for="lastName" class="form-label fw-medium">Last Name</label>
+                        <input type="text" class="form-control rounded-3" id="lastName" placeholder="Enter last name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="birthDate" class="form-label fw-medium">Birth Date</label>
+                        <input type="date" class="form-control rounded-3" id="birthDate" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="gender" class="form-label fw-medium">Gender</label>
+                        <select class="form-select rounded-3" id="gender" required>
+                            <option value="" disabled selected>Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contact Information Section -->
+                <h5 class="mb-4 text-primary fw-semibold">Contact Information</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label fw-medium">Email</label>
+                        <input type="email" class="form-control rounded-3" id="email" placeholder="Enter email" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="mobileNumber" class="form-label fw-medium">Mobile Number</label>
+                        <input type="tel" class="form-control rounded-3" id="mobileNumber" placeholder="Enter mobile number" required>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="whatsappNumber" class="form-label fw-medium">WhatsApp Number</label>
+                        <input type="tel" class="form-control rounded-3" id="whatsappNumber" placeholder="Enter WhatsApp number">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="alternateNumber" class="form-label fw-medium">Alternate Number</label>
+                        <input type="tel" class="form-control rounded-3" id="alternateNumber" placeholder="Enter alternate number">
+                    </div>
+                </div>
+
+                <!-- Address Section -->
+                <h5 class="mb-4 text-primary fw-semibold">Address Details</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="state" class="form-label fw-medium">State</label>
+                        <input type="text" class="form-control rounded-3" id="state" placeholder="Enter state" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city" class="form-label fw-medium">City</label>
+                        <input type="text" class="form-control rounded-3" id="city" placeholder="Enter city" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="address" class="form-label fw-medium">Address</label>
+                    <textarea class="form-control rounded-3" id="address" rows="3" placeholder="Enter full address" required></textarea>
+                </div>
+
+                <!-- Employment Details Section -->
+                <h5 class="mb-4 text-primary fw-semibold">Employment Details</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="joiningDate" class="form-label fw-medium">Joining Date</label>
+                        <input type="date" class="form-control rounded-3" id="joiningDate" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="employeeType" class="form-label fw-medium">Employee Type</label>
+                        <select class="form-select rounded-3" id="employeeType" required>
+                            <option value="" disabled selected>Select employee type</option>
+                            <option value="full-time">Full Time</option>
+                            <option value="part-time">Part Time</option>
+                            <option value="contract">Contract</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="education" class="form-label fw-medium">Education</label>
+                    <input type="text" class="form-control rounded-3" id="education" placeholder="Enter education details" required>
+                </div>
+                <div class="mb-4 form-check">
+                    <input type="checkbox" class="form-check-input" id="isActive" checked>
+                    <label class="form-check-label" for="isActive">Is Active</label>
+                </div>
+
+                <!-- Document Section -->
+                <h5 class="mb-4 text-primary fw-semibold">Documents</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="employeeImage" class="form-label fw-medium">Employee Image</label>
+                        <input type="file" class="form-control rounded-3" id="employeeImage" accept="image/*">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="adharCardImage" class="form-label fw-medium">Aadhar Card Image</label>
+                        <input type="file" class="form-control rounded-3" id="adharCardImage" accept="image/*">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="adharNo" class="form-label fw-medium">Aadhar Number</label>
+                    <input type="text" class="form-control rounded-3" id="adharNo" placeholder="Enter Aadhar number" required>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-3 px-5">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

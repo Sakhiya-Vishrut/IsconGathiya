@@ -1,0 +1,155 @@
+﻿@using IsconGathiya.Common
+@using IsconGathiya.Common.Utility
+@using IsconGathiya.Helper
+@using IsconGathiya.Helper.Mapper
+@using IsconGathiya
+@model PaginationViewModel
+
+@{
+    // Fetch pagination details from ViewData
+    var isclient = Convert.ToBoolean(ViewData["isclient"]);
+    var isrejected = Convert.ToBoolean(ViewData["isreject"]);
+
+    var previous3Page = Model.PageIndex - 3;
+    var previous2Page = Model.PageIndex - 2;
+    var previousPage = Model.PageIndex - 1;
+    var currentPage = Model.PageIndex;
+    var nextPage = Model.PageIndex + 1;
+    var next2Page = Model.PageIndex + 2;
+    var next3Page = Model.PageIndex + 3;
+    var next4Page = Model.PageIndex + 4;
+    var total = Model.TotalCount;
+    var nextRecords = Model.TotalCount - (Model.PageSize * currentPage);
+    var urlGridPaginationName = ViewData["urlGridPaginationName"];
+    var gridName = ViewData["GridName"];
+    var pageSizeId = gridName + "PageSize";
+    var pageNo = gridName + "PageNo";
+    var sortDirectionId = gridName + "SortDirection";
+    var currentSort = Model.ColumnName;
+    var currentSortId = gridName + "CurrentSort";
+    var groupId = ViewData["groupId"];
+    var groupName = ViewData["groupName"];
+    var currentPageSize = Model.PageSize;
+    int startEntry = Model.PageIndex * Model.PageSize + 1 - Model.PageSize;
+    int endEntry = Math.Min(startEntry + Model.PageSize - 1, Model.TotalCount);
+}
+
+<div class="table-bottom">
+    <div class="pagination-grid">
+        <div class="">
+            <div class="card-body custom-pagination-body">
+                <div class="d-md-flex gap-4 align-items-center justify-content-between">
+                    <div class="d-md-flex gap-2 align-items-center">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                @if (Model.PageSize > 0 && Model.TotalCount > 10)
+                                {
+                                    <select class="form-select" asp-for="PageSize" id="@pageSizeId"
+                                            onchange="GridPagination('@gridName', @ConfigItems.DefaultPageNumber, '@urlGridPaginationName', '@currentSort')"
+                                            asp-items="@(Enum.GetValues(typeof(Enums.GridPageSize))
+                                                                                          .Cast<Enums.GridPageSize>()
+                                                                                          .ToList()
+                                                                                          .ToSelectList(
+                                                                                              x => IsconGathiya.Common.EnumExtensions.GetEnumDescription(x).ToString(),
+                                                                                              x => x.GetHashCode().ToString()
+                                                                                          )
+                                                                                          .OrderBy(x => Convert.ToInt32(x.Value)))">
+                                </select>
+
+                                                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"> Showing @startEntry to @endEntry of @Model.TotalCount entries </div>
+                        </div>
+                    </div>
+                    <nav class="mt-4" aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            @if (Model.PageIndex == 1 && Model.TotalCount >= Model.PageCount)
+                            {
+                                @if (Model.TotalCount > 0)
+                                {
+                                    <li class="page-item"><a class="page-link @ViewHelper.IsPageActiveClass(Model, @currentPage)" href="javascript:void(0)" onclick="GridPagination('@gridName', @currentPage, '@urlGridPaginationName', '@currentSort')">@currentPage</a></li>
+                                }
+                                @if (@nextPage != 0 && Model.TotalCount - (Model.PageSize * 1) > 0)
+                                {
+                                    <li class="page-item"><a class="page-link  @ViewHelper.IsPageActiveClass(Model, nextPage)" href="javascript:void(0)" onclick="GridPagination('@gridName', @nextPage, '@urlGridPaginationName', '@currentSort')">@nextPage</a></li>
+                                }
+                                @if (@next2Page != 0 && Model.TotalCount - (Model.PageSize * 2) > 0)
+                                {
+                                    <li class="page-item"><a class="page-link  @ViewHelper.IsPageActiveClass(Model, next2Page)" href="javascript:void(0)" onclick="GridPagination('@gridName', @next2Page, '@urlGridPaginationName', '@currentSort')">@next2Page</a></li>
+                                }
+                                @if (@next3Page != 0 && Model.TotalCount - (Model.PageSize * 3) > 0)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link  @ViewHelper.IsPageActiveClass(Model, @next3Page)" href="javascript:void(0)" onclick="GridPagination('@gridName', @next3Page, '@urlGridPaginationName', '@currentSort')">
+                                            <img src="@("/assets/images/pagination-next.svg")" alt="next">
+                                        </a>
+                                    </li>
+                                }
+                                @if (@nextPage != 0 && Model.TotalCount - (Model.PageSize * 4) > 0)
+                                {
+                                    <li class="page-item @ViewHelper.IsPageActiveClass(Model, @next4Page)">
+                                        <a class="page-link  " href="javascript:void(0)" aria-label="Next" onclick="GridPagination('@gridName', @next4Page, '@urlGridPaginationName', '@currentSort')">
+                                            <img src="@("/assets/images/pagination-last.svg")" alt="next">
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            @if (Model.PageIndex > 1)
+                            {
+                                @if (Model.PageIndex > 3)
+                                {
+                                    <li class="page-item  @ViewHelper.IsPageActiveClass(Model, previous3Page)">
+                                        <a class="page-link " href="javascript:void(0)" aria-label="Previous" onclick="GridPagination('@gridName', @previous3Page, '@urlGridPaginationName', '@currentSort')">
+                                            <img src="@("/assets/images/pagination-first.svg")" alt="Icon">
+                                        </a>
+                                    </li>
+                                }
+                                @if (Model.PageIndex > 2)
+                                {
+                                    <li class="page-item  @ViewHelper.IsPageActiveClass(Model, previous2Page)">
+                                        <a class="page-link " href="javascript:void(0)" onclick="GridPagination('@gridName', @previous2Page, '@urlGridPaginationName', '@currentSort')">
+                                            <img src="@("/assets/images/pagination-previous.svg")"
+                                                 alt="previous">
+                                        </a>
+                                    </li>
+                                }
+                                <li class="page-item @ViewHelper.IsPageActiveClass(Model, previousPage)"><a class="page-link  " href="javascript:void(0)" onclick="GridPagination('@gridName', @previousPage, '@urlGridPaginationName', '@currentSort')">@previousPage</a></li>
+                                <li class="page-item @ViewHelper.IsPageActiveClass(Model, @currentPage)"><a class="page-link  " href="javascript:void(0)" onclick="GridPagination('@gridName', @currentPage, '@urlGridPaginationName', '@currentSort')">@currentPage</a></li>
+                                @if (Model.TotalCount - (Model.PageSize * @currentPage) > 0)
+                                {
+                                    <li class="page-item"><a class="page-link  @ViewHelper.IsPageActiveClass(Model, nextPage)" href="javascript:void(0)" onclick="GridPagination('@gridName', @nextPage, '@urlGridPaginationName', '@currentSort')">@nextPage</a></li>
+                                }
+                                @if (Model.TotalCount - (Model.PageSize * @nextPage) > 0)
+                                {
+                                    <li class="page-item  @ViewHelper.IsPageActiveClass(Model, next2Page)">
+                                        <a class="page-link" href="javascript:void(0)" onclick="GridPagination('@gridName', @next2Page, '@urlGridPaginationName')">
+                                            <img src="@("/assets/images/pagination-next.svg")" alt="next">
+                                        </a>
+                                    </li>
+                                }
+                                @if (Model.TotalCount - (Model.PageSize * @next2Page) > 0)
+                                {
+                                    <li class="page-item  @ViewHelper.IsPageActiveClass(Model, next3Page)">
+                                        <a class="page-link" href="javascript:void(0)" aria-label="Next" onclick="GridPagination('@gridName', @next3Page, '@urlGridPaginationName', '@currentSort')">
+                                            <img src="@("/assets/images/pagination-last.svg")" alt="next">
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="@pageNo" value="@currentPage" />
+<input type="hidden" id="@sortDirectionId" value="desc" />
+<input type="hidden" id="@currentSortId" value="@currentSort" />
+<input type="hidden" id="@pageSizeId" value="@currentPageSize" />
+<input type="hidden" class="gridFilterElements @(isrejected ? "true" : "false")" id="isrejected" value="@(isrejected ? "true" : "false")" />
+<input type="hidden" class="gridFilterElements @(isclient ? "true" : "false")" id="isclient" value="@isclient.ToString().ToLower()" />
+

@@ -1,0 +1,242 @@
+.card-title
+{
+    font-size: 20px !important;
+}
+.edit-button{
+    padding: 8px 9px !important;
+}
+.form-check-input.form-check-lg {
+    width: 3rem;
+    height: 1.5rem;
+  }
+
+.container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+/* Style the right image */
+.container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+/* Style time text */
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+    float: left;
+    color: #999;
+}
+
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+}
+
+/* The popup chat - hidden by default */
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+}
+
+    /* Full-width textarea */
+    .form-container textarea {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        resize: none;
+        min-height: 200px;
+    }
+
+        /* When the textarea gets focus, do something */
+        .form-container textarea:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+    /* Set a style for the submit/login button */
+    .form-container .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        opacity: 0.8;
+    }
+
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+        background-color: red;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover, .open-button:hover {
+        opacity: 1;
+    }
+
+.headerpage {
+    margin-left: 0px !important;
+    width: 100% !important;
+}
+
+#card {
+    width: 55%;
+    height: 160px;
+    border-radius: 20px;
+}
+
+.domain-name-dropdown {
+    height: 58px;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    .status-card .count {
+        font-size: 2em;
+    }
+
+    .status-card.pending {
+        background-color: #F6A1A1;
+    }
+
+    .status-card.working {
+        background-color: #b3d1ff;
+    }
+
+    .status-card.completed {
+        background-color: #d3f1e4;
+    }
+
+    .status-card.pending-active {
+        background-color: #E44141; /* Color when pending card is clicked */
+        color: white;
+    }
+
+    .status-card.working-active {
+        background-color: #007bff; /* Color when working card is clicked */
+        color: white;
+    }
+
+    .status-card.completed-active {
+        background-color: #0DA759; /* Color when completed card is clicked */
+        color: #ffff;
+    }
+
+    .status-card.pending-active h4 {
+        color: #fff !important;
+    }
+
+    .status-card.pending-active h2 {
+        color: #fff !important;
+    }
+
+.pending-active.a-pending::after {
+    position: absolute;
+    content: '';
+    left: 31%;
+    bottom: 687px;
+    border-style: solid;
+    border-width: 0 20px 20px 20px;
+    border-color: transparent transparent #E44141 transparent;
+    transform: rotate(179deg);
+    transition: 1s;
+}
+
+
+.status-card.working-active h4 {
+    color: #fff !important;
+}
+
+.status-card.working-active h2 {
+    color: #fff !important;
+}
+
+.working-active.a-working::after {
+    position: absolute;
+    content: '';
+    left: 58%;
+    bottom: 687px;
+    border-style: solid;
+    border-width: 0 20px 20px 20px;
+    border-color: transparent transparent #007bff transparent;
+    transform: rotate(179deg);
+    transition: 1s;
+}
+
+.status-card.completed-active h4 {
+    color: #fff !important;
+}
+
+.status-card.completed-active h2 {
+    color: #fff !important;
+}
+
+.completed-active.a-completed::after {
+    position: absolute;
+    content: '';
+    left: 84%;
+    bottom: 689px;
+    border-style: solid;
+    border-width: 0 20px 20px 20px;
+    border-color: transparent transparent #0DA759 transparent;
+    transform: rotate(179deg);
+    transition: 1s;
+}
+
+
+
+
+
+
+
+.circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}

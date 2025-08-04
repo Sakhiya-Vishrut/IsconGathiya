@@ -1,0 +1,95 @@
+﻿using IsconGathiya.Common.DependencyInjection;
+using IsconGathiya.Domain;
+using IsconGathiya.Domain.DataContext;
+using IsconGathiya.Domain.DataModels;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IsconGathiya.Service.Branchs
+{
+    [TransientDependency(ServiceType = typeof(IBranchRepository))]
+    public class BranchRepository : IBranchRepository
+    {
+        private readonly ApplicationDbContext _context;
+        public BranchRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public async Task<List<BranchDTO>> GetBranchDataWithFilter()
+        {
+            var brbranch = _context.Branches.Where(b => b.DeletedAt == null);
+
+            var branchList = brbranch.Select(b => new BranchDTO
+            {
+                branch = b,
+            }).ToList();
+
+            return branchList;
+        }
+
+        public async Task<bool> AddEditBranch(Branch model)
+        {
+            try
+            {
+                DateTime CurrentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                if (model == null) return false;
+                else
+                {
+                    if (model.BranchId == default)
+                    {
+                        model.CreatedAt = CurrentDate;
+                        model.ModifiedAt = CurrentDate;
+                        model.CreatedBy = 1;
+                        model.ModifiedBy = 1;
+
+                        _context.Branches.Add(model);
+                    }
+                    else
+                    {
+                        var existingBranches = await _context.Branches.FirstOrDefaultAsync(c => c.BranchId == model.BranchId);
+
+                        if (existingBranches != null)
+                        {
+                            existingBranches.BranchName = model.BranchName;
+                            existingBranches.StateId = model.StateId;
+                            existingBranches.CityId = model.CityId;
+                            existingBranches.ModifiedBy = 1;
+                            existingBranches.Address = model.Address;
+
+                            _context.Branches.Update(existingBranches);
+                        }
+                    }
+                    _context.SaveChanges();
+                }
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+
+
+        #region DetailCategory
+        public BranchDTO DetailBranch(int? branchId)
+        {
+            var branch = _context.Branches
+                .Where(c => c.BranchId == branchId && c.DeletedAt == null)
+                .Select(c => new BranchDTO
+                {
+                    branch = c
+                }).FirstOrDefault();
+
+            return branch;
+        }
+
+        #endregion
+
+    }
+}

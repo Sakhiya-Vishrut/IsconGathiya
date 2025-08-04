@@ -1,0 +1,11 @@
+<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 32px;
+      font-weight: bold;
+      fill: #0487ff;
+    }
+  </style>
+  <text x="10" y="50" class="title">Housmart Solution</text>
+</svg>

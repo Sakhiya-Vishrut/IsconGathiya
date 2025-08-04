@@ -1,0 +1,35 @@
+﻿<div class="dlabnav border-right">
+    <div class="dlabnav-scroll">
+        <p class="menu-title style-1"> Main Menu</p>
+        <ul class="metismenu" id="menu">
+            <li>
+                <a aria-expanded="false">
+                    <i class="bi bi-grid"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                
+            </li>
+            <li>
+                <a class="has-arrow " aria-expanded="false">
+                    <i class="bi bi-person"></i>
+                    <span class="nav-text">Employee</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a asp-action="EmployeeForm" asp-controller="Employee">Add Employee</a></li>
+                    <li><a asp-action="Index" asp-controller="Employee">Employee List</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow " aria-expanded="false">
+                    <i class="bi bi-shop-window"></i>
+
+                    <span class="nav-text">Branch</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a asp-action="BranchForm" asp-controller="Branch">Add Branch</a></li>
+                    <li><a asp-action="Index" asp-controller="Branch">Branch List</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
