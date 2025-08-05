@@ -1,6 +1,10 @@
-﻿@using IsconGathiya.Helper
-@using IsconGathiya.ViewModel
-@model BranchViewModel
+﻿@using IsconGathiya.Common
+@using IsconGathiya.Common.Utility;
+@using IsconGathiya.Controllers
+@using IsconGathiya.Helper
+@using IsconGathiya.ViewModel;
+@model BranchViewModel;
+
 <div class="container-fluid">
     <div class="page-title">
         <div class="row">
@@ -23,48 +27,57 @@
         </div>
     </div>
 </div>
-<div class="container-fluid my-5">
-    <div class="card border-0 rounded-4 shadow">
-        <div class="card-header text-white text-center py-3 rounded-top-4">
-            <h4 class="mb-0 fw-bold">Branch List</h4>
-        </div>
-        <div class="card-body p-4">
-            <div class="table-responsive d-none d-md-block">
-                <table class="table table-hover table-responsive-md" id="example3">
-                    <thead class="text-center bg-light">
-                        <tr>
-                            <th scope="col" class="fw-semibold">No</th>
-                            <th scope="col" class="fw-semibold">Branch Name</th>
-                            <th scope="col" class="fw-semibold">Address</th>
-                            <th scope="col" class="fw-semibold">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var branch in Model.branchDetailsList.Select((value, index) => new { value, index }))
-                        {
-                            <tr class="text-center border-bottom">
-                                <td>@(branch.index + 1)</td>
-                                <td>@branch.value.BranchName</td>
-                                <td>@branch.value.Address</td>
-                                <td>
-                                    <a asp-action="BranchForm"
-                                       asp-controller="Branch"
-                                       asp-route-encodedBranchId="@branch.value.BranchId.Encode()"
-                                       class="btn btn-primary btn-sm shadow-sm me-2"
-                                       title="Edit">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm shadow-sm"
-                                       title="Delete"
-                                       onclick="fnBranchDelete1modal('@branch.value.BranchId.Encode()')">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+
+<div class="row">
+    <!-- Daily Entry Table Start -->
+    <div class="col-sm-12">
+        <div class="card p-3">
+            <div class="card-block row">
+                <div class="col-sm-12 col-lg-12 col-xl-12">
+                    <div class="table-responsive custom-scrollbar">
+                        <table class="display" style="width:100%" id="basic-1">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">No</th>
+                                    <th scope="col" class="text-center">Branch Name</th>
+                                    <th scope="col" class="text-center">Address</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var branch in Model.branchDetailsList)
+                                {
+
+                                    <tr>
+                                        <td class="text-center table-data">@branch.BranchId</td>
+                                        <td class="text-center table-data">@branch.BranchName</td>
+                                        <td class="text-center table-data">@branch.Address</td>
+                                        <td class="text-center col-fix table-data">
+                                            <ul class="action d-flex justify-content-center gap-2">
+
+                                                <li class="edit">
+                                                    <a class="bg-success p-2 rounded btn" asp-action="BranchForm"
+                                                       asp-controller="Branch"
+                                                       asp-route-encodedBranchId="@branch.BranchId.Encode()"><i class="fa fa-pencil text-white" aria-hidden="true"></i></a>
+                                                </li>
+
+
+                                                <li class="delete"><a class="bg-danger p-2 rounded btn" onclick="fnBranchDeletemodal('@branch.BranchId.Encode()')"><i class="fa fa-trash-o text-white" aria-hidden="true"></i></a></li>
+
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Daily Entry Table Start -->
 </div>
+

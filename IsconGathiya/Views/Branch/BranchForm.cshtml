@@ -31,88 +31,52 @@
     </div>
 </div>
 
-<div class="container my-5">
-    <div class="card shadow border-0 rounded-4">
-        <div class="card-header text-white text-center py-4 rounded-top-4">
-            <h3 class="mb-0 fw-bold">Branch Registration Form</h3>
-        </div>
-        <div class="card-body p-5">
-            <form asp-controller="Branch" asp-action="AddeditBranch" method="post" class="needs-validation" novalidate>
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="branchDetails.BranchId" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="vertical-main-wizard">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-12">
+                                <div class="tab-content" id="wizard-tabContent">
+                                    <div class="tab-pane fade show active px-4" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
+                                        <form asp-action="AddeditBranch" asp-controller="Branch" class="needs-validation custom-input" method="post">
+                                            <input type="hidden" asp-for="branchDetails.BranchId" />
 
-                <!-- Branch Information Section -->
-                <h5 class="mb-4 text-primary fw-semibold">Branch Information</h5>
-                <div class="row g-3 mb-4">
-                    <div class="col-12">
-                        <label for="branchName" class="form-label fw-medium">Branch Name <span class="text-danger">*</span></label>
-                        <input type="text"
-                               class="form-control rounded-3"
-                               id="branchName"
-                               asp-for="branchDetails.BranchName"
-                               placeholder="Enter branch name"
-                               required
-                               maxlength="100" />
-                        <span asp-validation-for="branchDetails.BranchName" class="text-danger"></span>
+                                            <!-- Branch Name (Horizontal Layout) -->
+                                            <div class="row mb-3">
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="BranchName">Branch Name<span class="txt-danger">*</span></label>
+                                                <div class="col-lg-10 col-md-9 col-sm-12">
+                                                    <input type="text" class="form-control" asp-for="branchDetails.BranchName" id="validationTooltip04" required="" placeholder="Enter Branch Name" id="BranchName">
+                                                    <span asp-validation-for="branchDetails.BranchName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Address (Vertical Layout) -->
+                                            <div class="row mb-3">
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="txtAddress">Address<span class="txt-danger">*</span></label>
+                                                <div class="col-lg-10 col-md-9 col-sm-12">
+                                                    <textarea class="form-control border w-100" asp-for="branchDetails.Address" id="validationTooltip04" required="" placeholder="Enter Address" rows="3"></textarea>
+                                                    <span asp-validation-for="branchDetails.Address" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Save/Reset Buttons -->
+                                            <div class="btn-showcase text-center">
+                                                <button class="btn btn-primary" type="submit">Save</button>
+                                                <button class="btn btn-dark" type="reset">Reset</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Address Section -->
-                <h5 class="mb-4 text-primary fw-semibold">Address Details</h5>
-                <div class="row g-3 mb-4">
-@*                     <div class="col-md-6">
-                        <label for="state" class="form-label fw-medium">State <span class="text-danger">*</span></label>
-                        <select class="form-select rounded-3"
-                                id="state"
-                                asp-for="branchDetails.StateId"
-                                required>
-                            <option value="">Select a state</option>
-                            @if (Model?.States != null)
-                            {
-                                foreach (var state in Model.States)
-                                {
-                                    <option value="@state.Id">@state.Name</option>
-                                }
-                            }
-                        </select>
-                        <span asp-validation-for="branchDetails.StateId" class="text-danger"></span>
-                    </div>
- *@@*                     <div class="col-md-6">
-                        <label for="city" class="form-label fw-medium">City <span class="text-danger">*</span></label>
-                        <select class="form-select rounded-3"
-                                id="city"
-                                asp-for="branchDetails.CityId"
-                                required>
-                            <option value="">Select a city</option>
-                            @if (Model?.Cities != null)
-                            {
-                                foreach (var city in Model.Cities)
-                                {
-                                    <option value="@city.Id">@city.Name</option>
-                                }
-                            }
-                        </select>
-                        <span asp-validation-for="branchDetails.CityId" class="text-danger"></span>
-                    </div>
- *@                </div>
-                <div class="mb-4">
-                    <label for="address" class="form-label fw-medium">Address <span class="text-danger">*</span></label>
-                    <textarea class="form-control rounded-3"
-                              id="address"
-                              asp-for="branchDetails.Address"
-                              placeholder="Enter full address"
-                              rows="4"
-                              required
-                              maxlength="500"></textarea>
-                    <span asp-validation-for="branchDetails.Address" class="text-danger"></span>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="text-center mt-5">
-                    <button type="submit" class="btn btn-primary btn-lg rounded-3 px-4 me-2">Submit</button>
-                    <a href="@Url.Action("Index", "Branch")" class="btn btn-secondary btn-lg rounded-3 px-4">Cancel</a>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Container-fluid Ends-->
