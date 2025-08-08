@@ -76,7 +76,7 @@ namespace IsconGathiya.Service.Branchs
         }
 
 
-        #region DetailCategory
+        #region DetailBranch
         public BranchDTO DetailBranch(int? branchId)
         {
             var branch = _context.Branches
@@ -89,6 +89,31 @@ namespace IsconGathiya.Service.Branchs
             return branch;
         }
 
+        #endregion
+
+        #region DeleteBranch
+        public async Task<bool> DeleteBranch(int? BranchId)
+        {
+            try
+            {
+                DateTime CurrentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                var existingBranch = await _context.Branches.FirstOrDefaultAsync(branch => branch.BranchId == BranchId && branch.DeletedAt == null);
+                if (existingBranch == null)
+                    return false;
+                else
+                {
+                    existingBranch.DeletedAt = CurrentDate;
+                    _context.Branches.Update(existingBranch);
+                    await _context.SaveChangesAsync();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         #endregion
 
     }

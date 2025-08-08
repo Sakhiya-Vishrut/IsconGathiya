@@ -10,12 +10,17 @@ namespace IsconGathiya.Domain
     public class TotalRecord
     {
         public int TotalRecords { get; set; }
+        public LocState LocState { get; set; }
+        public LocCity LocCity { get; set; }
+        public LocCountry LocCountry { get; set; }
     }
 
     public class BranchDTO : TotalRecord
     {
         public Branch branch { get; set; }
-        public List<LocCity> CityNameList { get; set; }
-        public List<LocState> StateNameList { get; set; }
+    }
+    public class EmployeeDTO : TotalRecord
+    {
+        public EmpEmployee employee { get; set; }
     }
 }

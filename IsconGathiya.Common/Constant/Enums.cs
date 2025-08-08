@@ -60,11 +60,6 @@ namespace IsconGathiya.Common
             KD = 1
         }
 
-        public enum ComplainType
-        {
-            WorkingComplain = 1,
-            CompleteComplain = 2
-        }
 
         public enum ComplainStatus
         {
@@ -78,14 +73,32 @@ namespace IsconGathiya.Common
             Recomplain = 4,
         }
 
-        public enum Massageto
+        public enum Gender
         {
-            [Description("Customer")]
-            Customer = 1,
-            [Description("Plumber")]
-            Plumber = 2,
-            [Description("New Plumber")]
-            NewPlumber = 3,
+            [Description("Male")]
+            Male = 1,
+            [Description("FeMale")]
+            FeMale = 2,
+            [Description("Other")]
+            Other = 3,
+        }
+
+        public enum EmployeeType
+        {
+            [Description("Full Time")]
+            Fulltime = 1,
+            [Description("Part Time")]
+            Parttime = 2,
+            [Description("Contaract")]
+            Contaract = 3,
+        }
+
+        public enum Shift
+        {
+            [Description("Day")]
+            Day = 1,
+            [Description("Night")]
+            Night = 2,
         }
 
         public enum PasswordChanges
@@ -151,7 +164,7 @@ namespace IsconGathiya.Common
             [Description("Solved")]
             Solved = 1,
             [Description("NotSolved")]
-            NotSolved =2
+            NotSolved = 2
         }
         public enum ChangeFrequency
         {
@@ -376,11 +389,11 @@ namespace IsconGathiya.Common
         }
         public enum PageValueById
         {
-            Manage_VinayakCorporation=1,
-            Manage_Partner=2,
-            Manage_User=3,
-            Report=4,
-            Statistics= 5,
+            Manage_VinayakCorporation = 1,
+            Manage_Partner = 2,
+            Manage_User = 3,
+            Report = 4,
+            Statistics = 5,
             Physical_VinayakCorporation_Request = 6,
             Partner_Bulk_Buy_Request = 7,
             Partner_Balance_Withdrawal_Request = 8,

@@ -35,12 +35,18 @@ public partial class Branch
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? DeletedAt { get; set; }
 
+    public int? CountryId { get; set; }
+
     [ForeignKey("CityId")]
     [InverseProperty("Branches")]
     public virtual LocCity? City { get; set; }
 
+    [ForeignKey("CountryId")]
+    [InverseProperty("Branches")]
+    public virtual LocCountry? Country { get; set; }
+
     [InverseProperty("Branch")]
-    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+    public virtual ICollection<EmpEmployee> EmpEmployees { get; set; } = new List<EmpEmployee>();
 
     [ForeignKey("StateId")]
     [InverseProperty("Branches")]

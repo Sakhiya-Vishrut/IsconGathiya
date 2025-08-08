@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IsconGathiya.Domain.DataModels;
 
-[Table("Employee")]
+[Table("EMP_Employee")]
 [Index("AdharNo", Name = "Employee_AdharNo_key", IsUnique = true)]
 [Index("Email", Name = "Employee_Email_key", IsUnique = true)]
 [Index("StaffId", Name = "Employee_StaffId_key", IsUnique = true)]
-public partial class Employee
+public partial class EmpEmployee
 {
     [Key]
     [Column("EmployeeID")]
@@ -34,12 +34,6 @@ public partial class Employee
 
     [StringLength(500)]
     public string StaffId { get; set; } = null!;
-
-    [StringLength(100)]
-    public string? State { get; set; }
-
-    [StringLength(100)]
-    public string? City { get; set; }
 
     [StringLength(150)]
     public string MobileNumber { get; set; } = null!;
@@ -79,15 +73,38 @@ public partial class Employee
     [StringLength(100)]
     public string? AdharNo { get; set; }
 
+    public int? CreatedBy { get; set; }
+
+    [Column(TypeName = "timestamp without time zone")]
+    public DateTime? CreatedAt { get; set; }
+
+    public int? ModifiedBy { get; set; }
+
+    public int? DeletedBy { get; set; }
+
+    [Column(TypeName = "timestamp without time zone")]
+    public DateTime? ModifiedAt { get; set; }
+
+    [Column(TypeName = "timestamp without time zone")]
+    public DateTime? DeletedAt { get; set; }
+
+    public int? CountryId { get; set; }
+
+    public bool? Shift { get; set; }
+
     [ForeignKey("BranchId")]
-    [InverseProperty("Employees")]
+    [InverseProperty("EmpEmployees")]
     public virtual Branch? Branch { get; set; }
 
     [ForeignKey("CityId")]
-    [InverseProperty("Employees")]
-    public virtual LocCity? CityNavigation { get; set; }
+    [InverseProperty("EmpEmployees")]
+    public virtual LocCity? City { get; set; }
+
+    [ForeignKey("CountryId")]
+    [InverseProperty("EmpEmployees")]
+    public virtual LocCountry? Country { get; set; }
 
     [ForeignKey("StateId")]
-    [InverseProperty("Employees")]
-    public virtual LocState? StateNavigation { get; set; }
+    [InverseProperty("EmpEmployees")]
+    public virtual LocState? State { get; set; }
 }

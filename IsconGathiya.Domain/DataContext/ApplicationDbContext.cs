@@ -18,7 +18,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Branch> Branches { get; set; }
 
-    public virtual DbSet<Employee> Employees { get; set; }
+    public virtual DbSet<EmpEmployee> EmpEmployees { get; set; }
 
     public virtual DbSet<LocCity> LocCities { get; set; }
 
@@ -38,20 +38,25 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.City).WithMany(p => p.Branches).HasConstraintName("Branch_CityId_fkey");
 
+            entity.HasOne(d => d.Country).WithMany(p => p.Branches).HasConstraintName("Branch_Country_fkey");
+
             entity.HasOne(d => d.State).WithMany(p => p.Branches).HasConstraintName("Branch_StateId_fkey");
         });
 
-        modelBuilder.Entity<Employee>(entity =>
+        modelBuilder.Entity<EmpEmployee>(entity =>
         {
             entity.HasKey(e => e.EmployeeId).HasName("Employee_pkey");
 
+            entity.Property(e => e.EmployeeId).HasDefaultValueSql("nextval('\"Employee_EmployeeID_seq\"'::regclass)");
             entity.Property(e => e.IsActive).HasDefaultValue(false);
 
-            entity.HasOne(d => d.Branch).WithMany(p => p.Employees).HasConstraintName("Employee_BranchID_fkey");
+            entity.HasOne(d => d.Branch).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_BranchID_fkey");
 
-            entity.HasOne(d => d.CityNavigation).WithMany(p => p.Employees).HasConstraintName("Employee_CityId_fkey");
+            entity.HasOne(d => d.City).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_CityId_fkey");
 
-            entity.HasOne(d => d.StateNavigation).WithMany(p => p.Employees).HasConstraintName("Employee_StateId_fkey");
+            entity.HasOne(d => d.Country).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_Country_fkey");
+
+            entity.HasOne(d => d.State).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_StateId_fkey");
         });
 
         modelBuilder.Entity<LocCity>(entity =>

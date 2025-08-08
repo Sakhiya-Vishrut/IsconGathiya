@@ -1,5 +1,4 @@
-﻿@using IsconGathiya.Common
-@using IsconGathiya.Common.Utility;
+﻿@using IsconGathiya.Common.Utility;
 @using IsconGathiya.Controllers
 @using IsconGathiya.Helper
 @using IsconGathiya.ViewModel;
@@ -45,31 +44,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach (var branch in Model.branchDetailsList)
+                                @for (int i = 1; i < Model.branchDetailsList.Count; i++)
                                 {
-
+                                    var branch = Model.branchDetailsList[i];
                                     <tr>
-                                        <td class="text-center table-data">@branch.BranchId</td>
-                                        <td class="text-center table-data">@branch.BranchName</td>
-                                        <td class="text-center table-data">@branch.Address</td>
+                                        <td class="text-center table-data">@i</td>
+                                        <td class="text-center table-data text-uppercase">@branch.BranchName</td>
+                                        <td class="text-center table-data text-uppercase">@branch.Address</td>
                                         <td class="text-center col-fix table-data">
                                             <ul class="action d-flex justify-content-center gap-2">
-
                                                 <li class="edit">
                                                     <a class="bg-success p-2 rounded btn" asp-action="BranchForm"
                                                        asp-controller="Branch"
-                                                       asp-route-encodedBranchId="@branch.BranchId.Encode()"><i class="fa fa-pencil text-white" aria-hidden="true"></i></a>
+                                                       asp-route-encodedBranchId="@branch.BranchId.Encode()">
+                                                        <i class="fa fa-pencil text-white" aria-hidden="true"></i>
+                                                    </a>
                                                 </li>
-
-
-                                                <li class="delete"><a class="bg-danger p-2 rounded btn" onclick="fnBranchDeletemodal('@branch.BranchId.Encode()')"><i class="fa fa-trash-o text-white" aria-hidden="true"></i></a></li>
-
+                                                <li class="delete">
+                                                    <a class="bg-danger p-2 rounded btn" onclick="fnBranchDeletemodal('@branch.BranchId.Encode()')">
+                                                        <i class="fa fa-trash-o text-white" aria-hidden="true"></i>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
+
                         </table>
                     </div>
 
@@ -77,7 +78,13 @@
             </div>
         </div>
     </div>
-
     <!-- Daily Entry Table Start -->
 </div>
+
+@section BodyEndScript {
+    <script src="@Url.Content("~/viewjs/Branch.js")"></script>
+    <script>
+        var getBranchDelete = "@Url.RouteUrl("BranchDelete")";
+    </script>
+}
 

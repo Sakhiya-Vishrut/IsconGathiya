@@ -42,7 +42,7 @@
       ],
     });
     $("#basic-6").DataTable();
-    $("#basic-7").DataTable({
+    $("#basic   -7").DataTable({
       dom: '<"wrapper"ltipf>',
     });
     $("#basic-8").DataTable();

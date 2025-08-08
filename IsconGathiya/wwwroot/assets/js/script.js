@@ -319,7 +319,7 @@
       ae: "ÙˆØ§Ù„ØªØ¬Ø§Ø±Ø© Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠØ©",
     },
     {
-      en: "Widgets",
+      en: "Branch",
       pt: "Ferramenta",
       es: "Vidin",
       fr: "Widgets",
@@ -328,7 +328,7 @@
       ae: "ÙˆØ§Ù„Ø­Ø§Ø¬ÙŠØ§Øª",
     },
     {
-      en: "Page layout",
+      en: "Employee",
       pt: "Layout da pÃ¡gina",
       es: "PaÄa aranÄo",
       fr: "Tableaux",

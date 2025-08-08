@@ -6,7 +6,7 @@ namespace IsconGathiya.Common
     public class ConstantMessage
     {
 
-        //Manufacturer
+        //Branch
         public const string Branch = "Branch has been added successfully.";
         public const string BranchEditSuccessful = "Branch details have been updated successfully.";
         public const string BranchAddOrEditUnsuccessful = "Failed to add or update the Branch.";

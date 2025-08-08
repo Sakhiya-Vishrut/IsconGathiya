@@ -14,6 +14,7 @@ namespace IsconGathiya.Service.Branchs
 
         Task<bool> AddEditBranch(Branch model);
 
+        Task<bool> DeleteBranch(int? BranchId);
         BranchDTO DetailBranch(int? BranchId);
     }
 }

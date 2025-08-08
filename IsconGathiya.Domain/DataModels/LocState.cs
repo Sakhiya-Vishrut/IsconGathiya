@@ -64,8 +64,8 @@ public partial class LocState
     [InverseProperty("LocStates")]
     public virtual LocCountry Country { get; set; } = null!;
 
-    [InverseProperty("StateNavigation")]
-    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+    [InverseProperty("State")]
+    public virtual ICollection<EmpEmployee> EmpEmployees { get; set; } = new List<EmpEmployee>();
 
     [InverseProperty("State")]
     public virtual ICollection<LocCity> LocCities { get; set; } = new List<LocCity>();

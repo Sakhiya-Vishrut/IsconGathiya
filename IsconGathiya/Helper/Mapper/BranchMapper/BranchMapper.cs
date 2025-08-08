@@ -29,6 +29,12 @@ namespace IsconGathiya.Helper.Mapper.BranchMapper
                     .ForMember(dest => dest.StateId, mo => mo.MapFrom(src => src.branch.StateId))
                     .ForMember(dest => dest.CityId, mo => mo.MapFrom(src => src.branch.CityId))
                     .ForMember(dest => dest.BranchName, mo => mo.MapFrom(src => src.branch.BranchName))
+                    .ForMember(dest => dest.CountryId, mo => mo.MapFrom(src => src.branch.CountryId))
+                    .ForMember(dest => dest.CountryName, mo => mo.MapFrom(src => src.LocCountry.Name))
+                    .ForMember(dest => dest.StateId, mo => mo.MapFrom(src => src.branch.StateId))
+                    .ForMember(dest => dest.StateName, mo => mo.MapFrom(src => src.LocState.Name))
+                    .ForMember(dest => dest.CityId, mo => mo.MapFrom(src => src.branch.CityId))
+                    .ForMember(dest => dest.CityName, mo => mo.MapFrom(src => src.LocCity.Name))
                     .ForMember(dest => dest.Address, mo => mo.MapFrom(src => src.branch.Address));
             });
             IMapper mapper = config.CreateMapper();

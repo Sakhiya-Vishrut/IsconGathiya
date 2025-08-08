@@ -55,8 +55,8 @@ public partial class LocCity
     [InverseProperty("City")]
     public virtual ICollection<Branch> Branches { get; set; } = new List<Branch>();
 
-    [InverseProperty("CityNavigation")]
-    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+    [InverseProperty("City")]
+    public virtual ICollection<EmpEmployee> EmpEmployees { get; set; } = new List<EmpEmployee>();
 
     [ForeignKey("StateId")]
     [InverseProperty("LocCities")]
