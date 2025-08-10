@@ -15,5 +15,13 @@ namespace IsconGathiya.Common
         public const string BranchNameAlreadyExists = "A Branch with this name already exists.";
         public const string BranchNotExists = "The specified Branch does not exist.";
 
+        //Employee
+        public const string EmployeeAdded = "Employee is Added Successfully.";
+        public const string EmployeeEdit = "Employee is Edited Successfully.";
+        public const string EmployeeDeleteUnSuccess = "Employee Deleted UnSuccessfully.";
+        public const string EmployeeAlreadyExist = "Employee is allready exists.";
+        public const string EmployeeNotFound = "Employee not found.";
+        public const string EmployeeDeleteSuccess = "Employee deleted successfully.";
+
     }
 }

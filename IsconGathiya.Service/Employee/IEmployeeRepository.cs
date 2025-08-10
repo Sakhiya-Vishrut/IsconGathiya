@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IsconGathiya.Domain;
+using IsconGathiya.Domain.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,10 @@ namespace IsconGathiya.Service.Employee
 {
     public interface IEmployeeRepository
     {
+        List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int pageSize, int pageIndex, string columnName, string sortDirection);
+        EmployeeDTO GetEmployeeDetails(int? Employeeid);
+        Task<bool> DeleteEmployee(int? EmployeeId);
+        Task<bool> AddEditEmployee(EmpEmployee model);
+        List<Branch> GetBranchList();
     }
 }

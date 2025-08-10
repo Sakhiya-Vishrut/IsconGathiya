@@ -25,6 +25,7 @@ namespace IsconGathiya.Common
         }
     }
 
+
     public class Enums
     {
         public static string GetEnumDescription(Enum value)
@@ -47,6 +48,30 @@ namespace IsconGathiya.Common
                 return "";
             }
         }
+
+       public static short? GetEnumValue<T>(string value) where T : struct, Enum
+        {
+            if (string.IsNullOrEmpty(value))
+                return null;  // Return null for empty or missing TypeName
+
+            // Try to match with enum's [Description] attribute
+            foreach (var field in typeof(T).GetFields())
+            {
+                var attribute = field.GetCustomAttribute<DescriptionAttribute>();
+                if (attribute != null && attribute.Description.Equals(value, StringComparison.OrdinalIgnoreCase))
+                {
+                    return (short)field.GetValue(null);
+                }
+            }
+
+            // Try to match with enum name
+            if (Enum.TryParse<T>(value, true, out var result))
+                return Convert.ToInt16(result);
+
+            return null; // Return null if no match found
+        }
+
+
 
         public static string GetEnumDescription<TEnum>(int value)
         {

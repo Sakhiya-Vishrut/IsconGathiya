@@ -114,8 +114,5 @@ public partial class LocCountry
     public virtual ICollection<Branch> Branches { get; set; } = new List<Branch>();
 
     [InverseProperty("Country")]
-    public virtual ICollection<EmpEmployee> EmpEmployees { get; set; } = new List<EmpEmployee>();
-
-    [InverseProperty("Country")]
     public virtual ICollection<LocState> LocStates { get; set; } = new List<LocState>();
 }

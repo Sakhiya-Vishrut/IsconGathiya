@@ -1,4 +1,5 @@
 ﻿using IsconGathiya.Domain.DataModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static IsconGathiya.ViewModel.EmployeeViewModel;
@@ -14,11 +15,15 @@ namespace IsconGathiya.ViewModel
         }
 
         public List<EmployeeDetails> employeeDetailsList { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> GenderTypeList { get; set; }
+        public List<SelectListItem> ShiftTypeList { get; set; }
         public EmployeeDetails employeeDetails { get; set; }
 
         public class EmployeeDetails
         {
             public int EmployeeId { get; set; }
+            [Required(ErrorMessage = "Branch is required.")]
 
             public int? BranchId { get; set; }
             [Required(ErrorMessage = "City is required.")]
@@ -31,13 +36,6 @@ namespace IsconGathiya.ViewModel
             [Required(ErrorMessage = "First Name is required.")]
             [StringLength(100, ErrorMessage = "First Name cannot exceed 100 characters.")]
             public string EmployeeName { get; set; } = null!;
-
-            [Required(ErrorMessage = "Last Name is required.")]
-            [StringLength(100, ErrorMessage = "Last Name cannot exceed 100 characters.")]
-            public string LastName { get; set; } = null!;
-
-            [StringLength(100, ErrorMessage = "Middle Name cannot exceed 100 characters.")]
-            public string? MiddleName { get; set; }
 
             [Required(ErrorMessage = "Staff ID is required.")]
             [StringLength(50, ErrorMessage = "Staff ID cannot exceed 50 characters.")]
@@ -78,7 +76,7 @@ namespace IsconGathiya.ViewModel
             public short? Gender { get; set; }
 
             [Required(ErrorMessage = "Is Active status is required.")]
-            public bool? IsActive { get; set; }
+            public bool? IsActive { get; set; } = false;
 
             [Required(ErrorMessage = "Joining Date is required.")]
             public DateTime? JoiningDate { get; set; }
@@ -89,17 +87,23 @@ namespace IsconGathiya.ViewModel
             [StringLength(500, ErrorMessage = "Aadhar Card Image cannot exceed 500 characters.")]
             public string? AdharCardImage { get; set; }
 
-            [StringLength(100, ErrorMessage = "Aadhar Number cannot exceed 100 characters.")]
             [Required(ErrorMessage = "Aadhar Number is required.")]
             [RegularExpression(@"^\d{12}$", ErrorMessage = "Aadhar Number must be a 12 digit number.")]
             public string? AdharNo { get; set; }
-            public bool? Shift { get; set; }
+            [Required(ErrorMessage = "Shift is required.")]
+            public short? Shift { get; set; }
+            public double? Salary { get; set; }
             public string CityName { get; set; }
             public string StateName { get; set; }
             public string CountryName { get; set; }
+            public string BranchName { get; set; }
+            public string ShiftType { get; set; }
+            public string? EmployeeTypeName { get; set; }
+            public string? GenderType { get; set; }
             public List<LocCountry> CountryList { get; set; }
             public List<LocCity> CityList { get; set; }
             public List<LocState> StateList { get; set; }
+            public List<Branch> BranchList { get; set; }
             public int TotalRecords { get; set; }
         }
     }

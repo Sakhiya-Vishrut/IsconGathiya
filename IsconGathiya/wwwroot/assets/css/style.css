@@ -159,6 +159,7 @@
   --active-shadow-angry: #e94f1d;
   /* Do not show the "remove tag" (x) button when only a single tag remains */
 }
+
 :root .customLook {
   --tag-bg: var(--theme-deafult);
   --tag-hover: var(--theme-secondary);

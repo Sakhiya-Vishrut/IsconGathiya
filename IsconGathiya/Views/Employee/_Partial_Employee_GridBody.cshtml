@@ -1,4 +1,22 @@
-﻿<div class="container-fluid">
+﻿@using IsconGathiya.ViewModel
+@using IsconGathiya.Helper
+@using IsconGathiya.Common
+@using IsconGathiya.ViewModel
+@model EmployeeViewModel
+@{
+    var gridUrl = Url.RouteUrl("Employee_Filter");
+    var pageCount = Model.employeeDetailsList.Count();
+    var totalCount = 0;
+    var gridName = "employeeList_Grid";
+    if (pageCount > 0)
+    {
+        totalCount = Model.employeeDetailsList.ToArray()[0].TotalRecords;
+        Model.TotalCount = totalCount;
+    }
+    int i = ((Model.PageIndex - 1) * Model.PageSize) + 1;
+}
+
+<div class="container-fluid">
     <div class="row">
         <!-- Daily Entry Table Start -->
         <div class="col-sm-12">
@@ -6,18 +24,60 @@
                 <div class="card-block row">
                     <div class="col-sm-12 col-lg-12 col-xl-12">
                         <div class="table-responsive custom-scrollbar">
-                            <table class="display" style="width:100%" id="basic-1">
+                            <table class="table table-striped table-bordered display w-100" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th scope="col" class="text-center">No</th>
-                                        <th scope="col" class="text-center">Branch Name</th>
-                                        <th scope="col" class="text-center">Address</th>
-                                        <th scope="col" class="text-center">Action</th>
+                                        <th scope="col" class="text-center">Branch</th>
+                                        <th scope="col" class="text-center">Employee Name</th>
+                                        <th scope="col" class="text-center">Contact Number</th>
+                                        <th scope="col" class="text-center">Shift</th>
+                                        <th scope="col" class="text-center">Active</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @*                                     @if (Model.TotalCount < 1)
+                                    {
+                                        <tr>
+                                            <td class="text-center text-danger" colspan="12"><strong>No data found</strong></td>
+                                        </tr>
+                                    } *@
+                                    @foreach (var item in Model.employeeDetailsList)
+                                    {
+                                        <tr class="jsgrid-row">
+                                            <td class="text-center">@(i++)</td>
+                                            <td class="text-center">@item.BranchName</td>
+                                            <td class="text-center">@item.EmployeeName</td>
+                                            <td class="text-center">@item.MobileNumber</td>
+                                            <td class="text-center">
+                                                @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "_")
+                                        </td>
+                                            <td class="jsgrid-cell" style="width: 90px;">
+                                                <ul class="list-inline m-0">
+                                                    <li class="list-inline-item" style="cursor:pointer;" title="Edit">
+                                                        <a class="btn-primary p-2 rounded btn" asp-action="EmployeeForm"
+                                                           asp-controller="Employee"
+                                                           asp-route-encodeEmployeeId="@item.EmployeeId.Encode()">
+                                                            <i class="fa fa-pencil text-white" aria-hidden="true"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item" style="cursor:pointer;" title="Delete">
+                                                        <a class="bg-danger p-2 rounded btn" onclick="fnEmployeeDeletemodal('@item.EmployeeId.Encode()')">
+                                                            <i class="fa fa-trash-o text-white" aria-hidden="true"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
                             </table>
                         </div>
-
+                        @if (Model.TotalCount > 0)
+                        {
+                            <partial name="_Partial_Layout_Pagination" model="Model" view-data='@new ViewDataDictionary(ViewData) { { "GridName", gridName }, { "urlGridPaginationName", gridUrl } }' />
+                        }
                     </div>
                 </div>
             </div>

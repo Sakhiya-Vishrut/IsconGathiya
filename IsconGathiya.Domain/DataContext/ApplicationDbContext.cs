@@ -50,13 +50,17 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.EmployeeId).HasDefaultValueSql("nextval('\"Employee_EmployeeID_seq\"'::regclass)");
             entity.Property(e => e.IsActive).HasDefaultValue(false);
 
-            entity.HasOne(d => d.Branch).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_BranchID_fkey");
+            entity.HasOne(d => d.Branch).WithMany(p => p.EmpEmployees)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Employee_BranchID_fkey");
 
-            entity.HasOne(d => d.City).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_CityId_fkey");
+            entity.HasOne(d => d.City).WithMany(p => p.EmpEmployees)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Employee_CityId_fkey");
 
-            entity.HasOne(d => d.Country).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_Country_fkey");
-
-            entity.HasOne(d => d.State).WithMany(p => p.EmpEmployees).HasConstraintName("Employee_StateId_fkey");
+            entity.HasOne(d => d.State).WithMany(p => p.EmpEmployees)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Employee_StateId_fkey");
         });
 
         modelBuilder.Entity<LocCity>(entity =>
