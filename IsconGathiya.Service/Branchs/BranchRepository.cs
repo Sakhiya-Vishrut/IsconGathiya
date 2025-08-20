@@ -21,14 +21,20 @@ namespace IsconGathiya.Service.Branchs
         }
         public async Task<List<BranchDTO>> GetBranchDataWithFilter()
         {
-            var brbranch = _context.Branches.Where(b => b.DeletedAt == null);
-
-            var branchList = brbranch.Select(b => new BranchDTO
+            try
             {
-                branch = b,
-            }).ToList();
+                var brbranch = _context.Branches.Where(b => b.DeletedAt == null);
 
-            return branchList;
+                var branchList = brbranch.Select(b => new BranchDTO
+                {
+                    branch = b,
+                }).ToList();
+
+                return branchList;
+            } catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> AddEditBranch(Branch model)
@@ -63,7 +69,7 @@ namespace IsconGathiya.Service.Branchs
                             _context.Branches.Update(existingBranches);
                         }
                     }
-                    _context.SaveChanges();
+                    _context.SaveChangesAsync();
                 }
                 return true;
 

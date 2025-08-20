@@ -85,19 +85,6 @@ namespace IsconGathiya.Common
             KD = 1
         }
 
-
-        public enum ComplainStatus
-        {
-            [Description("Created")]
-            Created = 1,
-            [Description("Change Plumber")]
-            ChangePlumber = 2,
-            [Description("Completed")]
-            Completed = 3,
-            [Description("Re-complain")]
-            Recomplain = 4,
-        }
-
         public enum Gender
         {
             [Description("Male")]
@@ -280,7 +267,7 @@ namespace IsconGathiya.Common
             [Description("50")]
             Fifty = 50,
             [Description("100")]
-            Hundred = 100
+            Hundred = 100,
         }
 
         public enum ResizeType

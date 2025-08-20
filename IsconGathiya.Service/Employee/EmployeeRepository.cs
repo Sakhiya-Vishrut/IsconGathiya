@@ -15,7 +15,7 @@ namespace IsconGathiya.Service.Employee
         {
             _context = context;
         }
-        public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int pageSize, int pageIndex, string columnName, string sortDirection)
+        public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filtershift, int? filterBranch, int pageSize, int pageIndex, string columnName, string sortDirection)
         {
             var baseQuery = (from employee in _context.EmpEmployees
                              join bra in _context.Branches on employee.BranchId equals bra.BranchId into branchjoin
@@ -24,30 +24,80 @@ namespace IsconGathiya.Service.Employee
                              from state in statejoin.DefaultIfEmpty()
                              join city in _context.LocCities on employee.CityId equals city.Id into cityJoin
                              from city in cityJoin.DefaultIfEmpty()
-                             where employee.DeletedAt == null && branch.DeletedAt == null &&
-                         (!filterState.HasValue || state.Id == filterState.Value) &&
-                         (!filterCity.HasValue || city.Id == filterCity.Value)
+                             where (employee.DeletedAt == null || branch.DeletedAt == null)
+                                   && (!filterState.HasValue || state.Id == filterState.Value)
+                                   && (!filterCity.HasValue || city.Id == filterCity.Value)
+                                   && (!filterBranch.HasValue || branch.BranchId == filterBranch.Value)
+                                   && (!filtershift.HasValue || employee.Shift == filtershift.Value)
+                             orderby employee.ModifiedAt descending
                              select new EmployeeDTO
                              {
                                  employee = employee,
                                  BranchName = branch.BranchName,
                              }).ToList();
 
+
+            switch (columnName)
+            {
+                case "Branch":
+                    baseQuery = sortDirection == "asc"
+                        ? baseQuery.OrderBy(a => a.employee.BranchId).ToList()
+                        : baseQuery.OrderByDescending(a => a.employee.BranchId).ToList();
+                    break;
+                case "EmployeeName":
+                    baseQuery = sortDirection == "asc"
+                        ? baseQuery.OrderBy(a => a.employee.EmployeeName).ToList()
+                        : baseQuery.OrderByDescending(a => a.employee.EmployeeName).ToList();
+                    break;
+                case "ContactNumber":
+                    baseQuery = sortDirection == "asc"
+                         ? baseQuery.OrderBy(a => a.employee.MobileNumber).ToList()
+                         : baseQuery.OrderByDescending(a => a.employee.MobileNumber).ToList();
+                    break;
+                case "Shift":
+                    baseQuery = sortDirection == "asc"
+                          ? baseQuery.OrderBy(a => a.employee.Shift).ToList()
+                          : baseQuery.OrderByDescending(a => a.employee.Shift).ToList();
+                    break;
+
+                case "IsActive":
+                    baseQuery = sortDirection == "asc"
+                          ? baseQuery.OrderBy(a => a.employee.IsActive).ToList()
+                          : baseQuery.OrderByDescending(a => a.employee.IsActive).ToList();
+                    break;
+                default:
+                    baseQuery = sortDirection == "asc"
+                          ? baseQuery.OrderBy(a => a.employee.ModifiedAt).ToList()
+                          : baseQuery.OrderByDescending(a => a.employee.ModifiedAt).ToList();
+                    break;
+            }
+
+            int count = 0;
+
+            if (baseQuery.Count() > 0)
+                count = baseQuery.Count();
+
+            baseQuery = baseQuery.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            if (baseQuery.Count > 0)
+                baseQuery[0].TotalRecords = count;
+
             return baseQuery;
+
         }
         public List<Branch> GetBranchList()
         {
             var BranchList = (from branch in _context.Branches
-                              orderby branch.BranchName ascending,
-                              branch.DeletedAt == null
+                              where branch.DeletedAt == null 
+                              orderby branch.BranchName ascending 
                               select new Branch
                               {
                                   BranchId = branch.BranchId,
                                   BranchName = branch.BranchName,
                               }).ToList();
+
             return BranchList;
         }
-
         public EmployeeDTO GetEmployeeDetails(int? Employeeid)
         {
             var employee = _context.EmpEmployees

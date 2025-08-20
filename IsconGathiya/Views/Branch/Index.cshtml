@@ -44,9 +44,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (int i = 1; i < Model.branchDetailsList.Count; i++)
+                                @{
+                                    int i = 1;
+                                }
+                                @foreach (var branch in Model.branchDetailsList)
                                 {
-                                    var branch = Model.branchDetailsList[i];
                                     <tr>
                                         <td class="text-center table-data">@i</td>
                                         <td class="text-center table-data text-uppercase">@branch.BranchName</td>
@@ -68,6 +70,7 @@
                                             </ul>
                                         </td>
                                     </tr>
+                                    i++;
                                 }
                             </tbody>
 

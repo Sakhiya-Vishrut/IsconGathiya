@@ -53,32 +53,46 @@
                             <div class="col-md-3 position-relative">
                                 <label class="form-label" for="stateSelect">State</label>
                                 <select class="form-control w-100 select2-state gridFilterElements"
-                                            id="stateDropDown"
-                                            onchange="loadCitiesByState(this.value)"
-                                            asp-for="employeeDetails.StateId"
-                                            data-placeholder="Select State" required>
-                                        <option value="">-- Select State --</option>
-                                    </select>
+                                        id="stateDropDown"
+                                        onchange="loadCitiesByState(this.value)"
+                                        asp-for="employeeDetails.StateId"
+                                        data-placeholder="Select State" required>
+                                    <option value="">-- Select State --</option>
+                                </select>
                                 <div class="invalid-tooltip">Please select a valid State.</div>
                             </div>
                             <div class="col-md-3 position-relative">
                                 <label class="form-label" for="citySelect">City</label>
                                 <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                                            id="cityDropDown"
-                                            asp-for="employeeDetails.CityId"
-                                            data-placeholder="Select City" required>
-                                        <option value="">-- Select City --</option>
+                                        id="cityDropDown"
+                                        asp-for="employeeDetails.CityId"
+                                        data-placeholder="Select City" required>
+                                    <option value="">-- Select City --</option>
                                 </select>
                                 <div class="invalid-tooltip">Please select a valid City.</div>
                             </div>
+                            <div class="col-md-3 position-relative">
+                                <label class="form-label" for="citySelect">Shift</label>
+                                @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                                {
+                                    <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements "
+                                            id="ShiftDropdown"
+                                            asp-items="Model.ShiftTypeList"
+                                            data-placeholder="Select ShiftType" required>
+                                        <option value="">Select Shift</option>
+                                    </select>
+                                }
+                            </div>
 
                             <div class="col-sm-3">
-                                <div class="mb-3">
-                                    <label class="required-validation">Brand</label>
-                                    <select class="form-control w-100 select2-state gridFilterElements">
-                                        <option value="" selected disabled>Please select Brand</option>
-                                    </select>
-                                </div>
+                                <label class="form-label required-validation">Branch</label>
+                                <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
+                                    id="BranchDropDown"
+                                    asp-for="employeeDetails.BranchId"
+                                    asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
+                                    data-placeholder="Select Branch" required>
+                                    <option value="">Select Branch</option>
+                                </select>
                             </div>
                             <div class="wizard-footer d-flex justify-content-end gap-2 col-lg-12 col-md-12 col-sm-12 mt-3">
                                 <button class="btn btn-primary" onclick="GridPagination('employeeList_Grid',1,'@gridUrl','ClientUserID')">Search</button>
@@ -95,12 +109,33 @@
 <div id="employeeList_Grid">
     <partial name="_Partial_Employee_GridBody" />
 </div>
+@section BodyModalSection {
+    <div class="modal fade" id="EmployeeViewModal" tabindex="-1" aria-labelledby="serviceDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
 
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="serviceDetailsLabel">Employee Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body" id="EmployeeViewModelBody">
+                </div>
+
+                <div class="modal-footer">~
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
 @section BodyEndScript {
     <script src="@Url.Content("~/viewjs/Employee.js")"></script>
     <script src="~/viewjs/pagination.js"></script>
 
     <script>
         var getEmployeeDelete = "@Url.RouteUrl("Employee_Delete")";
+        var getEmployeeViewModel = "@Url.RouteUrl("EmployeeView")";
     </script>
 }

@@ -52,7 +52,7 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="staffId">Staff ID<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control" asp-for="employeeDetails.StaffId" placeholder="Enter staff ID" required>
-                                                    <span asp-validation-for="employeeDetails.StaffId" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.StaffId" class="text-danger"></span>
 
                                                 </div>
                                                 
@@ -65,7 +65,7 @@
                                                             data-placeholder="Select Branch" required>
                                                         <option value="">Select Branch</option>
                                                     </select>
-                                                    <span asp-validation-for="employeeDetails.BranchId" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.BranchId" class="text-danger"></span>
                                                 </div>
 
                                             </div>
@@ -74,7 +74,7 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="birthDate">Birth Date<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="date" class="form-control" asp-for="employeeDetails.BirthDate" id="birthDate" required>
-                                                    <span asp-validation-for="employeeDetails.BirthDate" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.BirthDate" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="gender">Gender<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
@@ -87,7 +87,7 @@
                                                             <option value="">Select Gender</option>
                                                         </select>
                                                     }
-                                                    <span asp-validation-for="employeeDetails.Gender" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.Gender" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -95,31 +95,33 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="firstName">First Name<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="text" class="form-control" asp-for="employeeDetails.EmployeeName" id="firstName" placeholder="Enter first name" required>
-                                                    <span asp-validation-for="employeeDetails.EmployeeName" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.EmployeeName" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <!-- Contact Information Section -->
                                             <h5 class="mb-4 fw-semibold" style="color: #006666;">Contact Information</h5>
                                             <div class="row mb-3">
-                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="email">Email<span class="txt-danger">*</span></label>
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="email">Email</label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <input type="email" class="form-control " asp-for="employeeDetails.Email" id="email" placeholder="Enter email" required>
+                                                    <input type="email" class="form-control " asp-for="employeeDetails.Email" id="email" placeholder="Enter email">
+                                                    <span asp-validation-for="employeeDetails.Email" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="mobileNumber">Mobile Number<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control " id="mobileNumber" asp-for="employeeDetails.MobileNumber" placeholder="Enter mobile number" required>
-                                                    <span asp-validation-for="employeeDetails.MobileNumber" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.MobileNumber" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="whatsappNumber">WhatsApp Number</label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control " asp-for="employeeDetails.WhatsAppNumber" id="whatsappNumber" placeholder="Enter WhatsApp number">
+                                                    <span asp-validation-for="employeeDetails.WhatsAppNumber" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="alternateNumber">Alternate Number</label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control " asp-for="employeeDetails.AlternateNumber" id="alternateNumber" placeholder="Enter alternate number">
-                                                    <span asp-validation-for="employeeDetails.AlternateNumber" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.AlternateNumber" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -132,7 +134,7 @@
                                                         asp-items="@(new SelectList(Model.employeeDetails.CountryList, "Id", "Name", "101"))"
                                                         data-placeholder="Select Country" required>
                                                 </select>
-                                                <span asp-validation-for="employeeDetails.CountryId" class="invalid-feedback"></span>
+                                                <span asp-validation-for="employeeDetails.CountryId" class="text-danger"></span>
 
                                             </div> *@
                                             <!-- Address Section -->
@@ -148,7 +150,7 @@
                                                             data-placeholder="Select State" required>
                                                         <option value="">-- Select State --</option>
                                                     </select>
-                                                    <span asp-validation-for="employeeDetails.StateId" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.StateId" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="cityDropDown">City<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
@@ -158,14 +160,14 @@
                                                             data-placeholder="Select City" required>
                                                         <option value="">-- Select City --</option>
                                                     </select>
-                                                    <span asp-validation-for="employeeDetails.CityId" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.CityId" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="address">Address<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
                                                     <textarea class="form-control " id="address" rows="3" asp-for="employeeDetails.Address" placeholder="Enter full address" required></textarea>
-                                                    <span asp-validation-for="employeeDetails.Address" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.Address" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -179,7 +181,7 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="joiningDate">Joining Date<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="date" class="form-control " max="@today" asp-for="employeeDetails.JoiningDate" id="joiningDate" required>
-                                                    <span asp-validation-for="employeeDetails.JoiningDate" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.JoiningDate" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="employeeType">Employee Type<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
@@ -192,7 +194,7 @@
                                                             <option value="">Select EmployeeType</option>
                                                         </select>
                                                     }
-                                                    <span asp-validation-for="employeeDetails.EmployeeType" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.EmployeeType" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -201,7 +203,7 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="salary">Salary <span class="text-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control" id="salary" asp-for="employeeDetails.Salary" placeholder="Enter salary" required>
-                                                    <span asp-validation-for="employeeDetails.Salary" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.Salary" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="employeeType">Shift Type<span class="txt-danger">*</span></label>
 
@@ -215,7 +217,7 @@
                                                             <option value="">Select Shift</option>
                                                         </select>
                                                     }
-                                                    <span asp-validation-for="employeeDetails.Shift" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.Shift" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             @{
@@ -223,7 +225,7 @@
                                             }
                                             <div class="row mb-3">
                                                 <!-- Is Active -->
-                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2 fs-6" for="isActive">Is Active</label>
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2 fs-6" for="isActive">Is Active<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12 my-2">
                                                     <div class="form-check-inline fs-6">
                                                         <input class="form-check-input form-check-lg" type="radio" name="employeeDetails.IsActive" id="active" value="true" @(isActive ? "checked" : "") />
@@ -237,7 +239,7 @@
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="education">Education<span class="txt-danger">*</span></label>
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="education">Education</label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
                                                     <input type="text" class="form-control " asp-for="employeeDetails.Education" id="education" placeholder="Enter education details">
                                                 </div>
@@ -248,7 +250,7 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="adharNo">Aadhar Number<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control " asp-for="employeeDetails.AdharNo" id="adharNo" placeholder="Enter Aadhar number" required="">
-                                                    <span asp-validation-for="employeeDetails.AdharNo" class="invalid-feedback"></span>
+                                                    <span asp-validation-for="employeeDetails.AdharNo" class="text-danger"></span>
                                                 </div>
                                             </div>
 

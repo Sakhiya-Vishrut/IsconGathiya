@@ -18,3 +18,19 @@
         });
     });
 }
+
+function fnEmployeeViewModal(encodeEmployeeId) {
+    // Fetch data for modal content
+    $.ajax({
+        type: 'GET',
+        url: getEmployeeViewModel,
+        data: { encodeEmployeeId: encodeEmployeeId },
+        success: function (data) {
+            $("#EmployeeViewModelBody").empty();
+            $("#EmployeeViewModelBody").html(data);
+            $('#EmployeeViewModal').modal("show");
+        },
+        error: function () {
+        },
+    });
+}

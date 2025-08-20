@@ -38,7 +38,7 @@ namespace IsconGathiya.ViewModel
             public string EmployeeName { get; set; } = null!;
 
             [Required(ErrorMessage = "Staff ID is required.")]
-            [StringLength(50, ErrorMessage = "Staff ID cannot exceed 50 characters.")]
+            [RegularExpression(@"^\d{3}$", ErrorMessage = "StafID must be exactly 3 digits.")]
             public string StaffId { get; set; } = null!;
 
             [StringLength(100, ErrorMessage = "State cannot exceed 100 characters.")]
@@ -48,19 +48,19 @@ namespace IsconGathiya.ViewModel
             public string? City { get; set; }
 
             [Required(ErrorMessage = "Mobile Number is required.")]
-            [Phone(ErrorMessage = "Mobile Number must be a valid phone number.")]
+            [RegularExpression(@"^\d{10}$", ErrorMessage = "Mobile Number must be exactly 10 digits.")]
             public string MobileNumber { get; set; } = null!;
 
-            [Phone(ErrorMessage = "WhatsApp Number must be a valid phone number.")]
+            [RegularExpression(@"^\d{10}$", ErrorMessage = "WhatsApp Number must be exactly 10 digits.")]
             public string? WhatsAppNumber { get; set; }
 
             [Required(ErrorMessage = "Birth Date is required.")]
             public DateTime? BirthDate { get; set; }
 
-            [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+            [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Email format is invalid.")]
             public string? Email { get; set; }
 
-            [Phone(ErrorMessage = "Alternate Number must be a valid phone number.")]
+            [RegularExpression(@"^\d{10}$", ErrorMessage = "Alternate Number must be exactly 10 digits.")]
             public string? AlternateNumber { get; set; }
 
             [Required(ErrorMessage = "Address is required.")]

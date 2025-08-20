@@ -1,4 +1,5 @@
 ﻿@using DocumentFormat.OpenXml.Drawing
+@using IsconGathiya.Common
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,8 +75,19 @@
 
     <!-- Notifications -->
     <partial name="_Partial_Layout_Notifications" />
+    @RenderSection("BodyModalSection", required: false)
 
+    <script type="text/javascript">
 
+        var enumAccessDenied = parseInt('@Enums.StatusCode.AccessDenied.GetHashCode()');
+        var enumOk = parseInt('@Enums.StatusCode.Ok.GetHashCode()');
+        var enumNotAllowed = parseInt('@Enums.StatusCode.NotAllowed.GetHashCode()');
+        var enumBadRequest = parseInt('@Enums.StatusCode.BadRequest.GetHashCode()');
+        var enumServerError = parseInt('@Enums.StatusCode.ServerError.GetHashCode()');
+        var enumConflict = parseInt('@Enums.StatusCode.Conflict.GetHashCode()');
+        var jsConfigDefaultPageNo = @ConfigItems.DefaultPageNumber;
+        var jsConfigDefaultPageSize = @ConfigItems.DefaultPageSize;
+    </script>
 
     <!-- jQuery (load only once) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

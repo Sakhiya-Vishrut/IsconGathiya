@@ -23,10 +23,8 @@ namespace IsconGathiya.Controllers
         {
             try
             {
-                var branchList = new BranchViewModel
-                {
-                    branchDetailsList = (await _branchrepository.GetBranchDataWithFilter()).ToModel()
-                };
+                var branchList = new BranchViewModel();
+                branchList.branchDetailsList = (await _branchrepository.GetBranchDataWithFilter()).ToModel();
                 return View(branchList);
             }
             catch (Exception ex)

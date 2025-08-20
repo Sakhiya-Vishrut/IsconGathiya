@@ -36,7 +36,8 @@ namespace IsconGathiya.Controllers
                 employee.EmployeeTypeList = EnumHelper.GetEnumSelectList<Enums.EmployeeType>();
                 employee.GenderTypeList = EnumHelper.GetEnumSelectList<Enums.Gender>();
                 employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
-                employee.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(null, null, employee.PageSize, employee.PageIndex, employee.ColumnName, employee.SortDirection).ToModel();
+                employee.employeeDetails.BranchList = _employeeRepository.GetBranchList();
+                employee.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(null, null, null, null, employee.PageSize, employee.PageIndex, employee.ColumnName, employee.SortDirection).ToModel();
                 return View(employee);
             }
             catch(Exception e)
@@ -50,7 +51,6 @@ namespace IsconGathiya.Controllers
         {
             try
             {
-
                 var Viewmodel = new EmployeeViewModel();
                 Viewmodel.PageSize = pageSize;
                 Viewmodel.PageSize = pageSize;
@@ -62,14 +62,18 @@ namespace IsconGathiya.Controllers
 
                 int? filterState = null;
                 int? filterCity = null;
+                int? filterBranch = null;
+                int? filtershift = null;
 
                 if (!string.IsNullOrEmpty(filterObj))
                 {
-                    filterState = CommonHelper.GetFilterPropertyValueInt(filterObj, "stateList");
-                    filterCity = CommonHelper.GetFilterPropertyValueInt(filterObj, "cityList");
+                    filterState = CommonHelper.GetFilterPropertyValueInt(filterObj, "stateDropDown");
+                    filterCity = CommonHelper.GetFilterPropertyValueInt(filterObj, "cityDropDown");
+                    filterBranch = CommonHelper.GetFilterPropertyValueInt(filterObj, "BranchDropDown");
+                    filtershift = CommonHelper.GetFilterPropertyValueInt(filterObj, "ShiftDropdown");
                 }
 
-                Viewmodel.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(filterState, filterCity, Viewmodel.PageSize, Viewmodel.PageIndex, columnName, sortDirection).ToModel();
+                Viewmodel.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(filterState, filterCity, filterBranch, filtershift, Viewmodel.PageSize, Viewmodel.PageIndex, columnName, sortDirection).ToModel();
 
                 return PartialView("_Partial_Employee_GridBody", Viewmodel);
             }
@@ -79,14 +83,14 @@ namespace IsconGathiya.Controllers
             }
         }
 
-        [HttpGet, Route("Employee/EmployeeForm", Name = "Employee_Add")]
-        [HttpGet, Route("Employee/EmployeeForm/{encodeEmployeeId}", Name = "Employee_Edit")]
-        public IActionResult EmployeeForm(string encodeEmployeeId)
+        [HttpGet, Route("employee/Edit/{encodeEmployeeId}", Name = "Employee_Edit")]
+        [HttpGet, Route("employee/Add", Name = "Employee_Add")]
+        public IActionResult EmployeeForm(string? encodeEmployeeId)
         {
             try
             {
                 var model = new EmployeeViewModel();
-                model.BreadcrumbTitle = "Problem Management";
+                model.BreadcrumbTitle = "Problem Management";   
                 model.BreadcrumbParent = "Problem";
                 model.BreadcrumbChild = string.IsNullOrEmpty(encodeEmployeeId) ? "Add Employee" : "Update Employee";
                 model.PageTitle = string.IsNullOrEmpty(encodeEmployeeId) ? "Add Employee" : "Upadte Employee";
@@ -104,8 +108,6 @@ namespace IsconGathiya.Controllers
             }
             catch (Exception ex)
             {
-                //AddSweetAlertErrorPopup(ex.Message);
-                //return RedirectToAction("Index", "Problem");
                 return RedirectToRoute("Error_404");
             }
         }
@@ -166,5 +168,29 @@ namespace IsconGathiya.Controllers
             }
         }
         #endregion
+
+        [HttpGet, Route("Employee/EmployeeView", Name = "EmployeeViewModal")]
+        public IActionResult EmployeeView(string encodeEmployeeId)
+        {
+            try
+            {
+                var model = new EmployeeViewModel();               
+                if (encodeEmployeeId != null)
+                {
+                    int? ProblemId = encodeEmployeeId.Decode();
+                    model.employeeDetails = _employeeRepository.GetEmployeeDetails(ProblemId).ToModel();
+                }
+                model.employeeDetails.BranchList = _employeeRepository.GetBranchList();
+                model.employeeDetails.CountryList = _locationrepository.GetCountryList();
+                model.EmployeeTypeList = EnumHelper.GetEnumSelectList<Enums.EmployeeType>();
+                model.GenderTypeList = EnumHelper.GetEnumSelectList<Enums.Gender>();
+                model.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
+                return PartialView("_EmployeeView", model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToRoute("Error_404");
+            }
+        }
     }
 }
