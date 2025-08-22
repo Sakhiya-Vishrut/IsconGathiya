@@ -1,207 +1,556 @@
 ﻿@model EmployeeViewModel
+@using IsconGathiya.Common
 @using IsconGathiya.ViewModel
-
 
 @{
     ViewData["Title"] = "Employee Details";
 }
 
-<div class="container-fluid py-4">
-    <div class="page-title mb-4">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Font Awesome for Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #5e60ce 0%, #48cae4 100%);
+        --secondary-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+        --success-gradient: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        --warning-gradient: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%);
+        --info-gradient: linear-gradient(135deg, #1e90ff 0%, #00b4d8 100%);
+        --dark-gradient: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+        --light-bg: #f8f9fa;
+        --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        min-height: 100vh;
+        font-size: 16px;
+        color: #2d3436;
+    }
+
+    .main-container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: var(--primary-gradient);
+        border-radius: 20px;
+        padding: 2rem 3rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        color: white;
+    }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.15"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.2;
+        }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        transition: var(--transition);
+    }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+    .status-badge {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        border: 2px solid white;
+        border-radius: 50%;
+        background: var(--success-gradient);
+    }
+
+    /* Info Cards */
+    .info-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+            .info-card:hover::before {
+                transform: scaleX(1);
+            }
+
+    .icon-wrapper {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+        .icon-wrapper.primary {
+            background: var(--primary-gradient);
+        }
+
+        .icon-wrapper.secondary {
+            background: var(--secondary-gradient);
+        }
+
+        .icon-wrapper.success {
+            background: var(--success-gradient);
+        }
+
+        .icon-wrapper.warning {
+            background: var(--warning-gradient);
+        }
+
+        .icon-wrapper.info {
+            background: var(--info-gradient);
+        }
+
+        .icon-wrapper.dark {
+            background: var(--dark-gradient);
+        }
+
+    /* Typography */
+    .section-title {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 1.75rem;
+        color: #2d3436;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+
+    .card-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
+    /* Tabs */
+    .nav-tabs {
+        border: none;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        padding: 0.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--card-shadow);
+    }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 10px;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            transition: var(--transition);
+        }
+
+            .nav-tabs .nav-link.active {
+                background: var(--primary-gradient);
+                color: white;
+                box-shadow: 0 4px 12px rgba(94, 96, 206, 0.3);
+            }
+
+            .nav-tabs .nav-link:hover:not(.active) {
+                background: rgba(94, 96, 206, 0.1);
+                color: #5e60ce;
+            }
+
+    /* Status */
+    .status-active, .status-inactive {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: white;
+    }
+
+    .status-active {
+        background: var(--success-gradient);
+    }
+
+    .status-inactive {
+        background: var(--warning-gradient);
+    }
+
+    /* Animations */
+    .fade-in {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+<div class="main-container">
+    <!-- Hero Section -->
+    <div class="hero-section text-white fade-in">
         <div class="row align-items-center">
-            <div class="col-6">
-                <h2 class="fw-bold text-primary">Employee Details</h2>
+            <div class="col-md-8">
+                <div class="d-flex flex-column flex-md-row align-items-center">
+                    <div class="profile-avatar position-relative me-md-4 mb-3 mb-md-0">
+                        <svg height="32" width="32" viewBox="0 0 31.192 31.192" xmlns="http://www.w3.org/2000/svg" fill="#ffffff">
+                            <g>
+                                <path d="M10.898,10.787c0.314,2.613,2.564,5.318,4.604,5.318c2.341,0,4.571-2.845,4.919-5.319 c0.129-0.095,0.348-0.322,0.428-0.838c0,0,0.502-1.792-0.164-1.6c0.232-0.69,1-3.379-0.485-5.052c0,0-0.697-0.947-2.386-1.452 c-0.059-0.051-0.12-0.1-0.189-0.148c0,0,0.037,0.043,0.094,0.12c-0.098-0.027-0.195-0.052-0.301-0.077 c-0.092-0.096-0.193-0.194-0.311-0.301c0,0,0.104,0.106,0.225,0.282c-0.044-0.01-0.086-0.02-0.134-0.03 c-0.076-0.118-0.17-0.237-0.288-0.358c0,0,0.049,0.091,0.117,0.24c-0.312-0.228-0.938-0.758-0.938-1.349 c0,0-0.394,0.184-0.623,0.517c0.092-0.276,0.242-0.531,0.488-0.74c0,0-0.26,0.133-0.496,0.419 c-0.184,0.102-0.604,0.391-0.747,0.903l-0.133-0.066c0.065-0.148,0.158-0.299,0.282-0.455c0,0-0.182,0.164-0.342,0.425 l-0.271-0.138c0.08-0.151,0.188-0.304,0.331-0.459c0,0-0.144,0.113-0.302,0.303c0.045-0.176,0.036-0.377-0.511,0.222 c0,0-2.466,1.071-3.183,3.288c0,0-0.422,1,0.137,3.944c-0.792-0.374-0.251,1.562-0.251,1.562 C10.55,10.466,10.767,10.691,10.898,10.787z M10.851,9.738c0,0.002,0,0.002,0,0.003C10.851,9.74,10.851,9.74,10.851,9.738z M15.384,0.517c-0.118,0.167-0.224,0.376-0.273,0.631l-0.088-0.035C15.091,0.898,15.204,0.694,15.384,0.517z"></path>
+                                <path d="M25.876,19.226c-0.645-1.43-4.577-2.669-4.577-2.669c-2.095-0.738-2.109-1.476-2.109-1.476 c-4.121,8.125-7.253,0.022-7.253,0.022c-0.286,1.097-4.525,2.381-4.525,2.381c-1.24,0.478-1.765,1.192-1.765,1.192 c-1.834,2.719-2.049,8.769-2.049,8.769c0.024,1.383,0.618,1.525,0.618,1.525c4.218,1.882,10.831,2.215,10.831,2.215 c6.792,0.144,11.733-1.929,11.733-1.929c0.718-0.454,0.738-0.812,0.738-0.812C28.019,24.108,25.876,19.226,25.876,19.226z M17.976,26.946h-4.759V25.14h4.759V26.946z"></path>
+                            </g>
+                        </svg>
+                        <div class="status-badge"></div>
+                    </div>
+                    <div class="text-center text-md-start">
+                        <h2 class="display-6 fw-bold mb-2">@Model.employeeDetails.EmployeeName</h2>
+                        <p class="fs-5 mb-1 opacity-90">Staff ID: @Model.employeeDetails.StaffId</p>
+                        <p class="fs-6 mb-0 opacity-75">@Model.employeeDetails.BranchName</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-6 d-flex justify-content-end">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="@Url.Action("Index", "Home")" class="d-flex align-items-center text-decoration-none">
-                                <svg class="stroke-icon me-2" width="24" height="24">
-                                    <use href="~/assets/svg/icon-sprite.svg#stroke-home"></use>
-                                </svg>
-                                Home
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item">Employee</li>
-                        <li class="breadcrumb-item active" aria-current="page">Employee Details</li>
-                    </ol>
-                </nav>
+            <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+                <span class="@(Model.employeeDetails.IsActive == true ? "status-active" : "status-inactive")">
+                    <i class="fas fa-shield-alt me-2"></i>@(Model.employeeDetails.IsActive == true ? "Active Employee" : "Inactive Employee")
+                </span>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Employee Profile</h4>
-                </div>
-                <div class="card-body p-4">
-                    <div class="row g-4">
-                        <!-- Personal Information -->
-                        <div class="col-12">
-                            <h5 class="mb-3 fw-semibold text-secondary">Personal Information</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Staff ID</label>
-                                        <p class="mb-0">@Model.employeeDetails.StaffId</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Branch</label>
-                                        <p class="mb-0">
-                                            @Model.employeeDetails.BranchList?.FirstOrDefault(b => b.BranchId == Model.employeeDetails.BranchId)?.BranchName
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">First Name</label>
-                                        <p class="mb-0">@Model.employeeDetails.EmployeeName</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Birth Date</label>
-                                        <p class="mb-0">@Model.employeeDetails.BirthDate?.ToString("dd MMMM yyyy")</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Gender</label>
-                                        <p class="mb-0">@Model.employeeDetails.Gender</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mt-4" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">
+                <i class="fas fa-user me-2"></i> Overview
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab">
+                <i class="fas fa-phone me-2"></i> Contact
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="employment-tab" data-bs-toggle="tab" data-bs-target="#employment" type="button" role="tab">
+                <i class="fas fa-briefcase me-2"></i> Employment
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab">
+                <i class="fas fa-file-alt me-2"></i> Documents
+            </button>
+        </li>
+    </ul>
 
-                        <!-- Contact Information -->
-                        <div class="col-12">
-                            <h5 class="mb-3 fw-semibold text-secondary">Contact Information</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Email</label>
-                                        <p class="mb-0">@Model.employeeDetails.Email</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Mobile Number</label>
-                                        <p class="mb-0">@Model.employeeDetails.MobileNumber</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">WhatsApp Number</label>
-                                        <p class="mb-0">@Model.employeeDetails.WhatsAppNumber</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Alternate Number</label>
-                                        <p class="mb-0">@Model.employeeDetails.AlternateNumber</p>
-                                    </div>
-                                </div>
+    <!-- Tab Content -->
+    <div class="tab-content" id="profileTabsContent">
+        <!-- Overview Tab -->
+        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+            <div class="mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-user-circle me-3"></i> Personal Information
+                </h3>
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper primary">
+                                <i class="fas fa-id-card text-white"></i>
                             </div>
+                            <div class="card-label">Staff ID</div>
+                            <div class="card-value">@Model.employeeDetails.StaffId</div>
                         </div>
-
-                        <!-- Address Details -->
-                        <div class="col-12">
-                            <h5 class="mb-3 fw-semibold text-secondary">Address Details</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">State</label>
-                                        <p class="mb-0">
-                                            @Model.employeeDetails.StateList?.FirstOrDefault(s => s.Id == Model.employeeDetails.StateId)?.Name
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">City</label>
-                                        <p class="mb-0">
-                                            @Model.employeeDetails.CityList?.FirstOrDefault(c => c.Id == Model.employeeDetails.CityId)?.Name
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Address</label>
-                                        <p class="mb-0">@Model.employeeDetails.Address</p>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper secondary">
+                                <i class="fas fa-building text-white"></i>
                             </div>
+                            <div class="card-label">Branch</div>
+                            <div class="card-value">@Model.employeeDetails.BranchName</div>
                         </div>
-
-                        <!-- Employment Details -->
-                        <div class="col-12">
-                            <h5 class="mb-3 fw-semibold text-secondary">Employment Details</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Joining Date</label>
-                                        <p class="mb-0">@Model.employeeDetails.JoiningDate?.ToString("dd MMMM yyyy")</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Employee Type</label>
-                                        <p class="mb-0">@Model.employeeDetails.EmployeeType</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Salary</label>
-                                        <p class="mb-0">@Model.employeeDetails.Salary</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Shift Type</label>
-                                        <p class="mb-0">@Model.employeeDetails.Shift</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Status</label>
-                                        <p class="mb-0">
-                                            <span class="badge @(@Model.employeeDetails.IsActive == true ? "bg-success" : "bg-danger")">
-                                                @(@Model.employeeDetails.IsActive == true ? "Active" : "Inactive")
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Education</label>
-                                        <p class="mb-0">@Model.employeeDetails.Education</p>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper success">
+                                <i class="fas fa-user text-white"></i>
                             </div>
+                            <div class="card-label">Full Name</div>
+                            <div class="card-value">@Model.employeeDetails.EmployeeName</div>
                         </div>
-
-                        <!-- Document Details -->
-                        <div class="col-12">
-                            <h5 class="mb-3 fw-semibold text-secondary">Documents</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="bg-light p-3 rounded">
-                                        <label class="form-label fw-bold text-muted mb-1">Aadhar Number</label>
-                                        <p class="mb-0">@Model.employeeDetails.AdharNo</p>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper warning">
+                                <i class="fas fa-calendar-alt text-white"></i>
+                            </div>
+                            <div class="card-label">Birth Date</div>
+                            <div class="card-value">@Model.employeeDetails.BirthDate?.ToString("dd MMM yyyy")</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper info">
+                                <i class="fas fa-venus-mars text-white"></i>
+                            </div>
+                            <div class="card-label">Gender</div>
+                            <div class="card-value">
+                                @(Model.employeeDetails.Gender != null
+                                                                ? Enums.GetEnumDescription<Enums.Gender>((int)Model.employeeDetails.Gender)
+                                                                : "_")
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div>
+                <h3 class="section-title">
+                    <i class="fas fa-map-marker-alt me-3"></i> Address Information
+                </h3>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper dark">
+                                <i class="fas fa-map text-white"></i>
+                            </div>
+                            <div class="card-label">State</div>
+                            <div class="card-value">@Model.employeeDetails.StateName</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="info-card">
+                            <div class="icon-wrapper primary">
+                                <i class="fas fa-city text-white"></i>
+                            </div>
+                            <div class="card-label">City</div>
+                            <div class="card-value">@Model.employeeDetails.CityName</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="info-card">
+                            <div class="icon-wrapper secondary">
+                                <i class="fas fa-home text-white"></i>
+                            </div>
+                            <div class="card-label">Full Address</div>
+                            <div class="card-value">@Model.employeeDetails.Address</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <!-- Back Button -->
-                    <div class="text-center mt-4">
-                        <a href="@Url.Action("Index", "Employee")" class="btn btn-outline-primary">Back to List</a>
+        <!-- Contact Tab -->
+        <div class="tab-pane fade" id="contact" role="tabpanel">
+            <h3 class="section-title">
+                <i class="fas fa-phone me-3"></i> Contact Information
+            </h3>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper primary">
+                            <i class="fas fa-envelope text-white"></i>
+                        </div>
+                        <div class="card-label">Email Address</div>
+                        <div class="card-value">@Model.employeeDetails.Email</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper success">
+                            <i class="fas fa-mobile-alt text-white"></i>
+                        </div>
+                        <div class="card-label">Mobile Number</div>
+                        <div class="card-value">@Model.employeeDetails.MobileNumber</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper warning">
+                            <i class="fab fa-whatsapp text-white"></i>
+                        </div>
+                        <div class="card-label">WhatsApp</div>
+                        <div class="card-value">@Model.employeeDetails.WhatsAppNumber</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper info">
+                            <i class="fas fa-phone-alt text-white"></i>
+                        </div>
+                        <div class="card-label">Alternate Number</div>
+                        <div class="card-value">@Model.employeeDetails.AlternateNumber</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employment Tab -->
+        <div class="tab-pane fade" id="employment" role="tabpanel">
+            <h3 class="section-title">
+                <i class="fas fa-briefcase me-3"></i> Employment Details
+            </h3>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper primary">
+                            <i class="fas fa-calendar-check text-white"></i>
+                        </div>
+                        <div class="card-label">Joining Date</div>
+                        <div class="card-value">@Model.employeeDetails.JoiningDate?.ToString("dd MMM yyyy")</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper secondary">
+                            <i class="fas fa-user-tie text-white"></i>
+                        </div>
+                        <div class="card-label">Employee Type</div>
+                        <div class="card-value">
+                            @(Model.employeeDetails.EmployeeType != null
+                                                        ? Enums.GetEnumDescription<Enums.EmployeeType>((int)Model.employeeDetails.EmployeeType)
+                                                        : "_")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper success">
+                            <i class="fas fa-dollar-sign text-white"></i>
+                        </div>
+                        <div class="card-label">Salary</div>
+                        <div class="card-value">@Model.employeeDetails.Salary</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper warning">
+                            <i class="fas fa-clock text-white"></i>
+                        </div>
+                        <div class="card-label">Shift Type</div>
+                        <div class="card-value">
+                            @(Model.employeeDetails.Shift != null
+                                                        ? Enums.GetEnumDescription<Enums.Shift>((int)Model.employeeDetails.Shift)
+                                                        : "_")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper info">
+                            <i class="fas fa-graduation-cap text-white"></i>
+                        </div>
+                        <div class="card-label">Education</div>
+                        <div class="card-value">@Model.employeeDetails.Education</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper dark">
+                            <i class="fas fa-shield-alt text-white"></i>
+                        </div>
+                        <div class="card-label">Status</div>
+                        <div class="card-value">
+                            <span class="badge @(@Model.employeeDetails.IsActive == true ? "status-active" : "status-inactive") rounded-pill">
+                                @(@Model.employeeDetails.IsActive == true ? "Active" : "Inactive")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Tab -->
+        <div class="tab-pane fade" id="documents" role="tabpanel">
+            <h3 class="section-title">
+                <i class="fas fa-file-alt me-3"></i> Document Information
+            </h3>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="icon-wrapper primary">
+                            <i class="fas fa-id-card text-white"></i>
+                        </div>
+                        <div class="card-label">Aadhar Number</div>
+                        <div class="card-value">@Model.employeeDetails.AdharNo</div>
                     </div>
                 </div>
             </div>
@@ -209,21 +558,40 @@
     </div>
 </div>
 
-@* <div class="container-fluid">
-    <div class="row g-4">
-        <!-- Personal Information -->
-        <div class="col-12">
-            <h5 class="mb-3 fw-semibold text-secondary">Personal Information</h5>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="bg-light p-3 rounded">
-                        <label class="form-label fw-bold text-muted mb-1">Staff ID</label>
-                        <p class="mb-0">@Model.employeeDetails.StaffId</p>
-                    </div>
-                </div>
-                <!-- Add other fields as needed -->
-            </div>
-        </div>
-        <!-- Add other sections (Contact, Address, etc.) as needed -->
-    </div>
-</div> *@
+<!-- Bootstrap 5.3 JS -->
+@section BodyEndScript {
+    <script>
+            // Card animation on tab switch
+            document.querySelectorAll('[
+
+        data-bs-toggle="tab"]').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function (e) {
+                    const targetPane = document.querySelector(e.target.getAttribute('data-bs-target'));
+                    const cards = targetPane.querySelectorAll('.info-card');
+                    cards.forEach((card, index) => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.transition = 'all 0.4s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                });
+            });
+
+            // Initial animation for overview tab
+            document.addEventListener('DOMContentLoaded', () => {
+                const firstTabCards = document.querySelectorAll('#overview .info-card');
+                firstTabCards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.4s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100 + 300);
+                });
+            });
+    </script>
+}

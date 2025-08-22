@@ -12,6 +12,7 @@ namespace IsconGathiya.Service.Employee
     {
         List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filtershift, int? filterBranch, int pageSize, int pageIndex, string columnName, string sortDirection);
         EmployeeDTO GetEmployeeDetails(int? Employeeid);
+        EmployeeDTO GetEmployeeViewmodel(int? Employeeid);
         Task<bool> DeleteEmployee(int? EmployeeId);
         Task<bool> AddEditEmployee(EmpEmployee model);
         List<Branch> GetBranchList();

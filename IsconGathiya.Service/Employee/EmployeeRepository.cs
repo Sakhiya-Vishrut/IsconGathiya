@@ -1,4 +1,6 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Spreadsheet;
 using IsconGathiya.Common.DependencyInjection;
 using IsconGathiya.Domain;
 using IsconGathiya.Domain.DataContext;
@@ -108,6 +110,28 @@ namespace IsconGathiya.Service.Employee
                 }).FirstOrDefault();
             return employee;
         }
+        public EmployeeDTO GetEmployeeViewmodel(int? Employeeid)
+        {
+            var emp = (from employee in _context.EmpEmployees
+                       join bra in _context.Branches on employee.BranchId equals bra.BranchId into branchjoin
+                       from branch in branchjoin.DefaultIfEmpty()
+                       join states in _context.LocStates on employee.StateId equals states.Id into statejoin
+                       from state in statejoin.DefaultIfEmpty()
+                       join city in _context.LocCities on employee.CityId equals city.Id into cityJoin
+                       from city in cityJoin.DefaultIfEmpty()
+                       where (employee.DeletedAt == null || branch.DeletedAt == null) && employee.EmployeeId == Employeeid
+                       orderby employee.ModifiedAt descending
+                       select new EmployeeDTO
+                       {
+                           employee = employee,
+                           state = state,
+                           city = city,
+                           branch = branch,
+                       }).FirstOrDefault(); 
+
+            return emp;
+        }
+
         public async Task<bool> DeleteEmployee(int? EmployeeId)
         {
             try

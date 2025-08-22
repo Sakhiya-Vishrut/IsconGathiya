@@ -178,13 +178,8 @@ namespace IsconGathiya.Controllers
                 if (encodeEmployeeId != null)
                 {
                     int? ProblemId = encodeEmployeeId.Decode();
-                    model.employeeDetails = _employeeRepository.GetEmployeeDetails(ProblemId).ToModel();
+                    model.employeeDetails = _employeeRepository.GetEmployeeViewmodel(ProblemId).ToModel();
                 }
-                model.employeeDetails.BranchList = _employeeRepository.GetBranchList();
-                model.employeeDetails.CountryList = _locationrepository.GetCountryList();
-                model.EmployeeTypeList = EnumHelper.GetEnumSelectList<Enums.EmployeeType>();
-                model.GenderTypeList = EnumHelper.GetEnumSelectList<Enums.Gender>();
-                model.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
                 return PartialView("_EmployeeView", model);
             }
             catch (Exception ex)
