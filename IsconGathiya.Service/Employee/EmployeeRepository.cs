@@ -17,7 +17,7 @@ namespace IsconGathiya.Service.Employee
         {
             _context = context;
         }
-        public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filtershift, int? filterBranch, int pageSize, int pageIndex, string columnName, string sortDirection)
+        public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filterBranch, int? filtershift, int pageSize, int pageIndex, string columnName, string sortDirection)
         {
             var baseQuery = (from employee in _context.EmpEmployees
                              join bra in _context.Branches on employee.BranchId equals bra.BranchId into branchjoin
@@ -27,15 +27,16 @@ namespace IsconGathiya.Service.Employee
                              join city in _context.LocCities on employee.CityId equals city.Id into cityJoin
                              from city in cityJoin.DefaultIfEmpty()
                              where (employee.DeletedAt == null || branch.DeletedAt == null)
-                                   && (!filterState.HasValue || state.Id == filterState.Value)
-                                   && (!filterCity.HasValue || city.Id == filterCity.Value)
-                                   && (!filterBranch.HasValue || branch.BranchId == filterBranch.Value)
-                                   && (!filtershift.HasValue || employee.Shift == filtershift.Value)
+                                && (!filterState.HasValue || state.Id == filterState.Value)
+                                && (!filterCity.HasValue || city.Id == filterCity.Value)
+                                && (!filterBranch.HasValue || branch.BranchId == filterBranch.Value)
+                                && (!filtershift.HasValue || employee.Shift == filtershift.Value)
+
                              orderby employee.ModifiedAt descending
                              select new EmployeeDTO
                              {
                                  employee = employee,
-                                 BranchName = branch.BranchName,
+                                 branch = branch,
                              }).ToList();
 
 
@@ -90,8 +91,8 @@ namespace IsconGathiya.Service.Employee
         public List<Branch> GetBranchList()
         {
             var BranchList = (from branch in _context.Branches
-                              where branch.DeletedAt == null 
-                              orderby branch.BranchName ascending 
+                              where branch.DeletedAt == null
+                              orderby branch.BranchName ascending
                               select new Branch
                               {
                                   BranchId = branch.BranchId,
@@ -127,7 +128,7 @@ namespace IsconGathiya.Service.Employee
                            state = state,
                            city = city,
                            branch = branch,
-                       }).FirstOrDefault(); 
+                       }).FirstOrDefault();
 
             return emp;
         }

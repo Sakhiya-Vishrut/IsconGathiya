@@ -1,0 +1,147 @@
+﻿@using DocumentFormat.OpenXml.Drawing
+@using IsconGathiya.Common
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="~/assets/images/IGLOGO.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/IsconGathiya.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="~/css2-4?family=Montserrat:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+    <!-- Icon Libraries -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/font-awesome.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/icofont.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/themify.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/flag-icon.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/feather-icon.css")">
+
+    <!-- Plugin Styles -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/slick.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/slick-theme.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/scrollbar.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/animate.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/echart.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/date-picker.css")">
+
+    <!-- Bootstrap & App CSS -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/bootstrap.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/style.css")">
+    <link id="color" rel="stylesheet" href="~/assets/css/color-1.css" media="screen">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/responsive.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/datatables.css")">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loader Partial -->
+    <partial name="_Partial/_Loader" />
+
+    <!-- Scroll to Top Button -->
+    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+
+    <!-- Page Wrapper -->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <!-- Page Body -->
+        <div class="page-body">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <partial name="_Partial_Layout_Notifications" />
+    @RenderSection("BodyModalSection", required: false)
+
+    <!-- jQuery (load only once) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js")"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- CKEditor -->
+    <script src="https://cdn.jsdelivr.net/npm/ckeditor5@34.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="@Url.Content("~/assets/js/bootstrap/bootstrap.bundle.min.js")"></script>
+
+    <!-- Feather Icon JS -->
+    <script src="@Url.Content("~/assets/js/icons/feather-icon/feather.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/icons/feather-icon/feather-icon.js")"></script>
+
+    <!-- Scrollbar JS -->
+    <script src="@Url.Content("~/assets/js/scrollbar/simplebar.js")"></script>
+    <script src="@Url.Content("~/assets/js/scrollbar/custom.js")"></script>
+
+    <!-- Sidebar JS -->
+    <script src="@Url.Content("~/assets/js/config.js")"></script>
+    <script src="@Url.Content("~/assets/js/sidebar-menu.js")"></script>
+    <script src="@Url.Content("~/assets/js/sidebar-pin.js")"></script>
+
+    <!-- Slick JS -->
+    <script src="@Url.Content("~/assets/js/slick/slick.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/slick/slick.js")"></script>
+    <script src="@Url.Content("~/assets/js/header-slick.js")"></script>
+
+    <!-- Date Picker JS -->
+    <script src="@Url.Content("~/assets/js/datepicker/date-picker/datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/js/datepicker/date-picker/datepicker.en.js")"></script>
+    <script src="@Url.Content("~/assets/js/datepicker/date-picker/datepicker.custom.js")"></script>
+
+    <!-- Dashboard & DataTable JS -->
+    <script src="@Url.Content("~/assets/js/datatable/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/datatable/datatables/datatable.custom.js")"></script>
+
+    <!-- Chart JS -->
+    <script src="@Url.Content("~/assets/js/chart/apex-chart/apex-chart.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/apex-chart/stock-prices.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/apex-chart/moment.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/echart/esl.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/echart/config.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/echart/pie-chart/facePrint.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/echart/pie-chart/testHelper.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/echart/pie-chart/custom-transition-texture.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart/echart/data/symbols.js")"></script>
+
+    <!-- Dashboard JS (Page-specific JS) -->
+    <script src="@Url.Content("~/assets/js/dashboard/dashboard_3.js")"></script>
+
+    <!-- Other Scripts (Custom JS) -->
+    <script src="@Url.Content("~/assets/js/form-validation-custom.js")"></script>
+    <script src="@Url.Content("~/assets/js/height-equal.js")"></script>
+
+    <!-- Theme JS -->
+    <script src="@Url.Content("~/assets/js/script.js")"></script>
+
+    <!-- Page-Specific JS (Common Scripts) -->
+    <script src="@Url.Content("~/viewjs/common.js")"></script>
+    <script src="@Url.Content("~/viewjs/dev-script.js")"></script>
+    <script src="@Url.Content("~/viewjs/pagination.js")"></script>
+    <script src="@Url.Content("~/viewjs/location-dropdown.js")"></script>
+    <script src="@Url.Content("~/viewjs/filter.js")"></script>
+
+    <!-- Customizer (Optional) -->
+    @await RenderSectionAsync("BodyEndScript", required: false)
+</body>
+</html>

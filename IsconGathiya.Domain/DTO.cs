@@ -25,7 +25,6 @@ namespace IsconGathiya.Domain
         public LocCity city { get; set; }
         public LocState state { get; set; }
         public Branch branch { get; set; }
-        public string BranchName { get; set; }
 
     }
 }

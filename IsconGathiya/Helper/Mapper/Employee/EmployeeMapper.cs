@@ -38,6 +38,7 @@ namespace IsconGathiya.Helper.Mapper.Employee
                     .ForMember(dest => dest.AdharNo, mo => mo.MapFrom(src => src.employee.AdharNo))
                     .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => src.employee.Shift))
                     .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => (short)src.employee.Shift))
+                    //.ForMember(x => x.Shift, mo => mo.MapFrom(x => Enums.GetEnumDescription<Shift>(x.employee.Shift.GetValueOrDefault())))
                     .ForMember(dest => dest.Education, mo => mo.MapFrom(src => src.employee.Education));
             });
             IMapper mapper = config.CreateMapper();
@@ -61,6 +62,7 @@ namespace IsconGathiya.Helper.Mapper.Employee
                     .ForMember(dest => dest.WhatsAppNumber, mo => mo.MapFrom(src => src.employee.WhatsAppNumber))
                     .ForMember(dest => dest.BirthDate, mo => mo.MapFrom(src => src.employee.BirthDate))
                     .ForMember(dest => dest.Email, mo => mo.MapFrom(src => src.employee.Email))
+
                     .ForMember(dest => dest.AlternateNumber, mo => mo.MapFrom(src => src.employee.AlternateNumber))
                     .ForMember(dest => dest.Address, mo => mo.MapFrom(src => src.employee.Address))
                     .ForMember(dest => dest.Gender, mo => mo.MapFrom(src => src.employee.Gender))
@@ -103,6 +105,7 @@ namespace IsconGathiya.Helper.Mapper.Employee
                     .ForMember(dest => dest.IsActive, mo => mo.MapFrom(src => src.IsActive))
                     .ForMember(dest => dest.JoiningDate, mo => mo.MapFrom(src => src.JoiningDate))
                     .ForMember(dest => dest.EmployeeType, mo => mo.MapFrom(src => src.EmployeeType))
+                    .ForMember(x => x.Shift, mo => mo.MapFrom(x => Enums.GetEnumDescription<Shift>(x.Shift.GetValueOrDefault())))
                     .ForMember(dest => dest.EmployeeType, mo => mo.MapFrom(src => src.EmployeeType ?? Enums.GetEnumValue<EmployeeType>(src.EmployeeTypeName)))
                     .ForMember(dest => dest.AdharNo, mo => mo.MapFrom(src => src.AdharNo))
                     .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => src.Shift))

@@ -78,6 +78,10 @@ namespace IsconGathiya.Common
             return GetEnumDescription((Enum)(object)((TEnum)(object)value));
         }
 
+        public static object GetEnumDescription<T>(object value)
+        {
+            throw new NotImplementedException();
+        }
 
         public enum TicketCode
         {
