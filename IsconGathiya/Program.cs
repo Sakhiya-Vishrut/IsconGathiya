@@ -63,7 +63,7 @@ app.UseExceptionHandler(
 
                     if (!app.Environment.IsDevelopment())
                     {
-                        EmailHelper.SendMail("Vinayak Corporation MVC Exception Mail " + DateTime.Now, emailBody, "vishrutpatel360@gmail.com, vishrutsakhiya106@gmail.com");
+                        EmailHelper.SendMail("Iscon Gathiya MVC Exception Mail " + DateTime.Now, emailBody, "vishrutpatel360@gmail.com, vishrutsakhiya106@gmail.com");
                     }
                 }
             }

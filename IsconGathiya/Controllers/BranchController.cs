@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IsconGathiya.Controllers
 {
+    [AuthManager]
     public class BranchController : BaseController
     {
         private readonly IBranchRepository _branchrepository;
@@ -41,7 +42,7 @@ namespace IsconGathiya.Controllers
             {
                 var model = new BranchViewModel();
                 model.branchDetails = new BranchViewModel.BranchDetails();
-                //model.PageTitle = string.IsNullOrEmpty(encodedBranchId) ? "Branch Add" : "Branch Edit";
+                model.PageTitle = string.IsNullOrEmpty(encodedBranchId) ? "Branch Add" : "Branch Edit";
 
 
                 if (encodedBranchId != null)
@@ -66,7 +67,7 @@ namespace IsconGathiya.Controllers
 
             try
             {
-                var isSuccess = await _branchrepository.AddEditBranch(model.branchDetails.ToModel());
+                var isSuccess = await _branchrepository.AddEditBranch(model.branchDetails.ToModel(), Convert.ToInt32(CV.AdminId()));
                 
                 if(model.branchDetails.BranchId == 0)
                 {

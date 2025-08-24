@@ -37,7 +37,7 @@ namespace IsconGathiya.Service.Branchs
             }
         }
 
-        public async Task<bool> AddEditBranch(Branch model)
+        public async Task<bool> AddEditBranch(Branch model, int userId)
         {
             try
             {
@@ -49,8 +49,8 @@ namespace IsconGathiya.Service.Branchs
                     {
                         model.CreatedAt = CurrentDate;
                         model.ModifiedAt = CurrentDate;
-                        model.CreatedBy = 1;
-                        model.ModifiedBy = 1;
+                        model.CreatedBy = userId;
+                        model.ModifiedBy = userId;
 
                         _context.Branches.Add(model);
                     }
@@ -63,7 +63,7 @@ namespace IsconGathiya.Service.Branchs
                             existingBranches.BranchName = model.BranchName;
                             existingBranches.StateId = model.StateId;
                             existingBranches.CityId = model.CityId;
-                            existingBranches.ModifiedBy = 1;
+                            existingBranches.ModifiedBy = userId;
                             existingBranches.Address = model.Address;
 
                             _context.Branches.Update(existingBranches);

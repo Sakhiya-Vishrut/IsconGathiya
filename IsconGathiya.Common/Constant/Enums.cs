@@ -89,6 +89,12 @@ namespace IsconGathiya.Common
             KD = 1
         }
 
+        public enum UserType
+        {
+            Admin = 1,
+            Employee = 2,
+        }
+
         public enum Gender
         {
             [Description("Male")]
@@ -220,15 +226,6 @@ namespace IsconGathiya.Common
             Long = 60,
             SemiLong = 90,
             VeryLong = 180
-        }
-
-        public enum UserType
-        {
-            SuperAdmin = 1,     // Super Admin
-            ShopKeeper = 2,     // Carwash / Partner
-            EndUser = 3,        // Customer,
-            SubAdmin = 4,        // Sub Admin
-            ApiService = 5        // API Service User
         }
 
         public enum UserStatus

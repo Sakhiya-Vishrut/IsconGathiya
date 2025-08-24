@@ -12,7 +12,7 @@ namespace IsconGathiya.Service.Branchs
     {
         Task<List<BranchDTO>> GetBranchDataWithFilter();
 
-        Task<bool> AddEditBranch(Branch model);
+        Task<bool> AddEditBranch(Branch model, int userId);
 
         Task<bool> DeleteBranch(int? BranchId);
         BranchDTO DetailBranch(int? BranchId);

@@ -17,6 +17,7 @@ namespace IsconGathiya.Service.Employee
         {
             _context = context;
         }
+        #region GetEmployeeDataWithFilter
         public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filterBranch, int? filtershift, int pageSize, int pageIndex, string columnName, string sortDirection)
         {
             var baseQuery = (from employee in _context.EmpEmployees
@@ -26,7 +27,7 @@ namespace IsconGathiya.Service.Employee
                              from state in statejoin.DefaultIfEmpty()
                              join city in _context.LocCities on employee.CityId equals city.Id into cityJoin
                              from city in cityJoin.DefaultIfEmpty()
-                             where (employee.DeletedAt == null || branch.DeletedAt == null)
+                             where (employee.DeletedAt == null)
                                 && (!filterState.HasValue || state.Id == filterState.Value)
                                 && (!filterCity.HasValue || city.Id == filterCity.Value)
                                 && (!filterBranch.HasValue || branch.BranchId == filterBranch.Value)
@@ -88,6 +89,10 @@ namespace IsconGathiya.Service.Employee
             return baseQuery;
 
         }
+
+        #endregion
+
+        #region GetBranchList
         public List<Branch> GetBranchList()
         {
             var BranchList = (from branch in _context.Branches
@@ -101,6 +106,9 @@ namespace IsconGathiya.Service.Employee
 
             return BranchList;
         }
+        #endregion
+
+        #region GetEmployeeDetails
         public EmployeeDTO GetEmployeeDetails(int? Employeeid)
         {
             var employee = _context.EmpEmployees
@@ -111,6 +119,9 @@ namespace IsconGathiya.Service.Employee
                 }).FirstOrDefault();
             return employee;
         }
+        #endregion
+
+        #region GetEmployeeViewmodel
         public EmployeeDTO GetEmployeeViewmodel(int? Employeeid)
         {
             var emp = (from employee in _context.EmpEmployees
@@ -132,7 +143,9 @@ namespace IsconGathiya.Service.Employee
 
             return emp;
         }
+        #endregion
 
+        #region DeleteEmployee
         public async Task<bool> DeleteEmployee(int? EmployeeId)
         {
             try
@@ -152,6 +165,9 @@ namespace IsconGathiya.Service.Employee
                 return false;
             }
         }
+        #endregion
+
+        #region AddEditEmployee
         public async Task<bool> AddEditEmployee(EmpEmployee model)
         {
             try
@@ -202,6 +218,7 @@ namespace IsconGathiya.Service.Employee
             {
                 return false;
             }
-        }
+        } 
+        #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using IsconGathiya.ViewModel
+@model LoginViewModel
+@{
     Layout = "_Layout_auth";
 }
 
@@ -9,35 +11,33 @@
                 <div>
                     <div><a class="logo" href="index.html"><img class="img-fluid for-dark" src="~/assets/images/Ison-Gathiya-logo.png" alt="looginpage"><img class="img-fluid for-light" src="~/assets/images/Ison-Gathiya-logo.png" alt="looginpage"></a></div>
                     <div class="login-main">
-                        <form asp-action="Index" asp-controller="Home" class="theme-form">
+                        <form class="theme-form" asp-action="Login" asp-controller="Account">
                             <h4>Sign in to account </h4>
                             <p>Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label">Email Address</label>
-                                <input class="form-control" type="email" placeholder="Test@gmail.com">
+                                <input type="email" asp-for="Email" class="form-control" placeholder="Email">
+                                <span class="text-danger" asp-validation-for="Email"></span>
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">Password </label>
                                 <div class="form-input position-relative">
-                                    <input class="form-control" type="password" name="login[password]" placeholder="*********">
-                                    <div class="show-hide"> <span class="show"></span></div>
+                                    <input class="form-control" asp-for="Password" type="password" placeholder="Password">
                                 </div>
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-0">
                                 <div class="checkbox p-0">
                                     <input type="checkbox" id="checkbox">
                                 </div>
-                                <a class="link" href="forget-password.html">Forgot password?</a>
                                 <div class="text-end mt-3">
                                     <button class="btn btn-primary btn-block w-100" type="submit">Sign in</button>
                                 </div>
                             </div>
-                           
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
