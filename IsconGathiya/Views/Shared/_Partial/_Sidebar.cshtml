@@ -1,4 +1,5 @@
-﻿<!-- Page Sidebar Start-->
+﻿@using IsconGathiya.ViewModel
+<!-- Page Sidebar Start-->
 <div class="sidebar-wrapper" data-layout="stroke-svg">
     <div class="logo-wrapper">
         <a asp-action="Index" asp-controller="Home"><img class="w-75" src="~/assets/images/Ison-Gathiya-logo.png" alt=""></a>
@@ -36,47 +37,75 @@
                         </svg><span class="lan-3">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-list">
-                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 22H2" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M20 22V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M4 22V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M16.5278 2H7.47214C6.26932 2 5.66791 2 5.18461 2.2987C4.7013 2.5974 4.43234 3.13531 3.89443 4.21114L2.49081 7.75929C2.16652 8.57905 1.88279 9.54525 2.42867 10.2375C2.79489 10.7019 3.36257 11 3.99991 11C5.10448 11 5.99991 10.1046 5.99991 9C5.99991 10.1046 6.89534 11 7.99991 11C9.10448 11 9.99991 10.1046 9.99991 9C9.99991 10.1046 10.8953 11 11.9999 11C13.1045 11 13.9999 10.1046 13.9999 9C13.9999 10.1046 14.8953 11 15.9999 11C17.1045 11 17.9999 10.1046 17.9999 9C17.9999 10.1046 18.8953 11 19.9999 11C20.6373 11 21.205 10.7019 21.5712 10.2375C22.1171 9.54525 21.8334 8.57905 21.5091 7.75929L20.1055 4.21114C19.5676 3.13531 19.2986 2.5974 18.8153 2.2987C18.332 2 17.7306 2 16.5278 2Z" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"></path> <path d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
-                        <svg class="fill-icon">
-                            <use href="../assets/svg/icon-sprite.svg#fill-widget"></use>
-                        </svg><span class="lan-6">Branch</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a asp-route="Branch_Add">Add Branch</a></li>
-                        <li><a asp-action="Index" asp-controller="Branch">Branch List</a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-list">
-                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
-                        <svg height="200px" width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">
-                                                                                                                                                                                                                                                                                                                                                                                            .st0 {
-                                                                                                                                                                                                                                                                                                                                                                                                fill: #ffffff;
-                                                                                                                                                                                                                                                                                                                                                                                            }
-</style> <g> <path class="st0" d="M458.159,404.216c-18.93-33.65-49.934-71.764-100.409-93.431c-28.868,20.196-63.938,32.087-101.745,32.087 c-37.828,0-72.898-11.89-101.767-32.087c-50.474,21.667-81.479,59.782-100.398,93.431C28.731,448.848,48.417,512,91.842,512 c43.426,0,164.164,0,164.164,0s120.726,0,164.153,0C463.583,512,483.269,448.848,458.159,404.216z"></path> <path class="st0" d="M256.005,300.641c74.144,0,134.231-60.108,134.231-134.242v-32.158C390.236,60.108,330.149,0,256.005,0 c-74.155,0-134.252,60.108-134.252,134.242V166.4C121.753,240.533,181.851,300.641,256.005,300.641z"></path> </g> </g></svg>
-                        <svg class="fill-icon">
-                            <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
-                        </svg><span class="lan-7">Employee</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a asp-route="Employee_Add">Add Employee</a></li>
-                        <li><a asp-action="Index" asp-controller="Employee">Employee List</a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-list">
-                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
-                        <svg height="200px" width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">.st0 { fill: #ffffff; }
-                            </style> <g> <path class="st0" d="M458.159,404.216c-18.93-33.65-49.934-71.764-100.409-93.431c-28.868,20.196-63.938,32.087-101.745,32.087 c-37.828,0-72.898-11.89-101.767-32.087c-50.474,21.667-81.479,59.782-100.398,93.431C28.731,448.848,48.417,512,91.842,512 c43.426,0,164.164,0,164.164,0s120.726,0,164.153,0C463.583,512,483.269,448.848,458.159,404.216z"></path> <path class="st0" d="M256.005,300.641c74.144,0,134.231-60.108,134.231-134.242v-32.158C390.236,60.108,330.149,0,256.005,0 c-74.155,0-134.252,60.108-134.252,134.242V166.4C121.753,240.533,181.851,300.641,256.005,300.641z"></path> </g> </g></svg>
-                        <svg class="fill-icon">
-                            <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
-                        </svg><span class="lan-7">Attendance </span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li><a>Trai</a></li>
-                        <li><a>Test</a></li>
-                    </ul>
-                </li>
+                @if(CV.Roll() == "1")
+                {
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 22H2" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M20 22V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M4 22V11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M16.5278 2H7.47214C6.26932 2 5.66791 2 5.18461 2.2987C4.7013 2.5974 4.43234 3.13531 3.89443 4.21114L2.49081 7.75929C2.16652 8.57905 1.88279 9.54525 2.42867 10.2375C2.79489 10.7019 3.36257 11 3.99991 11C5.10448 11 5.99991 10.1046 5.99991 9C5.99991 10.1046 6.89534 11 7.99991 11C9.10448 11 9.99991 10.1046 9.99991 9C9.99991 10.1046 10.8953 11 11.9999 11C13.1045 11 13.9999 10.1046 13.9999 9C13.9999 10.1046 14.8953 11 15.9999 11C17.1045 11 17.9999 10.1046 17.9999 9C17.9999 10.1046 18.8953 11 19.9999 11C20.6373 11 21.205 10.7019 21.5712 10.2375C22.1171 9.54525 21.8334 8.57905 21.5091 7.75929L20.1055 4.21114C19.5676 3.13531 19.2986 2.5974 18.8153 2.2987C18.332 2 17.7306 2 16.5278 2Z" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"></path> <path d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-widget"></use>
+                            </svg><span class="lan-6">Branch</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a asp-route="Branch_Add">Add Branch</a></li>
+                            <li><a asp-action="Index" asp-controller="Branch">Branch List</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                            <svg height="200px" width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">
+                                                                                                                                                                                                                                                                                                                                                                                                .st0 {
+                                                                                                                                                                                                                                                                                                                                                                                                    fill: #ffffff;
+                                                                                                                                                                                                                                                                                                                                                                                                }
+    </style> <g> <path class="st0" d="M458.159,404.216c-18.93-33.65-49.934-71.764-100.409-93.431c-28.868,20.196-63.938,32.087-101.745,32.087 c-37.828,0-72.898-11.89-101.767-32.087c-50.474,21.667-81.479,59.782-100.398,93.431C28.731,448.848,48.417,512,91.842,512 c43.426,0,164.164,0,164.164,0s120.726,0,164.153,0C463.583,512,483.269,448.848,458.159,404.216z"></path> <path class="st0" d="M256.005,300.641c74.144,0,134.231-60.108,134.231-134.242v-32.158C390.236,60.108,330.149,0,256.005,0 c-74.155,0-134.252,60.108-134.252,134.242V166.4C121.753,240.533,181.851,300.641,256.005,300.641z"></path> </g> </g></svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
+                            </svg><span class="lan-7">Employee</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a asp-route="Employee_Add">Add Employee</a></li>
+                            <li><a asp-action="Index" asp-controller="Employee">Employee List</a></li>
+                        </ul>
+                    </li>
+                }
+
+                @if(CV.Roll() == "2")
+                {
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                            <svg class="stroke-icon">
+                                <use href="../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                            </svg>
+                            <span>Attendance</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a asp-action="Index" asp-controller="Attendance">Trail</a></li>
+                            <li><a asp-action="Index" asp-controller="Attendance">Test</a></li>
+                        </ul>
+                    </li>
+                } else
+                {
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                            <svg class="stroke-icon">
+                                <use href="../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                            </svg>
+                            <span>Attendance</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a asp-action="Index" asp-controller="Attendance">Trail</a></li>
+                            <li><a asp-action="Index" asp-controller="Attendance">Test</a></li>
+                        </ul>
+                    </li>
+                }
+
             </ul>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
         </div>

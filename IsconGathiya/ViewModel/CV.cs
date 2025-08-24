@@ -25,6 +25,20 @@ namespace IsconGathiya.ViewModel
 
             return UserID;
         }
+        public static string? Roll()
+        {
+            string cookieValue;
+            string roll = null;
+
+            if (_contextAccessor.HttpContext.Request.Cookies["AuthValidator"] != null)
+            {
+                cookieValue = _contextAccessor.HttpContext.Request.Cookies["AuthValidator"].ToString();
+
+                roll = DecodeToken.DecodeJwt(DecodeToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "RollType").Value;
+            }
+
+            return roll;
+        }
         public static string? Email()
         {
             string cookieValue;

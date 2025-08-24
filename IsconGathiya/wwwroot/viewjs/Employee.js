@@ -34,35 +34,3 @@ function fnEmployeeViewModal(encodeEmployeeId) {
         },
     });
 }
-
-//document.querySelectorAll('[
-
-//        data - bs - toggle="tab"]').forEach(tab => {
-//                tab.addEventListener('shown.bs.tab', function (e) {
-//    const targetPane = document.querySelector(e.target.getAttribute('data-bs-target'));
-//    const cards = targetPane.querySelectorAll('.info-card');
-//    cards.forEach((card, index) => {
-//        card.style.opacity = '0';
-//        card.style.transform = 'translateY(20px)';
-//        setTimeout(() => {
-//            card.style.transition = 'all 0.4s ease';
-//            card.style.opacity = '1';
-//            card.style.transform = 'translateY(0)';
-//        }, index * 100);
-//    });
-//});
-//            });
-
-//// Initial animation for overview tab
-//document.addEventListener('DOMContentLoaded', () => {
-//    const firstTabCards = document.querySelectorAll('#overview .info-card');
-//    firstTabCards.forEach((card, index) => {
-//        card.style.opacity = '0';
-//        card.style.transform = 'translateY(20px)';
-//        setTimeout(() => {
-//            card.style.transition = 'all 0.4s ease';
-//            card.style.opacity = '1';
-//            card.style.transform = 'translateY(0)';
-//        }, index * 100 + 300);
-//    });
-//});

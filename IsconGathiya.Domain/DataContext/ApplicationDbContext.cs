@@ -16,6 +16,8 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
+    public virtual DbSet<AspAspNetUser> AspAspNetUsers { get; set; }
+
     public virtual DbSet<Branch> Branches { get; set; }
 
     public virtual DbSet<EmpEmployee> EmpEmployees { get; set; }
@@ -26,12 +28,22 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<LocState> LocStates { get; set; }
 
+    public virtual DbSet<SecAdmin> SecAdmins { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("User ID=postgres;Password=123;Server=localhost;Port=5432;Database=IsconGathiya;Pooling=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AspAspNetUser>(entity =>
+        {
+            entity.HasKey(e => e.AspNetUserId).HasName("ASP_AspNetUser_pkey");
+
+            entity.Property(e => e.AspNetUserId).ValueGeneratedNever();
+            entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
+
         modelBuilder.Entity<Branch>(entity =>
         {
             entity.HasKey(e => e.BranchId).HasName("Branch_pkey");
@@ -103,6 +115,14 @@ public partial class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_countryid");
         });
+
+        modelBuilder.Entity<SecAdmin>(entity =>
+        {
+            entity.HasKey(e => e.AdminId).HasName("SEC_Admin_pkey");
+
+            entity.HasOne(d => d.AspNetUser).WithMany(p => p.SecAdmins).HasConstraintName("AspNetUserID");
+        });
+        modelBuilder.HasSequence("SEC_Admin_AdminID_seq").HasMax(2147483647L);
 
         OnModelCreatingPartial(modelBuilder);
     }

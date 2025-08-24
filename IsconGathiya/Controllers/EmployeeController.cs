@@ -20,6 +20,7 @@ namespace IsconGathiya.Controllers
             _employeeRepository = employeeRepository;
             _locationrepository = locationRepository;
         }
+        #region Index
         public IActionResult Index()
         {
             try
@@ -40,12 +41,14 @@ namespace IsconGathiya.Controllers
                 employee.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(null, null, null, null, employee.PageSize, employee.PageIndex, employee.ColumnName, employee.SortDirection).ToModel();
                 return View(employee);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw;
             }
         }
+        #endregion
 
+        #region EmployeeFilterList
         [HttpGet, Route("Employee/search", Name = "Employee_Filter")]
         public IActionResult EmployeeFilterList(int pageIndex, int pageSize, string filterObj, string columnName, string sortDirection)
         {
@@ -82,7 +85,9 @@ namespace IsconGathiya.Controllers
                 return RedirectToRoute("Error_404");
             }
         }
+        #endregion
 
+        #region EmployeeForm
         [HttpGet, Route("employee/Edit/{encodeEmployeeId}", Name = "Employee_Edit")]
         [HttpGet, Route("employee/Add", Name = "Employee_Add")]
         public IActionResult EmployeeForm(string? encodeEmployeeId)
@@ -90,7 +95,7 @@ namespace IsconGathiya.Controllers
             try
             {
                 var model = new EmployeeViewModel();
-                model.BreadcrumbTitle = "Problem Management";   
+                model.BreadcrumbTitle = "Problem Management";
                 model.BreadcrumbParent = "Problem";
                 model.BreadcrumbChild = string.IsNullOrEmpty(encodeEmployeeId) ? "Add Employee" : "Update Employee";
                 model.PageTitle = string.IsNullOrEmpty(encodeEmployeeId) ? "Add Employee" : "Upadte Employee";
@@ -111,7 +116,9 @@ namespace IsconGathiya.Controllers
                 return RedirectToRoute("Error_404");
             }
         }
-        #region SaveProblem
+        #endregion
+
+        #region SaveEmployee
         [HttpPost, Route("Employee/save", Name = "Employee_Save")]
         public async Task<IActionResult> SaveEmployee(EmployeeViewModel employeeViewModel)
         {
@@ -139,7 +146,7 @@ namespace IsconGathiya.Controllers
         }
         #endregion
 
-        #region DeleteProblem
+        #region EmployeeDelete
         [HttpPost, Route("Employee/delete", Name = "Employee_Delete")]
 
         public async Task<IActionResult> EmployeeDelete(string? encodeEmployeeId)
@@ -169,12 +176,13 @@ namespace IsconGathiya.Controllers
         }
         #endregion
 
+        #region EmployeeView
         [HttpGet, Route("Employee/EmployeeView", Name = "EmployeeViewModal")]
         public IActionResult EmployeeView(string encodeEmployeeId)
         {
             try
             {
-                var model = new EmployeeViewModel();               
+                var model = new EmployeeViewModel();
                 if (encodeEmployeeId != null)
                 {
                     int? ProblemId = encodeEmployeeId.Decode();
@@ -186,6 +194,7 @@ namespace IsconGathiya.Controllers
             {
                 return RedirectToRoute("Error_404");
             }
-        }
+        } 
+        #endregion
     }
 }

@@ -219,23 +219,6 @@ namespace IsconGathiya.Common.Utility
             return value;
         }
 
-
-        public static string GetUserType(int userType)
-        {
-            if (userType == Enums.UserType.ShopKeeper.GetHashCode())
-                return "Partner";
-            else if (userType == Enums.UserType.EndUser.GetHashCode())
-                return "Customer";
-            else if (userType == Enums.UserType.SuperAdmin.GetHashCode())
-                return "Super Admin";
-            else if (userType == Enums.UserType.SubAdmin.GetHashCode())
-                return "Sub Admin";
-            else if (userType == Enums.UserType.ApiService.GetHashCode())
-                return "Api Service";
-
-            return "";
-        }
-
         public static string GetIsconGathiyaNumberString(string IsconGathiyaNumber)
         {
             if (string.IsNullOrEmpty(IsconGathiyaNumber) == false && IsconGathiyaNumber.Length == 16)
