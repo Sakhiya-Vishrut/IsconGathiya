@@ -48,6 +48,9 @@ public partial class Branch
     [InverseProperty("Branch")]
     public virtual ICollection<EmpEmployee> EmpEmployees { get; set; } = new List<EmpEmployee>();
 
+    [InverseProperty("Branch")]
+    public virtual ICollection<SecAdmin> SecAdmins { get; set; } = new List<SecAdmin>();
+
     [ForeignKey("StateId")]
     [InverseProperty("Branches")]
     public virtual LocState? State { get; set; }

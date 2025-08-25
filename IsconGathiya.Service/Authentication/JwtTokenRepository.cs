@@ -31,6 +31,7 @@ namespace IsconGathiya.Service.Authentication
                 new Claim(ClaimTypes.Name, adminInfo.UserName),
                 new Claim("Username", adminInfo.UserName),
                 new Claim("AdminID", adminInfo.AdminId.ToString()),
+                new Claim("BranchId", adminInfo.BranchId.ToString()),
                 new Claim("AspNetUserId", adminInfo.AspNetUserId.ToString()),
                 new Claim("RollType", adminInfo.RollType.ToString()),
                 new Claim(JwtHeaderParameterNames.Kid, Guid.NewGuid().ToString()),

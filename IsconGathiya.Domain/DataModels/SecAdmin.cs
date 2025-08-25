@@ -32,7 +32,13 @@ public partial class SecAdmin
 
     public short? RollType { get; set; }
 
+    public int? BranchId { get; set; }
+
     [ForeignKey("AspNetUserId")]
     [InverseProperty("SecAdmins")]
     public virtual AspAspNetUser? AspNetUser { get; set; }
+
+    [ForeignKey("BranchId")]
+    [InverseProperty("SecAdmins")]
+    public virtual Branch? Branch { get; set; }
 }

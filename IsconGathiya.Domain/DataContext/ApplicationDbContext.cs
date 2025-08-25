@@ -121,6 +121,8 @@ public partial class ApplicationDbContext : DbContext
             entity.HasKey(e => e.AdminId).HasName("SEC_Admin_pkey");
 
             entity.HasOne(d => d.AspNetUser).WithMany(p => p.SecAdmins).HasConstraintName("AspNetUserID");
+
+            entity.HasOne(d => d.Branch).WithMany(p => p.SecAdmins).HasConstraintName("SEC_Admin_BranchId_fkey");
         });
         modelBuilder.HasSequence("SEC_Admin_AdminID_seq").HasMax(2147483647L);
 

@@ -49,7 +49,8 @@ namespace IsconGathiya.Controllers
                 UserName = aspUser.UserName,
                 AspNetUserId = aspUser.AspNetUserId,
                 AdminId = admin.AdminId,
-                RollType = admin.RollType
+                RollType = admin.RollType,
+                BranchId = admin.BranchId,
             };
 
             var token = _jwtTokenRepository.GenerateJWTAuthetication(jwtModel);

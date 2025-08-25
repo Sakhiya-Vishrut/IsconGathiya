@@ -38,7 +38,6 @@ namespace IsconGathiya.Helper.Mapper.Employee
                     .ForMember(dest => dest.AdharNo, mo => mo.MapFrom(src => src.employee.AdharNo))
                     .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => src.employee.Shift))
                     .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => (short)src.employee.Shift))
-                    //.ForMember(x => x.Shift, mo => mo.MapFrom(x => Enums.GetEnumDescription<Shift>(x.employee.Shift.GetValueOrDefault())))
                     .ForMember(dest => dest.Education, mo => mo.MapFrom(src => src.employee.Education));
             });
             IMapper mapper = config.CreateMapper();
