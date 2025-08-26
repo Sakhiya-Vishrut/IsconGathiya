@@ -1,88 +1,82 @@
 ﻿@using IsconGathiya.ViewModel
+@using IsconGathiya.Helper
+@using IsconGathiya.Common
 @model EmployeeViewModel
-@{
-    var gridUrl = Url.RouteUrl("Employee_Filter");
-}
-
-<div class="container-fluid">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-6">
-                <h4>Default</h4>
-            </div>
-            <div class="col-6">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">
-                            <svg class="stroke-icon">
-                                <use href="~/assets/svg/icon-sprite.svg#stroke-home"></use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">Dashboard</li>
-                    <li class="breadcrumb-item active">Default</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Filter Button Start -->
-        <div class="col-lg-12 d-flex justify-content-start ms-md-auto mb-3 mt-3">
-            <button class="btn bg-primary btn-lg d-flex align-items-center gap-2" type="button" data-bs-toggle="tooltip" title="btn btn-success btn-lg" id="filter-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="24" height="24" fill="none" stroke="white" stroke-miterlimit="10" stroke-width="4">
-                    <polygon points="2 6 2 10 26 34 26 58 38 58 38 34 62 10 62 6 2 6"></polygon>
-                </svg>
-                <span class="text-white">Filter</span>
-            </button>
-        </div>
-
-        <!-- Filter Button End -->
-    </div>
-    <div class="row mb-2" id="filter-form">
-        <!-- Filter Form Start -->
         <div class="col-sm-12">
-            <div class="card height-equal">
-                <div class="card-body basic-wizard important-validation">
-                    <div id="msform p-3">
-                        <div class="stepper-one row needs-validation custom-input" novalidate="">
-
-                            <div class="col-sm-3">
-                                <label class="form-label required-validation">Branch</label>
-                                <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                                        id="BranchDropDown"
-                                        asp-for="employeeDetails.BranchId"
-                                        asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
-                                        data-placeholder="Select Branch" required>
-                                    <option value="">Select Branch</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-3 position-relative">
-                                <label class="form-label" for="citySelect">Shift</label>
-                                @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
-                                {
-                                    <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements "
-                                            id="ShiftDropdown"
-                                            asp-items="Model.ShiftTypeList"
-                                            data-placeholder="Select ShiftType" required>
-                                        <option value="">Select Shift</option>
+            <div class="card p-3">
+                <div class="card-block row">
+                    <div class="col-sm-12 col-lg-12 col-xl-12">
+                        <div class="table-responsive custom-scrollbar">
+                            <div class="row mb-4">
+                                <!-- Branch Dropdown -->
+                                <div class="col-md-6">
+                                    <label class="form-label required-validation">Change Branch</label>
+                                    <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
+                                            id="BranchDropDown"
+                                            asp-for="employeeDetails.BranchId"
+                                            asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
+                                            data-placeholder="Select Branch" required>
+                                        <option value="">Select Branch</option>
                                     </select>
-                                }
+                                </div>
+
+                                <!-- Shift Dropdown -->
+                                <div class="col-md-6">
+                                    <label class="form-label" for="citySelect">Shift</label>
+                                    @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                                    {
+                                        <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
+                                                id="ShiftDropdown"
+                                                asp-items="Model.ShiftTypeList"
+                                                data-placeholder="Select ShiftType" required>
+                                            <option value="">Select Shift</option>
+                                        </select>
+                                    }
+                                </div>
                             </div>
 
+                            <!-- Grid Body Container -->
+                            <div id="EmployeeTableContainer">
+                                <partial name="_ChangeBranchGridBody" model="Model" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Filter Form end -->
     </div>
 </div>
-<div id="BranchList_Grid">
-    <partial name="_ChangeBranchGridBody" />
-</div>
 
+@section BodyEndScript {
+    <script>
+        $(document).ready(function () {
+            $('#ShiftDropdown').on('change', function () {
+                var shiftValue = $(this).val();
+
+                if (!shiftValue) {
+                    alert("Please select a valid shift.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("GetEmployeesByShift", "Attendance")',
+                    type: 'GET',
+                    data: {
+                        shiftType: shiftValue
+                    },
+                    success: function (response) {
+                        $('#EmployeeTableContainer').html(response);
+                                            $('#basic-1').DataTable();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error loading data:", xhr.status, error);
+                        alert("Error loading employee data. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -21,27 +21,22 @@ namespace IsconGathiya.Service.Attendance
         }
 
         #region GetEmployeeDataWithFilter
-        public List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId)
+        public List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId, short shift)
         {
             var baseQuery = (from employee in _context.EmpEmployees
                              join bra in _context.Branches on employee.BranchId equals bra.BranchId into branchjoin
                              from branch in branchjoin.DefaultIfEmpty()
-                             join states in _context.LocStates on employee.StateId equals states.Id into statejoin
-                             from state in statejoin.DefaultIfEmpty()
-                             join city in _context.LocCities on employee.CityId equals city.Id into cityJoin
-                             from city in cityJoin.DefaultIfEmpty()
-
-                             where employee.BranchId == adminBranchId
-
+                             where employee.BranchId == adminBranchId && employee.Shift == shift
                              orderby employee.ModifiedAt descending
                              select new EmployeeDTO
                              {
                                  employee = employee,
-                                 branch = branch,
+                                 branch = branch
                              }).ToList();
 
             return baseQuery;
         }
+
 
         #endregion
 

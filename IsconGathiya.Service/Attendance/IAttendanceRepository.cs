@@ -10,7 +10,7 @@ namespace IsconGathiya.Service.Attendance
 {
     public interface IAttendanceRepository
     {
-        List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId);
+        List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId, short shift);
 
         List<Branch> GetBranchList();
 

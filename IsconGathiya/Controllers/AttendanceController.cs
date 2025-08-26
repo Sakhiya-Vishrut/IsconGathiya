@@ -24,14 +24,20 @@ namespace IsconGathiya.Controllers
         }
 
         #region Index
-        public IActionResult ChangeBranch()
+
+        public IActionResult ChangeBranch(short? shiftType = null)
         {
             try
             {
                 var employee = new EmployeeViewModel();
                 employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
                 employee.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
-                employee.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch())).ToModel();
+
+                var selectedShift = shiftType ?? (short)Enums.Shift.Day;
+
+                employee.employeeDetailsList = _attendanceRepository
+                    .GetEmployeeDataWithFilter(int.Parse(CV.Branch()), selectedShift)
+                    .ToModel();
 
                 return View(employee);
             }
@@ -40,7 +46,20 @@ namespace IsconGathiya.Controllers
                 throw new Exception("An error occurred while fetching employee data.", e);
             }
         }
+
         #endregion
 
+        [HttpGet]
+        public IActionResult GetEmployeesByShift(short shiftType)
+        {
+            var employeeVM = new EmployeeViewModel
+            {
+                employeeDetailsList = _attendanceRepository
+                    .GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType)
+                    .ToModel()
+            };
+
+            return PartialView("_ChangeBranchGridBody", employeeVM);
+        }
     }
 }
