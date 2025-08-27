@@ -55,5 +55,21 @@ namespace IsconGathiya.Service.Attendance
             return BranchList;
         }
         #endregion
+
+        public void UpdateEmployeeBranch(int employeeId, int newBranchId)
+        {
+            var employee = _context.EmpEmployees.FirstOrDefault(e => e.EmployeeId == employeeId);
+            if (employee != null)
+            {
+                employee.BranchId = newBranchId;
+                employee.ModifiedAt = DateTime.Now; 
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Not found");
+            }
+        }
+
     }
 }

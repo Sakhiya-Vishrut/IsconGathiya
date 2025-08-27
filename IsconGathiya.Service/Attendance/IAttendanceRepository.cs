@@ -14,5 +14,6 @@ namespace IsconGathiya.Service.Attendance
 
         List<Branch> GetBranchList();
 
+        void UpdateEmployeeBranch(int employeeId, int newBranchId);
     }
 }

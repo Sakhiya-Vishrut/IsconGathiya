@@ -105,6 +105,7 @@ namespace IsconGathiya.ViewModel
             public List<LocState> StateList { get; set; }
             public List<Branch> BranchList { get; set; }
             public int TotalRecords { get; set; }
+            public List<int> SelectedEmployeeIds { get; set; }
         }
     }
 }

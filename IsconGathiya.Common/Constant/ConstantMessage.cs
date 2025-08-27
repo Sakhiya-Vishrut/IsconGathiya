@@ -23,5 +23,9 @@ namespace IsconGathiya.Common
         public const string EmployeeNotFound = "Employee not found.";
         public const string EmployeeDeleteSuccess = "Employee deleted successfully.";
 
+        // Attendance
+
+        public const string EmployeeChange = "Employees is Change Successfully.";
+
     }
 }

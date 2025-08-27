@@ -3,46 +3,50 @@
 @using IsconGathiya.Common
 @model EmployeeViewModel
 
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card p-3">
+                <div class="card-block row">
+                    <!-- Shift Dropdown -->
+                    <div class="row align-items-center my-2">
+                        <div class="col-md-9">
+                            @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                            {
+                                <div id="ShiftSwitchGroup" class="d-flex flex-wrap gap-2">
+                                    @foreach (var shift in Model.ShiftTypeList)
+                                    {
+                                        var isDay = shift.Text.ToLower() == "day"; 
+                                                                                   <input type="radio" class="btn-check"
+                                                                                          name="shiftType"
+                                                                                          value="@shift.Value"
+                                                                                          id="shift_@shift.Value"
+                                                                                          autocomplete="off"
+                                                                                          @(isDay ? "checked" : "") />
+
+                                        <label class="btn btn-outline-primary" for="shift_@shift.Value">@shift.Text</label>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Grid Body Container -->
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <div class="card p-3">
                 <div class="card-block row">
-                    <div class="col-sm-12 col-lg-12 col-xl-12">
-                        <div class="table-responsive custom-scrollbar">
-                            <div class="row mb-4">
-                                <!-- Branch Dropdown -->
-                                <div class="col-md-6">
-                                    <label class="form-label required-validation">Change Branch</label>
-                                    <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                                            id="BranchDropDown"
-                                            asp-for="employeeDetails.BranchId"
-                                            asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
-                                            data-placeholder="Select Branch" required>
-                                        <option value="">Select Branch</option>
-                                    </select>
-                                </div>
-
-                                <!-- Shift Dropdown -->
-                                <div class="col-md-6">
-                                    <label class="form-label" for="citySelect">Shift</label>
-                                    @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
-                                    {
-                                        <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                                                id="ShiftDropdown"
-                                                asp-items="Model.ShiftTypeList"
-                                                data-placeholder="Select ShiftType" required>
-                                            <option value="">Select Shift</option>
-                                        </select>
-                                    }
-                                </div>
-                            </div>
-
-                            <!-- Grid Body Container -->
-                            <div id="EmployeeTableContainer">
-                                <partial name="_ChangeBranchGridBody" model="Model" />
-                            </div>
-                        </div>
+                    <div id="EmployeeTableContainer">
+                        <partial name="_ChangeBranchGridBody" model="Model" />
                     </div>
                 </div>
             </div>
@@ -53,30 +57,40 @@
 @section BodyEndScript {
     <script>
         $(document).ready(function () {
-            $('#ShiftDropdown').on('change', function () {
-                var shiftValue = $(this).val();
+            const $shiftInputs = $('#ShiftSwitchGroup input[type=radio][name=shiftType]');
 
-                if (!shiftValue) {
-                    alert("Please select a valid shift.");
-                    return;
+            $shiftInputs.on('change', function () {
+                const shiftValue = $(this).val();
+
+                switch (shiftValue) {
+                    case "":
+                        alert("Please select a valid shift.");
+                        break;
+
+                    default:
+                        fnShowMainProgress();
+
+                        $.ajax({
+                            url: '@Url.Action("GetEmployeesByShift", "Attendance")',
+                            type: 'GET',
+                            data: { shiftType: shiftValue },
+                            success: function (response) {
+                                $('#EmployeeTableContainer').html(response);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error loading data:", xhr.status, error);
+                                alert("Error loading employee data. Please try again.");
+                            },
+                            complete: function () {
+                                fnHideMainProgress();
+                            }
+                        });
+                        break;
                 }
-
-                $.ajax({
-                    url: '@Url.Action("GetEmployeesByShift", "Attendance")',
-                    type: 'GET',
-                    data: {
-                        shiftType: shiftValue
-                    },
-                    success: function (response) {
-                        $('#EmployeeTableContainer').html(response);
-                                            $('#basic-1').DataTable();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error loading data:", xhr.status, error);
-                        alert("Error loading employee data. Please try again.");
-                    }
-                });
             });
+
+            $shiftInputs.filter(':checked').trigger('change');
         });
     </script>
+
 }

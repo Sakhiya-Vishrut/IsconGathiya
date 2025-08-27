@@ -68,6 +68,7 @@ function GridPagination(gridName, pageNo, urlCallBackMethodName, columnName) {
     console.log(result);
     var pageIndex = IsValueUndefinedOrNull($("#" + gridName + "PageNo").val()) ? jsConfigDefaultPageNo : $("#" + gridName + "PageNo").val();
     var pageSize = IsValueUndefinedOrNull($("#" + gridName + "PageSize").val()) ? jsConfigDefaultPageSize : $("#" + gridName + "PageSize").val();
+    debugger;
     fnShowMainProgress();
     //fnShowMainProgress();
     $.ajax({

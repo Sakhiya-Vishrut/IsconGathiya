@@ -1,5 +1,105 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@using IsconGathiya.ViewModel
+@using IsconGathiya.Helper
+@using IsconGathiya.Common
+@model EmployeeViewModel
+
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card p-3">
+                <div class="card-block row">
+                    <!-- Shift Dropdown -->
+                    <div class="row align-items-center my-2">
+                        <div class="col-md-9">
+                            @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                            {
+                                var now = DateTime.Now.TimeOfDay;
+                                var isDayTime = now >= TimeSpan.FromHours(6) && now < TimeSpan.FromHours(18); 
+
+                                <div id="ShiftSwitchGroup" class="d-flex flex-wrap gap-2">
+                                    @foreach (var shift in Model.ShiftTypeList)
+                                    {
+                                        var shiftTextLower = shift.Text.ToLower();
+                                        var isDayShift = shiftTextLower == "day";
+                                        var shouldBeChecked = (isDayShift && isDayTime) || (!isDayShift && !isDayTime);
+                                        var shouldBeDisabled = (isDayShift && !isDayTime) || (!isDayShift && isDayTime);
+
+                                        <input type="radio" class="btn-check"
+                                               name="shiftType"
+                                               value="@shift.Value"
+                                               id="shift_@shift.Value"
+                                               autocomplete="off"
+                                               @(shouldBeChecked ? "checked" : "")
+                                               @(shouldBeDisabled ? "disabled" : "") />
+
+                                        <label class="btn btn-outline-primary @(shouldBeDisabled ? "disabled" : "")" for="shift_@shift.Value">@shift.Text</label>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Grid Body Container -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card p-3">
+                <div class="card-block row">
+                    <div id="AttendanceTableContainer">
+                        <partial name="_Partial_Attendance_GridBody" model="Model" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section BodyEndScript {
+    <script>
+        $(document).ready(function () {
+            const $shiftInputs = $('#ShiftSwitchGroup input[type=radio][name=shiftType]');
+            debugger;
+            $shiftInputs.on('change', function () {
+                const shiftValue = $(this).val();
+
+                switch (shiftValue) {
+                    case "":
+                        alert("Please select a valid shift.");
+                        break;
+
+                    default:
+                        fnShowMainProgress();
+
+                        $.ajax({
+                            url: '@Url.Action("GetAttendanceEmployeesByShift", "Attendance")',
+                            type: 'GET',
+                            data: { shiftType: shiftValue },
+                            success: function (response) {
+                                $('#AttendanceTableContainer').html(response);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error loading data:", xhr.status, error);
+                                alert("Error loading employee data. Please try again.");
+                            },
+                            complete: function () {
+                                fnHideMainProgress();
+                            }
+                        });
+                        break;
+                }
+            });
+
+            $shiftInputs.filter(':checked').trigger('change');
+        });
+    </script>
+
 }

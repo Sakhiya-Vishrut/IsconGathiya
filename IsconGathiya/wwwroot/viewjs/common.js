@@ -66,7 +66,6 @@ function setMinValue(startId, endId) {
     endDate.min = startDate.value;
 }
 function fnShowMainProgress() {
-    console.log(54)
     $(".main-loader").removeClass("loader-hide");
     $(".main-loader").addClass("loader-show");
 }
