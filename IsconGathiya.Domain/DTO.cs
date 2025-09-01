@@ -27,4 +27,9 @@ namespace IsconGathiya.Domain
         public Branch branch { get; set; }
 
     }
+    public class AttandenceDTO : TotalRecord
+    {
+        public EmpEmployee employee { get; set; }
+        public EmpAttendance EmpAttendanc { get; set; }
+    }
 }

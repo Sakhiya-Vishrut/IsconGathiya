@@ -73,36 +73,84 @@
                 @if(CV.Roll() == "2")
                 {
                     <li class="sidebar-list">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
-                            <svg class="stroke-icon">
-                                <use href="../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link" asp-route="ChangeBranch">
+                            <svg fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20,37.5c0-0.8-0.7-1.5-1.5-1.5h-15C2.7,36,2,36.7,2,37.5v11C2,49.3,2.7,50,3.5,50h15c0.8,0,1.5-0.7,1.5-1.5 V37.5z"></path> <path d="M8.1,22H3.2c-1,0-1.5,0.9-0.9,1.4l8,8.3c0.4,0.3,1,0.3,1.4,0l8-8.3c0.6-0.6,0.1-1.4-0.9-1.4h-4.7 c0-5,4.9-10,9.9-10V6C15,6,8.1,13,8.1,22z"></path> <path d="M41.8,20.3c-0.4-0.3-1-0.3-1.4,0l-8,8.3c-0.6,0.6-0.1,1.4,0.9,1.4h4.8c0,6-4.1,10-10.1,10v6 c9,0,16.1-7,16.1-16H49c1,0,1.5-0.9,0.9-1.4L41.8,20.3z"></path> <path d="M50,3.5C50,2.7,49.3,2,48.5,2h-15C32.7,2,32,2.7,32,3.5v11c0,0.8,0.7,1.5,1.5,1.5h15c0.8,0,1.5-0.7,1.5-1.5 V3.5z"></path> </g></svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
                             </svg>
+                            <span>Change Branch</span>
+                        </a>
+@*                         <ul class="sidebar-submenu">
+                            <li><a asp-action="ChangeBranch" asp-controller="Attendance">Change Employee</a></li>
+                            <li><a asp-action="Index" asp-controller="Attendance">Attendance</a></li>
+                        </ul> *@
+                    </li>
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link" asp-route="Index">
+                            <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#ffffff" fill-rule="evenodd" d="M6.9 0h.2A2.9 2.9 0 0 1 10 2.9v1.2A2.9 2.9 0 0 1 7.1 7h-.2A2.9 2.9 0 0 1 4 4.1V2.9A2.9 2.9 0 0 1 6.9 0z M14.81 4.58l-4.15 5.82c.226.503.341 1.049.34 1.6v4.67A1.336 1.336 0 0 1 9.67 18l-5.34-.01A1.327 1.327 0 0 1 3 16.67V12a4.012 4.012 0 0 1 4-4 3.9 3.9 0 0 1 2.36.79l3.83-5.37a1 1 0 0 1 1.62 1.16z"></path> </g></svg>
                             <svg class="fill-icon">
                                 <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
                             </svg>
                             <span>Attendance</span>
                         </a>
-                        <ul class="sidebar-submenu">
+@*                         <ul class="sidebar-submenu">
                             <li><a asp-action="ChangeBranch" asp-controller="Attendance">Change Employee</a></li>
                             <li><a asp-action="Index" asp-controller="Attendance">Attendance</a></li>
-                        </ul>
+                        </ul> *@
+                    </li>
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link" asp-route="Index">
+                            <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#ffffff" fill-rule="evenodd" d="M6.9 0h.2A2.9 2.9 0 0 1 10 2.9v1.2A2.9 2.9 0 0 1 7.1 7h-.2A2.9 2.9 0 0 1 4 4.1V2.9A2.9 2.9 0 0 1 6.9 0z M14.81 4.58l-4.15 5.82c.226.503.341 1.049.34 1.6v4.67A1.336 1.336 0 0 1 9.67 18l-5.34-.01A1.327 1.327 0 0 1 3 16.67V12a4.012 4.012 0 0 1 4-4 3.9 3.9 0 0 1 2.36.79l3.83-5.37a1 1 0 0 1 1.62 1.16z"></path> </g></svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                            </svg>
+                            <span>Attendance View</span>
+                        </a>
+@*                         <ul class="sidebar-submenu">
+                            <li><a asp-action="ChangeBranch" asp-controller="Attendance">Change Employee</a></li>
+                            <li><a asp-action="Index" asp-controller="Attendance">Attendance</a></li>
+                        </ul> *@
                     </li>
                 } else
                 {
                     <li class="sidebar-list">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
-                            <svg class="stroke-icon">
-                                <use href="../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link" asp-route="ChangeBranch">
+                            <svg fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20,37.5c0-0.8-0.7-1.5-1.5-1.5h-15C2.7,36,2,36.7,2,37.5v11C2,49.3,2.7,50,3.5,50h15c0.8,0,1.5-0.7,1.5-1.5 V37.5z"></path> <path d="M8.1,22H3.2c-1,0-1.5,0.9-0.9,1.4l8,8.3c0.4,0.3,1,0.3,1.4,0l8-8.3c0.6-0.6,0.1-1.4-0.9-1.4h-4.7 c0-5,4.9-10,9.9-10V6C15,6,8.1,13,8.1,22z"></path> <path d="M41.8,20.3c-0.4-0.3-1-0.3-1.4,0l-8,8.3c-0.6,0.6-0.1,1.4,0.9,1.4h4.8c0,6-4.1,10-10.1,10v6 c9,0,16.1-7,16.1-16H49c1,0,1.5-0.9,0.9-1.4L41.8,20.3z"></path> <path d="M50,3.5C50,2.7,49.3,2,48.5,2h-15C32.7,2,32,2.7,32,3.5v11c0,0.8,0.7,1.5,1.5,1.5h15c0.8,0,1.5-0.7,1.5-1.5 V3.5z"></path> </g></svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
                             </svg>
+                            <span>Change Branch</span>
+                        </a>
+                        @*                         <ul class="sidebar-submenu">
+                            <li><a asp-action="ChangeBranch" asp-controller="Attendance">Change Employee</a></li>
+                            <li><a asp-action="Index" asp-controller="Attendance">Attendance</a></li>
+                        </ul> *@
+                    </li>
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link" asp-route="Index">
+                            <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#ffffff" fill-rule="evenodd" d="M6.9 0h.2A2.9 2.9 0 0 1 10 2.9v1.2A2.9 2.9 0 0 1 7.1 7h-.2A2.9 2.9 0 0 1 4 4.1V2.9A2.9 2.9 0 0 1 6.9 0z M14.81 4.58l-4.15 5.82c.226.503.341 1.049.34 1.6v4.67A1.336 1.336 0 0 1 9.67 18l-5.34-.01A1.327 1.327 0 0 1 3 16.67V12a4.012 4.012 0 0 1 4-4 3.9 3.9 0 0 1 2.36.79l3.83-5.37a1 1 0 0 1 1.62 1.16z"></path> </g></svg>
                             <svg class="fill-icon">
                                 <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
                             </svg>
                             <span>Attendance</span>
                         </a>
-                        <ul class="sidebar-submenu">
+                        @*                         <ul class="sidebar-submenu">
                             <li><a asp-action="ChangeBranch" asp-controller="Attendance">Change Employee</a></li>
                             <li><a asp-action="Index" asp-controller="Attendance">Attendance</a></li>
-                        </ul>
+                        </ul> *@
+                    </li>
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link" asp-route="Index">
+                            <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#ffffff" fill-rule="evenodd" d="M6.9 0h.2A2.9 2.9 0 0 1 10 2.9v1.2A2.9 2.9 0 0 1 7.1 7h-.2A2.9 2.9 0 0 1 4 4.1V2.9A2.9 2.9 0 0 1 6.9 0z M14.81 4.58l-4.15 5.82c.226.503.341 1.049.34 1.6v4.67A1.336 1.336 0 0 1 9.67 18l-5.34-.01A1.327 1.327 0 0 1 3 16.67V12a4.012 4.012 0 0 1 4-4 3.9 3.9 0 0 1 2.36.79l3.83-5.37a1 1 0 0 1 1.62 1.16z"></path> </g></svg>
+                            <svg class="fill-icon">
+                                <use href="../assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                            </svg>
+                            <span>Attendance View</span>
+                        </a>
+                        @*                         <ul class="sidebar-submenu">
+                            <li><a asp-action="ChangeBranch" asp-controller="Attendance">Change Employee</a></li>
+                            <li><a asp-action="Index" asp-controller="Attendance">Attendance</a></li>
+                        </ul> *@
                     </li>
                 }
 

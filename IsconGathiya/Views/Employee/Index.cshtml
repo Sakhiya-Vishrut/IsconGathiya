@@ -49,51 +49,84 @@
                 <div class="card-body basic-wizard important-validation">
                     <div id="msform p-3">
                         <div class="stepper-one row needs-validation custom-input" novalidate="">
+                            <div class="row">
 
-                            <div class="col-md-3 position-relative">
-                                <label class="form-label" for="stateSelect">State</label>
-                                <select class="form-control w-100 select2-state gridFilterElements"
-                                        id="stateDropDown"
-                                        onchange="loadCitiesByState(this.value)"
-                                        asp-for="employeeDetails.StateId"
-                                        data-placeholder="Select State" required>
-                                    <option value="">-- Select State --</option>
-                                </select>
-                                <div class="invalid-tooltip">Please select a valid State.</div>
-                            </div>
-                            <div class="col-md-3 position-relative">
-                                <label class="form-label" for="citySelect">City</label>
-                                <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                                        id="cityDropDown"
-                                        asp-for="employeeDetails.CityId"
-                                        data-placeholder="Select City" required>
-                                    <option value="">-- Select City --</option>
-                                </select>
-                                <div class="invalid-tooltip">Please select a valid City.</div>
-                            </div>
-                            <div class="col-md-3 position-relative">
-                                <label class="form-label" for="citySelect">Shift</label>
-                                @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
-                                {
-                                    <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements "
-                                            id="ShiftDropdown"
-                                            asp-items="Model.ShiftTypeList"
-                                            data-placeholder="Select ShiftType" required>
-                                        <option value="">Select Shift</option>
+                                <!-- State Dropdown -->
+                                <div class="col-md-3 position-relative mb-3">
+                                    <label class="form-label" for="stateDropDown">State</label>
+                                    <select class="form-control w-100 select2-state gridFilterElements"
+                                            id="stateDropDown"
+                                            onchange="loadCitiesByState(this.value)"
+                                            asp-for="employeeDetails.StateId"
+                                            data-placeholder="Select State" required>
+                                        <option value="">-- Select State --</option>
                                     </select>
-                                }
+                                    <div class="invalid-tooltip">Please select a valid State.</div>
+                                </div>
+
+                                <!-- City Dropdown -->
+                                <div class="col-md-3 position-relative mb-3">
+                                    <label class="form-label" for="cityDropDown">City</label>
+                                    <select class="form-control w-100 select2-city gridFilterElements"
+                                            id="cityDropDown"
+                                            asp-for="employeeDetails.CityId"
+                                            data-placeholder="Select City" required>
+                                        <option value="">-- Select City --</option>
+                                    </select>
+                                    <div class="invalid-tooltip">Please select a valid City.</div>
+                                </div>
+
+                                <!-- Shift Dropdown -->
+                                <div class="col-md-3 position-relative mb-3">
+                                    <label class="form-label" for="ShiftDropdown">Shift</label>
+                                    @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                                    {
+                                        <select class="form-control w-100 select2-city gridFilterElements"
+                                                id="ShiftDropdown"
+                                                asp-for="employeeDetails.Shift"
+                                                asp-items="Model.ShiftTypeList"
+                                                data-placeholder="Select ShiftType" required>
+                                            <option value="">Select Shift</option>
+                                        </select>
+                                    }
+                                </div>
+
+                                <!-- Branch Dropdown -->
+                                <div class="col-md-3 position-relative mb-3">
+                                    <label class="form-label required-validation" for="BranchDropDown">Branch</label>
+                                    <select class="form-control w-100 select2-city gridFilterElements"
+                                            id="BranchDropDown"
+                                            asp-for="employeeDetails.BranchId"
+                                            asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
+                                            data-placeholder="Select Branch" required>
+                                        <option value="">Select Branch</option>
+                                    </select>
+                                </div>
+
+                                <!-- Employee Name Input -->
+                                <div class="col-md-3 position-relative mb-3">
+                                    <label class="form-label required-validation" for="firstName">Employee Name</label>
+                                    <input type="text"
+                                           class="form-control gridFilterElements"
+                                           asp-for="employeeDetails.EmployeeName"
+                                           id="EmployeeName"
+                                           placeholder="Enter employee name"
+                                           required />
+                                </div>
+
+                                <div class="col-md-3 position-relative mb-3">
+                                    <label class="form-label required-validation" for="employeeId">Staff Id</label>
+                                    <input type="number"
+                                           class="form-control gridFilterElements"
+                                           asp-for="employeeDetails.StaffId"
+                                           id="employeeId"
+                                           placeholder="Enter Staff Id"
+                                           required />
+                                </div>
+
                             </div>
 
-                            <div class="col-sm-3">
-                                <label class="form-label required-validation">Branch</label>
-                                <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                                    id="BranchDropDown"
-                                    asp-for="employeeDetails.BranchId"
-                                    asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
-                                    data-placeholder="Select Branch" required>
-                                    <option value="">Select Branch</option>
-                                </select>
-                            </div>
+
                             <div class="wizard-footer d-flex justify-content-end gap-2 col-lg-12 col-md-12 col-sm-12 mt-3">
                                 <button class="btn btn-primary" onclick="GridPagination('employeeList_Grid',1,'@gridUrl','ClientUserID')">Search</button>
                                 <button class="btn btn-danger" onclick="Clearfilter(); GridPagination('employeeList_Grid',1,'@gridUrl','ClientUserID');" type="button">Clear</button>

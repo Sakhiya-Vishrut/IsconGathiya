@@ -122,6 +122,13 @@ namespace IsconGathiya.Common
             [Description("Night")]
             Night = 2,
         }
+        public enum Status
+        {
+            [Description("Present")]
+            Present = 1,
+            [Description("Absent")]
+            Absent = 2,
+        }
 
         public enum PasswordChanges
         {

@@ -10,7 +10,7 @@ namespace IsconGathiya.Service.Employee
 {
     public interface IEmployeeRepository
     {
-        List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filterBranch, int? filtershift, int pageSize, int pageIndex, string columnName, string sortDirection);
+        List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filterBranch, int? filtershift, string? EmployeeName, string? staffId, int pageSize, int pageIndex, string columnName, string sortDirection);
         EmployeeDTO GetEmployeeDetails(int? Employeeid);
         EmployeeDTO GetEmployeeViewmodel(int? Employeeid);
         Task<bool> DeleteEmployee(int? EmployeeId);

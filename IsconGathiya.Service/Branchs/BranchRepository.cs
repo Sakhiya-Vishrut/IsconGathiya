@@ -19,24 +19,28 @@ namespace IsconGathiya.Service.Branchs
         {
             _context = context;
         }
+        #region GetBranchDataWithFilter
         public async Task<List<BranchDTO>> GetBranchDataWithFilter()
         {
             try
             {
-                var brbranch = _context.Branches.Where(b => b.DeletedAt == null);
-
+                var brbranch = _context.Branches.Where(b => b.DeletedAt == null).OrderByDescending(b => b.ModifiedAt);
+                
                 var branchList = brbranch.Select(b => new BranchDTO
                 {
                     branch = b,
                 }).ToList();
 
                 return branchList;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw;
             }
         }
+        #endregion
 
+        #region AddEditBranch
         public async Task<bool> AddEditBranch(Branch model, int userId)
         {
             try
@@ -64,6 +68,7 @@ namespace IsconGathiya.Service.Branchs
                             existingBranches.StateId = model.StateId;
                             existingBranches.CityId = model.CityId;
                             existingBranches.ModifiedBy = userId;
+                            existingBranches.ModifiedAt = CurrentDate;
                             existingBranches.Address = model.Address;
 
                             _context.Branches.Update(existingBranches);
@@ -79,8 +84,8 @@ namespace IsconGathiya.Service.Branchs
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return false;
             }
-        }
-
+        } 
+        #endregion
 
         #region DetailBranch
         public BranchDTO DetailBranch(int? branchId)

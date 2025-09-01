@@ -20,6 +20,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Branch> Branches { get; set; }
 
+    public virtual DbSet<EmpAttendance> EmpAttendances { get; set; }
+
     public virtual DbSet<EmpEmployee> EmpEmployees { get; set; }
 
     public virtual DbSet<LocCity> LocCities { get; set; }
@@ -53,6 +55,17 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Country).WithMany(p => p.Branches).HasConstraintName("Branch_Country_fkey");
 
             entity.HasOne(d => d.State).WithMany(p => p.Branches).HasConstraintName("Branch_StateId_fkey");
+        });
+
+        modelBuilder.Entity<EmpAttendance>(entity =>
+        {
+            entity.HasKey(e => e.AttendancId).HasName("EMP_Attendanc_pkey");
+
+            entity.Property(e => e.AttendancId).HasDefaultValueSql("nextval('\"EMP_Attendanc_AttendancId_seq\"'::regclass)");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.EmpAttendances)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("EMP_Attendanc_EmployeeId_fkey");
         });
 
         modelBuilder.Entity<EmpEmployee>(entity =>

@@ -17,8 +17,9 @@ namespace IsconGathiya.Service.Employee
         {
             _context = context;
         }
+
         #region GetEmployeeDataWithFilter
-        public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filterBranch, int? filtershift, int pageSize, int pageIndex, string columnName, string sortDirection)
+        public List<EmployeeDTO> GetEmployeeDataWithFilter(int? filterState, int? filterCity, int? filterBranch, int? filtershift, string? EmployeeName, string? stafId, int pageSize, int pageIndex, string columnName, string sortDirection)
         {
             var baseQuery = (from employee in _context.EmpEmployees
                              join bra in _context.Branches on employee.BranchId equals bra.BranchId into branchjoin
@@ -32,6 +33,8 @@ namespace IsconGathiya.Service.Employee
                                 && (!filterCity.HasValue || city.Id == filterCity.Value)
                                 && (!filterBranch.HasValue || branch.BranchId == filterBranch.Value)
                                 && (!filtershift.HasValue || employee.Shift == filtershift.Value)
+                                && (string.IsNullOrEmpty(EmployeeName) || employee.EmployeeName.ToLower().Contains(EmployeeName.ToLower()))
+                                && (string.IsNullOrEmpty(stafId) || employee.StaffId.ToLower().Contains(stafId.ToLower()))
 
                              orderby employee.ModifiedAt descending
                              select new EmployeeDTO

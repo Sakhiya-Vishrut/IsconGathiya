@@ -71,11 +71,11 @@ namespace IsconGathiya.Controllers
                 
                 if(model.branchDetails.BranchId == 0)
                 {
-                    AddSweetAlertSuccessPopup(ConstantMessage.Branch);
+                    AddSweetAlertWarinigPopup(ConstantMessage.Branch);
 
                 } else
                 {
-                    AddSweetAlertSuccessPopup(ConstantMessage.BranchEditSuccessful);
+                    AddSweetAlertWarinigPopup(ConstantMessage.BranchEditSuccessful);
                 }
 
                 return RedirectToAction("Index");

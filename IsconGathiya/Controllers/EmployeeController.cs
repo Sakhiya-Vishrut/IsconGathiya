@@ -38,7 +38,7 @@ namespace IsconGathiya.Controllers
                 employee.GenderTypeList = EnumHelper.GetEnumSelectList<Enums.Gender>();
                 employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
                 employee.employeeDetails.BranchList = _employeeRepository.GetBranchList();
-                employee.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(null, null, null, null, employee.PageSize, employee.PageIndex, employee.ColumnName, employee.SortDirection).ToModel();
+                employee.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(null, null, null, null, null,null, employee.PageSize, employee.PageIndex, employee.ColumnName, employee.SortDirection).ToModel();
                 return View(employee);
             }
             catch (Exception e)
@@ -67,6 +67,8 @@ namespace IsconGathiya.Controllers
                 int? filterCity = null;
                 int? filterBranch = null;
                 int? filtershift = null;
+                string? staffid = null;
+                string? EmployeeName = null;
 
                 if (!string.IsNullOrEmpty(filterObj))
                 {
@@ -74,9 +76,11 @@ namespace IsconGathiya.Controllers
                     filterCity = CommonHelper.GetFilterPropertyValueInt(filterObj, "cityDropDown");
                     filterBranch = CommonHelper.GetFilterPropertyValueInt(filterObj, "BranchDropDown");
                     filtershift = CommonHelper.GetFilterPropertyValueInt(filterObj, "ShiftDropdown");
+                    staffid = CommonHelper.GetFilterPropertyValue(filterObj, "employeeId");
+                    EmployeeName = CommonHelper.GetFilterPropertyValue(filterObj, "EmployeeName");
                 }
 
-                Viewmodel.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(filterState, filterCity, filterBranch, filtershift, Viewmodel.PageSize, Viewmodel.PageIndex, columnName, sortDirection).ToModel();
+                Viewmodel.employeeDetailsList = _employeeRepository.GetEmployeeDataWithFilter(filterState, filterCity, filterBranch, filtershift, EmployeeName, staffid, Viewmodel.PageSize, Viewmodel.PageIndex, columnName, sortDirection).ToModel();
 
                 return PartialView("_Partial_Employee_GridBody", Viewmodel);
             }
@@ -131,7 +135,7 @@ namespace IsconGathiya.Controllers
                     successMessage = (employeeViewModel.employeeDetails.EmployeeId == null || employeeViewModel.employeeDetails.EmployeeId == 0)
                         ? ConstantMessage.EmployeeAdded
                         : ConstantMessage.EmployeeEdit;
-                    AddSweetAlertSuccessPopup(successMessage);
+                    AddSweetAlertWarinigPopup(successMessage);
                 }
                 else
                 {

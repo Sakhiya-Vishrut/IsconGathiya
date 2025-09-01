@@ -2,9 +2,7 @@
 @using IsconGathiya.Common
 @model EmployeeViewModel
 
-@{
-    int i = ((Model.PageIndex - 1) * Model.PageSize) + 1;
-}
+
 
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/vendors/datatables.css")">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -13,27 +11,47 @@
 <form asp-action="ChangeBranch" asp-controller="Attendance" method="post" id="changeBranchForm">
 
     <div class="row align-items-center mb-3">
-        <div class="col-md-2">
-            <label for="BranchDropDown" class="form-label required-validation mb-0">Change Branch</label>
+        <!-- Change Branch -->
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <label for="BranchDropDown" class="form-label mb-0 me-2" style="min-width: 130px;">Change Branch</label>
+                <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
+                        id="BranchDropDown"
+                        asp-for="employeeDetails.BranchId"
+                        asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
+                        data-placeholder="Select Branch">
+                    <option value="">Select Branch</option>
+                </select>
+            </div>
         </div>
-        <div class="col-md-9">
-            <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
-                    id="BranchDropDown"
-                    asp-for="employeeDetails.BranchId"
-                    asp-items="@(new SelectList(Model.employeeDetails.BranchList, "BranchId", "BranchName"))"
-                    data-placeholder="Select Branch">
-                <option value="">Select Branch</option>
-            </select>
+
+        <!-- Change Shift -->
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <label for="ShifsdftDropdown" class="form-label mb-0 me-2" style="min-width: 130px;">Change Shift</label>
+                @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                {
+                    <select class="form-control selectMode w-100 rounded border select2-city gridFilterElements"
+                            id="ShifsdftDropdown"
+                            asp-for="employeeDetails.Shift"
+                            asp-items="Model.ShiftTypeList"
+                            data-placeholder="Select ShiftType">
+                        <option value="">Select Shift</option>
+                    </select>
+                }
+            </div>
         </div>
     </div>
+
 
     <table class="table table-striped table-bordered display w-100" style="width:100%" id="basic-2">
         <thead>
             <tr>
-                <th scope="col" class="text-center">Select</th>
+                <th scope="col" class="text-center">No</th>
                 <th scope="col" class="text-center">Employee Name</th>
                 <th scope="col" class="text-center">Branch</th>
                 <th scope="col" class="text-center">Shift</th>
+                <th scope="col" class="text-center">Select</th>
             </tr>
         </thead>
         <tbody>
@@ -45,9 +63,16 @@
             }
             else
             {
+                int i = 1;
                 foreach (var item in Model.employeeDetailsList)
                 {
                     <tr class="jsgrid-row @(item.IsActive.HasValue && item.IsActive.Value ? "bg-light-success" : "bg-light-danger")">
+                        <td class="text-center">@(i++)</td>
+                        <td class="text-center">@item.EmployeeName</td>
+                        <td class="text-center">@item.BranchName</td>
+                        <td class="text-center">
+                            @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "_")
+                        </td>
                         <td class="text-center">
                             <div class="form-check form-switch justify-content-center d-flex">
                                 <input class="form-check-input toggle-active"
@@ -59,12 +84,8 @@
                                        data-employee-id="@item.EmployeeId" />
                             </div>
                         </td>
-                        <td class="text-center">@item.EmployeeName</td>
-                        <td class="text-center">@item.BranchName</td>
-                        <td class="text-center">
-                            @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "_")
-                        </td>
                     </tr>
+                   
                 }
             }
         </tbody>

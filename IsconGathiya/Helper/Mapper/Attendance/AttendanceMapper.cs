@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using IsconGathiya.Domain;
+using IsconGathiya.Domain.DataModels;
+using static IsconGathiya.ViewModel.AttendanceViewModel;
 using static IsconGathiya.ViewModel.EmployeeViewModel;
 
 namespace IsconGathiya.Helper.Mapper.Attendance
@@ -21,6 +23,22 @@ namespace IsconGathiya.Helper.Mapper.Attendance
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<EmployeeDTO>, List<EmployeeDetails>>(entity);
+        }
+
+        public static List<EmpAttendance> ToModel(this List<AttendanceDetails> entity)
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<AttendanceDetails, EmpAttendance>()
+                    .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.EmployeeId))
+                    .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.AttendancId))
+                    .ForMember(dest => dest.SignInDate, mo => mo.MapFrom(src => src.SignInDate))
+                    .ForMember(dest => dest.SignoutDate, mo => mo.MapFrom(src => src.SignoutDate))
+                    .ForMember(dest => dest.Status, mo => mo.MapFrom(src => src.Status))
+                    .ForMember(dest => dest.Status, mo => mo.MapFrom(src => (short)src.Status))
+                    .ForMember(dest => dest.Reason, mo => mo.MapFrom(src => src.Reason));
+            });
+            IMapper mapper = config.CreateMapper();
+            return mapper.Map<List<AttendanceDetails>, List<EmpAttendance>>(entity);
         }
     }
 }

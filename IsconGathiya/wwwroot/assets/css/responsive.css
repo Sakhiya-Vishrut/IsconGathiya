@@ -874,6 +874,7 @@
   }
   .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .logo-wrapper {
     padding: 17px 30px;
+    padding-top:2px;
   }
   .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .logo-wrapper .back-btn {
     display: inline-block;
@@ -3438,6 +3439,7 @@
   }
   .sidebar-wrapper .back-btn {
     display: none;
+    padding-top:18px;
   }
 }
 @media (width: 768px) and (height: 1024px) {

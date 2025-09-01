@@ -14,6 +14,9 @@ namespace IsconGathiya.Service.Attendance
 
         List<Branch> GetBranchList();
 
-        void UpdateEmployeeBranch(int employeeId, int newBranchId);
+        void UpdateEmployeeBranch(int employeeId, int newBranchId, int shift);
+
+        Task<bool> AddEditAttendance(List<EmpAttendance> model,bool isBetweenMidnightAnd7AM);
+
     }
 }

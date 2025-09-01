@@ -88,6 +88,9 @@ public partial class EmpEmployee
     [InverseProperty("EmpEmployees")]
     public virtual LocCity City { get; set; } = null!;
 
+    [InverseProperty("Employee")]
+    public virtual ICollection<EmpAttendance> EmpAttendances { get; set; } = new List<EmpAttendance>();
+
     [ForeignKey("StateId")]
     [InverseProperty("EmpEmployees")]
     public virtual LocState State { get; set; } = null!;
