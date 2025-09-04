@@ -135,7 +135,7 @@ namespace IsconGathiya.Controllers
                     successMessage = (employeeViewModel.employeeDetails.EmployeeId == null || employeeViewModel.employeeDetails.EmployeeId == 0)
                         ? ConstantMessage.EmployeeAdded
                         : ConstantMessage.EmployeeEdit;
-                    AddSweetAlertWarinigPopup(successMessage);
+                    AddSweetAlertSuccessPopup(successMessage);
                 }
                 else
                 {

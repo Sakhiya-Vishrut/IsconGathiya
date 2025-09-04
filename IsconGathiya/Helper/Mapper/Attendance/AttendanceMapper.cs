@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿// File: Mappers/AttendanceMapper.cs
+using AutoMapper;
 using IsconGathiya.Domain;
 using IsconGathiya.Domain.DataModels;
 using static IsconGathiya.ViewModel.AttendanceViewModel;
@@ -19,7 +20,9 @@ namespace IsconGathiya.Helper.Mapper.Attendance
                     .ForMember(dest => dest.StaffId, mo => mo.MapFrom(src => src.employee.StaffId))
                     .ForMember(dest => dest.IsActive, mo => mo.MapFrom(src => src.employee.IsActive))
                     .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => src.employee.Shift))
-                    .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => (short)src.employee.Shift));
+                    .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => (short)src.employee.Shift))
+                    .ForMember(dest => dest.AttendanceId, mo => mo.MapFrom(src => src.attendance != null ? src.attendance.AttendancId : (int?)null))
+                    .ForMember(dest => dest.AttendanceStatus, mo => mo.MapFrom(src => src.attendance != null ? src.attendance.Status : (short?)null));
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<EmployeeDTO>, List<EmployeeDetails>>(entity);

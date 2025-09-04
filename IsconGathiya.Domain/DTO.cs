@@ -19,13 +19,14 @@ namespace IsconGathiya.Domain
     {
         public Branch branch { get; set; }
     }
+    // File: DTOs/EmployeeDTO.cs
     public class EmployeeDTO : TotalRecord
     {
         public EmpEmployee employee { get; set; }
         public LocCity city { get; set; }
         public LocState state { get; set; }
         public Branch branch { get; set; }
-
+        public EmpAttendance attendance { get; set; }
     }
     public class AttandenceDTO : TotalRecord
     {

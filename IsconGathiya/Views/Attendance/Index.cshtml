@@ -3,58 +3,57 @@
 @using IsconGathiya.Common
 @model EmployeeViewModel
 
-
 <div class="container-fluid mt-2">
     <div class="row">
         <div class="col-sm-12">
             <div class="card p-3">
                 <div class="card-block row">
                     <!-- Shift Dropdown -->
-                    
-                        <div class="col-md-9">
-                            @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
-                            {
-                                var now = DateTime.Now.TimeOfDay;
-                                var isDayTime = now >= TimeSpan.FromHours(7) && now < TimeSpan.FromHours(19); 
+                    <div class="col-md-9">
+                        @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
+                        {
+                            var now = DateTime.Now.TimeOfDay;
+                            var isDayTime = now >= TimeSpan.FromHours(7) && now < TimeSpan.FromHours(19);
 
-                                <div id="ShiftSwitchGroup" class="d-flex flex-wrap gap-2">
-                                    @foreach (var shift in Model.ShiftTypeList)
-                                    {
-                                        var shiftTextLower = shift.Text.ToLower();
-                                        var isDayShift = shiftTextLower == "day";
-                                        var shouldBeChecked = (isDayShift && isDayTime) || (!isDayShift && !isDayTime);
-                                        var shouldBeDisabled = (isDayShift && !isDayTime) || (!isDayShift && isDayTime);
+                            <div id="ShiftSwitchGroup" class="d-flex flex-wrap gap-2">
+                                @foreach (var shift in Model.ShiftTypeList)
+                                {
+                                    var shiftTextLower = shift.Text.ToLower();
+                                    var isDayShift = shiftTextLower == "day";
+                                    var shouldBeChecked = (isDayShift && isDayTime) || (!isDayShift && !isDayTime);
+                                    var shouldBeDisabled = (isDayShift && !isDayTime) || (!isDayShift && isDayTime);
 
-                                        <input type="radio" class="btn-check"
-                                               name="shiftType"
-                                               value="@shift.Value"
-                                               id="shift_@shift.Value"
-                                               autocomplete="off"
-                                               @(shouldBeChecked ? "checked" : "")
-                                               @(shouldBeDisabled ? "disabled" : "") />
+                                    <input type="radio" class="btn-check"
+                                           name="shiftType"
+                                           value="@shift.Value"
+                                           id="shift_@shift.Value"
+                                           autocomplete="off"
+                                           @(shouldBeChecked ? "checked" : "")
+                                           @(shouldBeDisabled ? "disabled" : "") />
 
-                                        <label class="btn btn-outline-primary @(shouldBeDisabled ? "disabled" : "")" for="shift_@shift.Value">@shift.Text</label>
-                                    }
-                                </div>
-                            }
-                        </div>
-                       
-                            <div class="col-md-3 py-2">
-                                <h5 class="mb-0 text-muted">
-                                    @DateTime.Now.ToString("dddd, dd MMMM yyyy")
-                                </h5>
+                                    <label class="btn btn-outline-primary @(shouldBeDisabled ? "disabled" : "")" for="shift_@shift.Value">@shift.Text</label>
+                                }
                             </div>
-                      
+                        }
+                    </div>
 
+                    <div class="col-md-3 py-2">
+                        @{
+                            var currentNow = DateTime.Now;
+                            var is7PMTo7AM = currentNow.TimeOfDay >= TimeSpan.FromHours(19) || currentNow.TimeOfDay < TimeSpan.FromHours(7);
+                            var displayDate = is7PMTo7AM ? currentNow.AddDays(-1) : currentNow;
+                        }
+                        <h5 class="mb-0 text-muted">
+                            @displayDate.ToString("dddd, dd MMMM yyyy")
+                        </h5>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+</div>
 
 <!-- Grid Body Container -->
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
@@ -78,31 +77,28 @@
             $shiftInputs.on('change', function () {
                 const shiftValue = $(this).val();
 
-                switch (shiftValue) {
-                    case "":
-                        alert("Please select a valid shift.");
-                        break;
-
-                    default:
-                        fnShowMainProgress();
-
-                        $.ajax({
-                            url: '@Url.Action("GetEmployeesAttendenceByShift", "Attendance")',
-                            type: 'GET',
-                            data: { shiftType: shiftValue },
-                            success: function (response) {
-                                $('#AttendanceTableContainer').html(response);
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error loading data:", xhr.status, error);
-                                alert("Error loading employee data. Please try again.");
-                            },
-                            complete: function () {
-                                fnHideMainProgress();
-                            }
-                        });
-                        break;
+                if (!shiftValue) {
+                    alert("Please select a valid shift.");
+                    return;
                 }
+
+                fnShowMainProgress();
+
+                $.ajax({
+                    url: '@Url.Action("GetEmployeesAttendenceByShift", "Attendance")',
+                    type: 'GET',
+                    data: { shiftType: shiftValue },
+                    success: function (response) {
+                        $('#AttendanceTableContainer').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error loading data:", xhr.status, error);
+                        alert("Error loading employee data. Please try again.");
+                    },
+                    complete: function () {
+                        fnHideMainProgress();
+                    }
+                });
             });
 
             $shiftInputs.filter(':checked').trigger('change');

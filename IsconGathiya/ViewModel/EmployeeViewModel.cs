@@ -1,4 +1,5 @@
-﻿using IsconGathiya.Domain.DataModels;
+﻿// File: ViewModels/EmployeeViewModel.cs
+using IsconGathiya.Domain.DataModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,7 @@ namespace IsconGathiya.ViewModel
         public List<SelectListItem> GenderTypeList { get; set; }
         public List<SelectListItem> ShiftTypeList { get; set; }
         public EmployeeDetails employeeDetails { get; set; }
-
+        public bool IsAttendanceCompleted { get; set; }
         public class EmployeeDetails
         {
             public int EmployeeId { get; set; }
@@ -106,6 +107,8 @@ namespace IsconGathiya.ViewModel
             public List<Branch> BranchList { get; set; }
             public int TotalRecords { get; set; }
             public List<int> SelectedEmployeeIds { get; set; }
+            public int? AttendanceId { get; set; }
+            public short? AttendanceStatus { get; set; }
         }
     }
 }

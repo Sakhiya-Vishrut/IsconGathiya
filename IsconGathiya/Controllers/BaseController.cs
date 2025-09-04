@@ -124,7 +124,7 @@ namespace IsconGathiya.Controllers
         /// Sweet alert - success message
         /// </summary>
         /// <param name="message">Message</param>
-        protected virtual void AddSweetAlertWarinigPopup(string message)
+        protected virtual void AddSweetAlertSuccessPopup(string message)
         {
             string dataKey = string.Format("IsconGathiya.sweet.success.alert.popup");
             TempData[dataKey] = message;

@@ -7,6 +7,7 @@ using IsconGathiya.Helper.Mapper.Attendance;
 using IsconGathiya.Service.Attendance;
 using IsconGathiya.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace IsconGathiya.Controllers
 {
@@ -20,6 +21,13 @@ namespace IsconGathiya.Controllers
             _attendanceRepository = attendanceRepository;
         }
 
+        private DateTime GetAttendanceDate()
+        {
+            DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+            bool isBetweenMidnightAnd7AM = currentDate.TimeOfDay >= TimeSpan.Zero && currentDate.TimeOfDay < TimeSpan.FromHours(7);
+            return (isBetweenMidnightAnd7AM ? currentDate.AddDays(-1) : currentDate).Date;
+        }
+
         #region Index
         [HttpGet, Route("Attendance/Index", Name = "Index")]
         public IActionResult Index(short? shiftType = null)
@@ -29,9 +37,16 @@ namespace IsconGathiya.Controllers
                 var employee = new EmployeeViewModel();
                 employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
 
-                var selectedShift = shiftType ?? (short)Enums.Shift.Day;
-                employee.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), selectedShift).ToModel();
+                DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                TimeSpan nowTime = currentDate.TimeOfDay;
+                bool isDayTime = nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19);
+                bool isNightShift = nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7);
+                var selectedShift = shiftType ?? (isDayTime ? (short)Enums.Shift.Day : (short)Enums.Shift.Night);
+
+                var attendanceDate = (isNightShift && nowTime < TimeSpan.FromHours(7)) ? currentDate.AddDays(-1).Date : currentDate.Date;
+                employee.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel();
                 employee.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
+                employee.IsAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(int.Parse(CV.Branch()), attendanceDate, isNightShift);
 
                 return View(employee);
             }
@@ -53,10 +68,8 @@ namespace IsconGathiya.Controllers
 
 
                 var selectedShift = shiftType ?? (short)Enums.Shift.Day;
-
-                employee.employeeDetailsList = _attendanceRepository
-                    .GetEmployeeDataWithFilter(int.Parse(CV.Branch()), selectedShift)
-                    .ToModel();
+                var attendanceDate = GetAttendanceDate();
+                employee.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel();
                 employee.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
 
                 return View(employee);
@@ -73,9 +86,10 @@ namespace IsconGathiya.Controllers
         [HttpGet]
         public IActionResult GetEmployeesByShift(short shiftType)
         {
+            var attendanceDate = GetAttendanceDate();
             var employeeVM = new EmployeeViewModel
             {
-                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType).ToModel()
+                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
             };
             employeeVM.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
             employeeVM.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
@@ -84,13 +98,14 @@ namespace IsconGathiya.Controllers
         }
         #endregion
 
-        #region GetEmployeesByShift
+        #region GetEmployeesAttendenceByShift
         [HttpGet]
         public IActionResult GetEmployeesAttendenceByShift(short shiftType)
         {
+            var attendanceDate = GetAttendanceDate();
             var employeeVM = new EmployeeViewModel
             {
-                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType).ToModel()
+                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
             };
             employeeVM.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
             employeeVM.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
@@ -103,9 +118,10 @@ namespace IsconGathiya.Controllers
         [HttpGet]
         public IActionResult GetAttendanceEmployeesByShift(short shiftType)
         {
+            var attendanceDate = GetAttendanceDate();
             var employeeVM = new EmployeeViewModel
             {
-                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType).ToModel()
+                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
             };
             employeeVM.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
 
@@ -126,16 +142,17 @@ namespace IsconGathiya.Controllers
 
                     foreach (var employeeId in SelectedEmployeeIds)
                     {
-                        _attendanceRepository.UpdateEmployeeBranch(employeeId, newBranchId,shift);
+                        _attendanceRepository.UpdateEmployeeBranch(employeeId, newBranchId, shift);
                     }
 
-                    AddSweetAlertWarinigPopup(ConstantMessage.EmployeeChange);
+                    AddSweetAlertSuccessPopup(ConstantMessage.EmployeeChange);
                     return RedirectToAction("ChangeBranch");
                 }
                 else
                 {
                     model.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
-                    model.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), (short)Enums.Shift.Day).ToModel();
+                    var attendanceDate = GetAttendanceDate();
+                    model.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), (short)Enums.Shift.Day, attendanceDate).ToModel();
                     return View(model);
                 }
             }
@@ -154,19 +171,38 @@ namespace IsconGathiya.Controllers
             try
             {
                 var adminId = Convert.ToInt32(CV.AdminId());
-                DateTime fixedTime = new DateTime(2025, 8, 31, 20, 0, 0, 0);
-                TimeSpan nowTime = fixedTime.TimeOfDay;/* DateTime.Now.TimeOfDay;*/
+                var branchId = int.Parse(CV.Branch());
+                DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                TimeSpan nowTime = currentDate.TimeOfDay;
                 bool isBetweenMidnightAnd7AM = nowTime >= TimeSpan.Zero && nowTime < TimeSpan.FromHours(7);
+                bool isNightShift = nowTime >= TimeSpan.FromHours(19) || isBetweenMidnightAnd7AM;
 
-                bool isSuccess = await _attendanceRepository.AddEditAttendance(model.attendanceDetailsList.ToModel(),isBetweenMidnightAnd7AM);
+                bool isValidShift = (isNightShift && (nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7))) ||
+                                   (!isNightShift && nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19));
+                if (!isValidShift)
+                {
+                    AddSweetAlertWarningPopup("Invalid shift selection for the current time.");
+                    return RedirectToAction("Index");
+                }
+
+                DateTime attendanceDate = isNightShift && isBetweenMidnightAnd7AM ? currentDate.AddDays(-1).Date : currentDate.Date;
+
+                bool isAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(branchId, attendanceDate, isNightShift);
+                if (isAttendanceCompleted)
+                {
+                    AddSweetAlertWarningPopup(ConstantMessage.ShiftAttendanceComplate);
+                    return RedirectToAction("Index");
+                }
+
+                bool isSuccess = await _attendanceRepository.AddEditAttendance(model.attendanceDetailsList.ToModel(), isBetweenMidnightAnd7AM);
 
                 if (isSuccess)
                 {
-                    AddSweetAlertWarinigPopup(ConstantMessage.Branch);
+                    AddSweetAlertSuccessPopup(ConstantMessage.AttendanceComplate);
                 }
                 else
                 {
-                    AddSweetAlertWarinigPopup(ConstantMessage.Branch);
+                    AddSweetAlertErrorPopup("Failed to save attendance. Please try again.");
                 }
                 return RedirectToAction("Index");
             }

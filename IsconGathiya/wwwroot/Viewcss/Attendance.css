@@ -1,0 +1,284 @@
+﻿:root {
+    --primary-color: #006666; /* Deep teal from user input */
+    --accent-color: #e76f51; /* Warm coral for contrast */
+    --success-color: #2b996b; /* Muted green for present status */
+    --danger-color: #d32f2f; /* Deep red for absent status */
+    --background-color: #e5e7eb; /* Light gray background */
+    --card-background: #ffffff; /* White card background */
+    --text-primary: #1e293b; /* Dark slate for text */
+    --text-secondary: #475569; /* Muted slate for secondary text */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.form-check {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-checkbox {
+    display: none; 
+}
+
+.custom-checkbox-label {
+    width: 40px;
+    height: 40px;
+    background-color: #dc3545;
+    border-radius: 10px; 
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+    .custom-checkbox-label::before {
+        content: '\2717'; 
+        font-size: 24px; 
+        color: #fff;
+        font-weight: bold;
+    }
+
+.custom-checkbox:checked + .custom-checkbox-label {
+    background-color: #28a745; 
+    transform: scale(1.1);
+}
+
+    .custom-checkbox:checked + .custom-checkbox-label::before {
+        content: '\2713';
+        color: #fff;
+    }
+
+.custom-checkbox-label:hover {
+    background-color: #c82333;
+}
+
+.custom-checkbox:checked + .custom-checkbox-label:hover {
+    background-color: #218838;
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 2rem;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.header-title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.header-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.form-container {
+    background: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .form-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+    .form-header h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .form-header p {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+    }
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-background);
+}
+
+    .table th, .table td {
+        padding: 1.2rem;
+        text-align: center;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table th {
+        background: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .table tbody tr {
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+        .table tbody tr:hover {
+            background: #f9fafb;
+            transform: scale(1.01);
+        }
+
+.status-present {
+    background: var(--success-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status-absent {
+    background: var(--danger-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.branch-badge {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.shift-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.9rem 3rem;
+    border-radius: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background: #004d4d;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+.no-data {
+    text-align: center;
+    padding: 3rem;
+    background: #f9fafb;
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+    .no-data i {
+        font-size: 3rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+    }
+
+    .no-data strong {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+    }
+
+    .no-data p {
+        font-size: 1rem;
+        color: var(--text-secondary);
+    }
+
+@@media (max-width: 768px) {
+    .header-title {
+        font-size: 2.4rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .table th, .table td {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-primary {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+
+    .main-container {
+        padding: 1rem;
+    }
+}
+
+.form-switch.form-switch-lg .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+}
+
+    .form-switch.form-switch-lg .form-check-input:checked {
+        background-position: right center;
+    }
+
+@@media (max-width: 576px) {
+    .table-container {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+
