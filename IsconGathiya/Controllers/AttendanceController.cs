@@ -21,13 +21,6 @@ namespace IsconGathiya.Controllers
             _attendanceRepository = attendanceRepository;
         }
 
-        private DateTime GetAttendanceDate()
-        {
-            DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-            bool isBetweenMidnightAnd7AM = currentDate.TimeOfDay >= TimeSpan.Zero && currentDate.TimeOfDay < TimeSpan.FromHours(7);
-            return (isBetweenMidnightAnd7AM ? currentDate.AddDays(-1) : currentDate).Date;
-        }
-
         #region Index
         [HttpGet, Route("Attendance/Index", Name = "Index")]
         public IActionResult Index(short? shiftType = null)
@@ -38,6 +31,7 @@ namespace IsconGathiya.Controllers
                 employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
 
                 DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
                 TimeSpan nowTime = currentDate.TimeOfDay;
                 bool isDayTime = nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19);
                 bool isNightShift = nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7);
@@ -47,13 +41,22 @@ namespace IsconGathiya.Controllers
                 employee.employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel();
                 employee.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
                 employee.IsAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(int.Parse(CV.Branch()), attendanceDate, isNightShift);
-
+                employee.CanSaveAttendance = !employee.IsAttendanceCompleted;
                 return View(employee);
             }
             catch (Exception e)
             {
                 throw new Exception("An error occurred while fetching employee data.", e);
             }
+        }
+        #endregion
+
+        #region GetAttendanceDate
+        private DateTime GetAttendanceDate()
+        {
+            DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+            bool isBetweenMidnightAnd7AM = currentDate.TimeOfDay >= TimeSpan.Zero && currentDate.TimeOfDay < TimeSpan.FromHours(7);
+            return (isBetweenMidnightAnd7AM ? currentDate.AddDays(-1) : currentDate).Date;
         }
         #endregion
 
@@ -172,8 +175,11 @@ namespace IsconGathiya.Controllers
             {
                 var adminId = Convert.ToInt32(CV.AdminId());
                 var branchId = int.Parse(CV.Branch());
+
                 DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
                 TimeSpan nowTime = currentDate.TimeOfDay;
+
                 bool isBetweenMidnightAnd7AM = nowTime >= TimeSpan.Zero && nowTime < TimeSpan.FromHours(7);
                 bool isNightShift = nowTime >= TimeSpan.FromHours(19) || isBetweenMidnightAnd7AM;
 
@@ -187,7 +193,7 @@ namespace IsconGathiya.Controllers
 
                 DateTime attendanceDate = isNightShift && isBetweenMidnightAnd7AM ? currentDate.AddDays(-1).Date : currentDate.Date;
 
-                bool isAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(branchId, attendanceDate, isNightShift);
+               bool isAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(branchId, attendanceDate, isNightShift);
                 if (isAttendanceCompleted)
                 {
                     AddSweetAlertWarningPopup(ConstantMessage.ShiftAttendanceComplate);
@@ -198,6 +204,7 @@ namespace IsconGathiya.Controllers
 
                 if (isSuccess)
                 {
+                    //bool isAttendanceCompleted =true;
                     AddSweetAlertSuccessPopup(ConstantMessage.AttendanceComplate);
                 }
                 else
@@ -212,6 +219,49 @@ namespace IsconGathiya.Controllers
             }
         }
 
+        #endregion
+
+
+        //#region Absent
+        //[HttpGet, Route("Attendance/Absent", Name = "Absent")]
+        //public IActionResult Absent(short? shiftType = null)
+        //{
+        //    try
+        //    {
+        //        var employee = new AttendanceViewModel();
+
+        //        DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
+        //        TimeSpan nowTime = currentDate.TimeOfDay;
+        //        bool isDayTime = nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19);
+        //        bool isNightShift = nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7);
+        //        var selectedShift = shiftType ?? (isDayTime ? (short)Enums.Shift.Day : (short)Enums.Shift.Night);
+
+        //        var attendanceDate = (isNightShift && nowTime < TimeSpan.FromHours(7)) ? currentDate.AddDays(-1).Date : currentDate.Date;
+        //        employee.attendanceDetailsList = _attendanceRepository.GetEmployeeAttandenceDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel();
+        //        return View(employee);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("An error occurred while fetching employee data.", e);
+        //    }
+        //}
+        //#endregion
+
+        #region GetEmployeesAttendenceAbsentByShift
+        [HttpGet]
+        public IActionResult GetEmployeesAttendenceAbsentByShift(short shiftType)
+        {
+            var attendanceDate = GetAttendanceDate();
+            var employeeVM = new EmployeeViewModel
+            {
+                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
+            };
+            employeeVM.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
+            employeeVM.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
+
+            return PartialView("_Partial_AbsentGridBody", employeeVM);
+        }
         #endregion
     }
 }

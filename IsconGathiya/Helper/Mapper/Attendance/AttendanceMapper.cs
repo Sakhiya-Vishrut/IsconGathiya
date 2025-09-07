@@ -27,6 +27,20 @@ namespace IsconGathiya.Helper.Mapper.Attendance
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<EmployeeDTO>, List<EmployeeDetails>>(entity);
         }
+        public static List<AttendanceDetails> ToModel(this List<AttandenceDTO> entity)
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<AttandenceDTO, AttendanceDetails>()
+                    .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.employee.EmployeeId))
+                    .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.EmpAttendanc.AttendancId))
+                    .ForMember(dest => dest.SignInDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignInDate))
+                    .ForMember(dest => dest.SignoutDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignoutDate))
+                    .ForMember(dest => dest.Status, mo => mo.MapFrom(src => src.EmpAttendanc.Status))
+                    .ForMember(dest => dest.Reason, mo => mo.MapFrom(src => src.EmpAttendanc.Reason));
+            });
+            IMapper mapper = config.CreateMapper();
+            return mapper.Map<List<AttandenceDTO>, List<AttendanceDetails>>(entity);
+        }
 
         public static List<EmpAttendance> ToModel(this List<AttendanceDetails> entity)
         {

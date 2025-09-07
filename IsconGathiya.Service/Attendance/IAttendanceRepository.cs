@@ -13,6 +13,8 @@ namespace IsconGathiya.Service.Attendance
     {
         List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate);
 
+        //List<AttandenceDTO> GetEmployeeAttandenceDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate);
+
         List<Branch> GetBranchList();
 
         void UpdateEmployeeBranch(int employeeId, int newBranchId, int shift);

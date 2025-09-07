@@ -203,6 +203,8 @@ namespace IsconGathiya.Service.Employee
                     existingEmployee.AlternateNumber = model.AlternateNumber;
                     existingEmployee.Address = model.Address;
                     existingEmployee.Education = model.Education;
+                    existingEmployee.FamilyMemberName = model.FamilyMemberName;
+                    existingEmployee.FamilyNumber = model.FamilyNumber; 
                     existingEmployee.Gender = model.Gender;
                     existingEmployee.IsActive = model.IsActive;
                     existingEmployee.JoiningDate = model.JoiningDate;

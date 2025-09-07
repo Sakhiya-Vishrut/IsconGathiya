@@ -32,5 +32,7 @@ namespace IsconGathiya.Domain
     {
         public EmpEmployee employee { get; set; }
         public EmpAttendance EmpAttendanc { get; set; }
+        public Branch branch { get; set; }
+
     }
 }

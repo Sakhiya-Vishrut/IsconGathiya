@@ -80,6 +80,12 @@ public partial class EmpEmployee
 
     public short Shift { get; set; }
 
+    [Column(TypeName = "character varying")]
+    public string? FamilyMemberName { get; set; }
+
+    [Column(TypeName = "character varying")]
+    public string? FamilyNumber { get; set; }
+
     [ForeignKey("BranchId")]
     [InverseProperty("EmpEmployees")]
     public virtual Branch Branch { get; set; } = null!;

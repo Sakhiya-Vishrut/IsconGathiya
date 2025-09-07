@@ -21,6 +21,7 @@ namespace IsconGathiya.ViewModel
         public List<SelectListItem> ShiftTypeList { get; set; }
         public EmployeeDetails employeeDetails { get; set; }
         public bool IsAttendanceCompleted { get; set; }
+        public bool CanSaveAttendance { get; set; }
         public class EmployeeDetails
         {
             public int EmployeeId { get; set; }
@@ -67,6 +68,13 @@ namespace IsconGathiya.ViewModel
             [Required(ErrorMessage = "Address is required.")]
             [StringLength(500, ErrorMessage = "Address cannot exceed 500 characters.")]
             public string? Address { get; set; }
+
+            [Required(ErrorMessage = "Family Member Name is required.")]
+            public string? FamilyMemberName { get; set; }
+
+            [Required(ErrorMessage = "Mobile Number is required.")]
+            [RegularExpression(@"^\d{10}$", ErrorMessage = "Alternate Number must be exactly 10 digits.")]
+            public string? FamilyNumber { get; set; }
 
             public string? EmployeeImage { get; set; }
 

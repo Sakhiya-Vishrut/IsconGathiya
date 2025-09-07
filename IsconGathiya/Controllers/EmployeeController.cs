@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IsconGathiya.Controllers
 {
+    [AuthManager]
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeRepository _employeeRepository;

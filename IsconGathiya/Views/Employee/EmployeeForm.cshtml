@@ -53,10 +53,9 @@
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <input type="number" class="form-control" asp-for="employeeDetails.StaffId" placeholder="Enter staff ID" required>
                                                     <span asp-validation-for="employeeDetails.StaffId" class="text-danger"></span>
-
                                                 </div>
-                                                
-                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="adharNo">Branch<span class="txt-danger">*</span></label>
+
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="BranchDropDown">Branch<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control w-100 select2-state"
                                                             id="BranchDropDown"
@@ -67,7 +66,6 @@
                                                     </select>
                                                     <span asp-validation-for="employeeDetails.BranchId" class="text-danger"></span>
                                                 </div>
-
                                             </div>
 
                                             <div class="row mb-3">
@@ -98,48 +96,51 @@
                                                     <span asp-validation-for="employeeDetails.EmployeeName" class="text-danger"></span>
                                                 </div>
                                             </div>
+
+                                            <!-- Family Information Section -->
+                                            <h5 class="mb-4 fw-semibold" style="color: #006666;">Family Information</h5>
+                                            <div class="row mb-3">
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="familyName">Family Name</label>
+                                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                                    <input type="text" class="form-control" asp-for="employeeDetails.FamilyMemberName" id="familyName" placeholder="Enter family name">
+                                                    <span asp-validation-for="employeeDetails.FamilyMemberName" class="text-danger"></span>
+                                                </div>
+                                                <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="familyContactNumber">Family Contact Number</label>
+                                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                                    <input type="number" asp-for="employeeDetails.FamilyNumber" class="form-control" id="familyContactNumber" placeholder="Enter family contact number">
+                                                    <span asp-validation-for="employeeDetails.FamilyNumber" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
                                             <!-- Contact Information Section -->
                                             <h5 class="mb-4 fw-semibold" style="color: #006666;">Contact Information</h5>
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="email">Email</label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <input type="email" class="form-control " asp-for="employeeDetails.Email" id="email" placeholder="Enter email">
+                                                    <input type="email" class="form-control" asp-for="employeeDetails.Email" id="email" placeholder="Enter email">
                                                     <span asp-validation-for="employeeDetails.Email" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="mobileNumber">Mobile Number<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <input type="number" class="form-control " id="mobileNumber" asp-for="employeeDetails.MobileNumber" placeholder="Enter mobile number" required>
+                                                    <input type="number" class="form-control" id="mobileNumber" asp-for="employeeDetails.MobileNumber" placeholder="Enter mobile number" required>
                                                     <span asp-validation-for="employeeDetails.MobileNumber" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="whatsappNumber">WhatsApp Number</label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <input type="number" class="form-control " asp-for="employeeDetails.WhatsAppNumber" id="whatsappNumber" placeholder="Enter WhatsApp number">
+                                                    <input type="number" class="form-control" asp-for="employeeDetails.WhatsAppNumber" id="whatsappNumber" placeholder="Enter WhatsApp number">
                                                     <span asp-validation-for="employeeDetails.WhatsAppNumber" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="alternateNumber">Alternate Number</label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <input type="number" class="form-control " asp-for="employeeDetails.AlternateNumber" id="alternateNumber" placeholder="Enter alternate number">
+                                                    <input type="number" class="form-control" asp-for="employeeDetails.AlternateNumber" id="alternateNumber" placeholder="Enter alternate number">
                                                     <span asp-validation-for="employeeDetails.AlternateNumber" class="text-danger"></span>
                                                 </div>
                                             </div>
 
-                                            @*  <div class="col-md-6">
-                                                <label class="form-label" for="countryDropDown">Country</label>
-                                                <select class="form-control w-100 select2-state"
-                                                        id="countryDropDown"
-                                                        onchange="loadStatesByCountry(this.value)"
-                                                        asp-for="employeeDetails.CountryId"
-                                                        asp-items="@(new SelectList(Model.employeeDetails.CountryList, "Id", "Name", "101"))"
-                                                        data-placeholder="Select Country" required>
-                                                </select>
-                                                <span asp-validation-for="employeeDetails.CountryId" class="text-danger"></span>
-
-                                            </div> *@
                                             <!-- Address Section -->
                                             <h5 class="mb-4 fw-semibold" style="color: #006666;">Address Details</h5>
-
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="stateDropDown">State<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
@@ -166,11 +167,10 @@
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="address">Address<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
-                                                    <textarea class="form-control " id="address" rows="3" asp-for="employeeDetails.Address" placeholder="Enter full address" required></textarea>
+                                                    <textarea class="form-control" id="address" rows="3" asp-for="employeeDetails.Address" placeholder="Enter full address" required></textarea>
                                                     <span asp-validation-for="employeeDetails.Address" class="text-danger"></span>
                                                 </div>
                                             </div>
-
 
                                             <!-- Employment Details Section -->
                                             <h5 class="mb-4 fw-semibold" style="color: #006666;">Employment Details</h5>
@@ -180,7 +180,7 @@
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="joiningDate">Joining Date<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <input type="date" class="form-control " max="@today" asp-for="employeeDetails.JoiningDate" id="joiningDate" required>
+                                                    <input type="date" class="form-control" max="@today" asp-for="employeeDetails.JoiningDate" id="joiningDate" required>
                                                     <span asp-validation-for="employeeDetails.JoiningDate" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="employeeType">Employee Type<span class="txt-danger">*</span></label>
@@ -206,7 +206,6 @@
                                                     <span asp-validation-for="employeeDetails.Salary" class="text-danger"></span>
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="employeeType">Shift Type<span class="txt-danger">*</span></label>
-
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     @if (Model.ShiftTypeList != null && Model.ShiftTypeList.Any())
                                                     {
@@ -241,15 +240,16 @@
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="education">Education</label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
-                                                    <input type="text" class="form-control " asp-for="employeeDetails.Education" id="education" placeholder="Enter education details">
+                                                    <input type="text" class="form-control" asp-for="employeeDetails.Education" id="education" placeholder="Enter education details">
                                                 </div>
                                             </div>
+
                                             <!-- Document Section -->
                                             <h5 class="mb-4 fw-semibold" style="color: #006666;">Documents</h5>
                                             <div class="row mb-3">
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="adharNo">Aadhar Number<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
-                                                    <input type="number" class="form-control " asp-for="employeeDetails.AdharNo" id="adharNo" placeholder="Enter Aadhar number" required="">
+                                                    <input type="number" class="form-control" asp-for="employeeDetails.AdharNo" id="adharNo" placeholder="Enter Aadhar number" required>
                                                     <span asp-validation-for="employeeDetails.AdharNo" class="text-danger"></span>
                                                 </div>
                                             </div>

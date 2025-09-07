@@ -5,16 +5,16 @@
 <link rel="stylesheet" href="~/Viewcss/Attendance.css" />
 
 <div class="table-wrapper">
-    <form asp-controller="Attendance" asp-action="SaveAttendance" method="post" id="attendanceForm">
+    <form method="post">
         <input type="hidden" name="shiftType" value="@Model.employeeDetails.Shift" />
         <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Employee</th>
                         <th class="text-center">Branch</th>
                         <th class="text-center">Shift</th>
+                        <th class="text-center">Employee</th>
+                        <th class="text-center">Sign out</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,27 +36,35 @@
                             <tr class="jsgrid-row @(item.IsActive.HasValue && item.IsActive.Value ? "bg-light-success" : "bg-light-danger") text-center">
                                 <input type="hidden" name="attendanceDetailsList[@j].EmployeeId" value="@item.EmployeeId" />
                                 <input type="hidden" name="attendanceDetailsList[@j].AttendancId" value="@(item.AttendanceId ?? 0)" />
+
+                                <td>
+                                    <span class="branch-badge">@item.BranchName</span>
+                                </td>
+                                <td>
+                                    <span class="shift-badge">
+                                        @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "-")
+                                    </span>
+                                </td>
                                 @if (item.AttendanceId.HasValue || Model.IsAttendanceCompleted)
                                 {
                                     bool isPresent = item.AttendanceStatus == 1;
-                                    <td>
-                                        <div class="form-check d-flex justify-content-center">
-                                            <input class="form-check-input custom-checkbox"
-                                                   type="checkbox"
-                                                   id="toggle-@item.EmployeeId"
-                                                   @(isPresent ? "checked" : "")
-                                                   disabled />
-                                            <label class="custom-checkbox-label" for="toggle-@item.EmployeeId"></label>
-                                        </div>
-                                        <input type="hidden" name="attendanceDetailsList[@j].Status" id="emp-@item.EmployeeId" value="@item.AttendanceStatus" />
-                                    </td>
                                     <td>
                                         <span class="@(isPresent ? "status-present" : "status-absent")">
                                             @item.EmployeeName
                                         </span>
                                     </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <!-- Sign Out Button -->
+                                            <a type="button" asp-action="SignoutEmployee" asp-controller="Attendance" class="btn btn-danger status-absent sign-out-btn" id="signOut-@item.EmployeeId">
+                                                Sign Out
+                                            </a>
+                                        </div>
+                                        <input type="hidden" name="attendanceDetailsList[@j].Status" id="emp-@item.EmployeeId" value="@item.AttendanceStatus" />
+                                    </td>
+
                                 }
-                                else 
+                                else
                                 {
                                     <td>
                                         <div class="form-check d-flex justify-content-center">
@@ -74,14 +82,6 @@
                                         </span>
                                     </td>
                                 }
-                                <td>
-                                    <span class="branch-badge">@item.BranchName</span>
-                                </td>
-                                <td>
-                                    <span class="shift-badge">
-                                        @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "-")
-                                    </span>
-                                </td>
                             </tr>
                         }
                     }
@@ -89,39 +89,5 @@
             </table>
         </div>
 
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary" @(Model.CanSaveAttendance ? "disabled" : "")>
-                <i class="fas fa-save me-2"></i>Save Attendance
-            </button>
-        </div>
     </form>
 </div>
-
-<script>
-    function setStatus(employeeId) {
-        const checkbox = document.getElementById(`toggle-${employeeId}`);
-        const hiddenInput = document.getElementById(`emp-${employeeId}`);
-        const employeeCell = checkbox.closest('tr').querySelector('td:nth-child(2) span');
-        
-        const row = checkbox.closest('tr');
-
-        hiddenInput.value = checkbox.checked ? 1 : 2;
-        employeeCell.classList.toggle('status-present', checkbox.checked);
-        employeeCell.classList.toggle('status-absent', !checkbox.checked);
-
-        row.classList.toggle('bg-light-success', checkbox.checked);  
-        row.classList.toggle('bg-light-danger', !checkbox.checked); 
-    }
-
-    document.getElementById("attendanceForm").addEventListener("submit", function (e) {
-        var enabledCheckboxes = document.querySelectorAll('input.custom-checkbox:not(:disabled)');
-        if (enabledCheckboxes.length === 0) {
-            e.preventDefault();
-            Swal.fire({
-                icon: 'info',
-                title: 'Attendance Completed',
-                text: 'Attendance for this shift has already been completed.'
-            });
-        }
-    });
-</script>

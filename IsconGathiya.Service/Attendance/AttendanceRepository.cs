@@ -24,7 +24,6 @@ namespace IsconGathiya.Service.Attendance
         }
 
         #region GetEmployeeDataWithFilter
-        // File: Services/AttendanceRepository.cs
         public List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate)
         {
             var filteredAttendances = _context.EmpAttendances
@@ -47,8 +46,30 @@ namespace IsconGathiya.Service.Attendance
             return baseQuery;
         }
 
-
         #endregion
+
+        //#region GetEmployeeDataWithFilter
+        //public List<AttandenceDTO> GetEmployeeAttandenceDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate)
+        //{
+        //    var filteredAttendances = _context.EmpAttendances.Where(a => a.SignInDate == null && a.SignInDate.Value.Date == attendanceDate.Date).ToList();
+
+        //    var baseQuery = (from employee in _context.EmpEmployees
+        //                     join branch in _context.Branches on employee.BranchId equals branch.BranchId into bj
+        //                     from branch in bj.DefaultIfEmpty()
+        //                     join att in filteredAttendances on employee.EmployeeId equals att.EmployeeId into attj
+        //                     from att in attj.DefaultIfEmpty()
+        //                     where employee.BranchId == adminBranchId && employee.Shift == shift
+        //                     orderby employee.ModifiedAt descending
+        //                     select new AttandenceDTO
+        //                     {
+        //                         employee = employee,
+        //                         branch = branch,
+        //                     }).ToList();
+
+        //    return baseQuery;
+        //}
+
+        //#endregion
 
         #region GetBranchList
         public List<Branch> GetBranchList()
@@ -90,13 +111,14 @@ namespace IsconGathiya.Service.Attendance
             try
             {
                 DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
                 DateTime yesterdayIST = currentDate.AddDays(-1);
 
                 foreach (var emp in empAttendanceList)
                 {
                     if (emp.AttendancId == 0)
                     {
-                        emp.SignInDate = isBetweenMidnightAnd7AM ? yesterdayIST.Date : currentDate.Date;
+                        emp.SignInDate = isBetweenMidnightAnd7AM ? yesterdayIST : currentDate;
                         emp.CreatedAt = currentDate;
                         emp.ModifiedAt = currentDate;
                         emp.CreatedBy = Guid.Parse("123e4567-e89b-12d3-a456-426614174000");
@@ -120,14 +142,15 @@ namespace IsconGathiya.Service.Attendance
         #region IsAttendanceCompleted
         public bool IsAttendanceCompleted(int branchId, DateTime attendanceDate, bool isNightShift)
         {
-            if (isNightShift)
-            {
-                return _context.EmpAttendances
-                    .Any(a => a.SignInDate == attendanceDate || a.SignInDate == attendanceDate.AddDays(1));
-            }
-            return _context.EmpAttendances
-                .Any(a => a.SignInDate == attendanceDate);
-        } 
+            short shift = isNightShift ? (short)Enums.Shift.Night : (short)Enums.Shift.Day;
+
+            return (from a in _context.EmpAttendances
+                    join e in _context.EmpEmployees on a.EmployeeId equals e.EmployeeId
+                    where a.SignInDate.HasValue && a.SignInDate.Value.Date == attendanceDate.Date
+                          && e.BranchId == branchId && e.Shift == shift
+                    select a).Any();
+
+        }
         #endregion
     }
 }
