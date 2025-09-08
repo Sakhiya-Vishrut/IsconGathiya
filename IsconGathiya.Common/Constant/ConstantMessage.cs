@@ -29,5 +29,9 @@ namespace IsconGathiya.Common
         public const string ShiftAttendanceComplate = "Attendance for this shift and date has already been completed.";
         public const string AttendanceComplate = "Attendance saved successfully.";
 
+        // Attendance absent and present
+
+        public const string EmployeePresent = "Sign out Successfull";
+        public const string EmployeeunPresent = "Sign out UnSuccessfull";
     }
 }

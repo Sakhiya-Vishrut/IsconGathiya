@@ -1,5 +1,7 @@
-﻿using IsconGathiya.Common;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using IsconGathiya.Common;
 using IsconGathiya.Common.Utility;
+using IsconGathiya.Domain;
 using IsconGathiya.Domain.DataModels;
 using IsconGathiya.Helper;
 using IsconGathiya.Helper.Mapper;
@@ -193,7 +195,7 @@ namespace IsconGathiya.Controllers
 
                 DateTime attendanceDate = isNightShift && isBetweenMidnightAnd7AM ? currentDate.AddDays(-1).Date : currentDate.Date;
 
-               bool isAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(branchId, attendanceDate, isNightShift);
+                bool isAttendanceCompleted = _attendanceRepository.IsAttendanceCompleted(branchId, attendanceDate, isNightShift);
                 if (isAttendanceCompleted)
                 {
                     AddSweetAlertWarningPopup(ConstantMessage.ShiftAttendanceComplate);
@@ -221,47 +223,170 @@ namespace IsconGathiya.Controllers
 
         #endregion
 
+        #region Present
+        [HttpGet, Route("Attendance/Present", Name = "Present")]
+        public IActionResult Present(short? shiftType = null)
+        {
+            try
+            {
+                var employee = new AttendanceViewModel();
+                employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
 
-        //#region Absent
-        //[HttpGet, Route("Attendance/Absent", Name = "Absent")]
-        //public IActionResult Absent(short? shiftType = null)
-        //{
-        //    try
-        //    {
-        //        var employee = new AttendanceViewModel();
+                DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
-        //        DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                TimeSpan nowTime = currentDate.TimeOfDay;
+                bool isDayTime = nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19);
+                bool isNightShift = nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7);
+                var selectedShift = shiftType ?? (isDayTime ? (short)Enums.Shift.Day : (short)Enums.Shift.Night);
 
-        //        TimeSpan nowTime = currentDate.TimeOfDay;
-        //        bool isDayTime = nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19);
-        //        bool isNightShift = nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7);
-        //        var selectedShift = shiftType ?? (isDayTime ? (short)Enums.Shift.Day : (short)Enums.Shift.Night);
+                var attendanceDate = (isNightShift && nowTime < TimeSpan.FromHours(7)) ? currentDate.AddDays(-1).Date : currentDate.Date;
 
-        //        var attendanceDate = (isNightShift && nowTime < TimeSpan.FromHours(7)) ? currentDate.AddDays(-1).Date : currentDate.Date;
-        //        employee.attendanceDetailsList = _attendanceRepository.GetEmployeeAttandenceDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel();
-        //        return View(employee);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception("An error occurred while fetching employee data.", e);
-        //    }
-        //}
-        //#endregion
+                employee.attendanceDetailsList = _attendanceRepository.GetEmployeeAttandenceDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel()
+                    .Where(ad => ad.Status == 1)
+                    .ToList();
+
+                return View(employee);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An error occurred while fetching employee data.", e);
+            }
+        }
+        #endregion
+
+        #region GetEmployeesAttendencePresentByShift
+        [HttpGet]
+        public IActionResult GetEmployeesAttendencePresentByShift(short shiftType)
+        {
+            var attendanceDate = GetAttendanceDate();
+            var employeeVM = new AttendanceViewModel()
+            {
+                attendanceDetailsList = _attendanceRepository.GetEmployeeAttandenceDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
+            };
+            employeeVM.attendanceDetails.BranchList = _attendanceRepository.GetBranchList();
+            employeeVM.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
+
+            return PartialView("_Partial_PresentGridBody", employeeVM);
+        }
+        #endregion
+
+        #region SignoutEmployee
+        public async Task<IActionResult> SignoutEmployee(string? encodedAttendanceId)
+        {
+            var model = new AttendanceViewModel();
+
+            if (encodedAttendanceId != null)
+            {
+                int? AttendanceId = encodedAttendanceId.Decode();
+
+                var attendanceDetails = await _attendanceRepository.GetAttendanceById((int)AttendanceId);
+
+                model.attendanceDetails = attendanceDetails?.ToModel();
+
+                bool success = await _attendanceRepository.SignoutDetails(model.attendanceDetails.ToModel(), Convert.ToInt32(CV.AdminId()));
+
+                if (!success)
+                {
+                    AddSweetAlertWarningPopup(ConstantMessage.EmployeeunPresent);
+                }
+                else
+                {
+                    AddSweetAlertSuccessPopup(ConstantMessage.EmployeePresent);
+                }
+            }
+
+            return RedirectToAction("Present");
+        }
+        #endregion
+
+        #region Absent
+        [HttpGet, Route("Attendance/Absent", Name = "Absent")]
+        public IActionResult Absent(short? shiftType = null)
+        {
+            try
+            {
+                var employee = new AttendanceViewModel();
+                employee.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
+
+                DateTime currentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
+                TimeSpan nowTime = currentDate.TimeOfDay;
+                bool isDayTime = nowTime >= TimeSpan.FromHours(7) && nowTime < TimeSpan.FromHours(19);
+                bool isNightShift = nowTime >= TimeSpan.FromHours(19) || nowTime < TimeSpan.FromHours(7);
+                var selectedShift = shiftType ?? (isDayTime ? (short)Enums.Shift.Day : (short)Enums.Shift.Night);
+
+                var attendanceDate = (isNightShift && nowTime < TimeSpan.FromHours(7)) ? currentDate.AddDays(-1).Date : currentDate.Date;
+
+                employee.attendanceDetailsList = _attendanceRepository.GetEmployeeAttandenceAbsentDataWithFilter(int.Parse(CV.Branch()), selectedShift, attendanceDate).ToModel();
+
+                return View(employee);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An error occurred while fetching employee data.", e);
+            }
+        }
+        #endregion
 
         #region GetEmployeesAttendenceAbsentByShift
         [HttpGet]
         public IActionResult GetEmployeesAttendenceAbsentByShift(short shiftType)
         {
             var attendanceDate = GetAttendanceDate();
-            var employeeVM = new EmployeeViewModel
+            var employeeVM = new AttendanceViewModel()
             {
-                employeeDetailsList = _attendanceRepository.GetEmployeeDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
+                attendanceDetailsList = _attendanceRepository.GetEmployeeAttandenceDataWithFilter(int.Parse(CV.Branch()), shiftType, attendanceDate).ToModel()
             };
-            employeeVM.employeeDetails.BranchList = _attendanceRepository.GetBranchList();
+            employeeVM.attendanceDetails.BranchList = _attendanceRepository.GetBranchList();
             employeeVM.ShiftTypeList = EnumHelper.GetEnumSelectList<Enums.Shift>();
 
             return PartialView("_Partial_AbsentGridBody", employeeVM);
         }
+        #endregion
+
+        #region UpdateReason
+        public async Task<IActionResult> UpdateReason(string attendanceId, AttendanceViewModel model)
+        {
+            try
+            {
+                int? AttendanceId = attendanceId.Decode();
+                var attendanceDetails = await _attendanceRepository.GetAttendanceById((int)AttendanceId);
+
+                if (attendanceDetails == null)
+                {
+                    AddSweetAlertWarningPopup("Attendance record not found.");
+                    return RedirectToAction("Present");
+                }
+
+                if (attendanceDetails != null)
+                {
+                    var empAttendance = new EmpAttendance();
+
+                    bool success = await _attendanceRepository.UpdateReason(empAttendance, Convert.ToInt32(CV.AdminId()));
+
+                    if (success)
+                    {
+                        AddSweetAlertSuccessPopup("Reason updated successfully.");
+                    }
+                    else
+                    {
+                        AddSweetAlertWarningPopup("Failed to update reason.");
+                    }
+                }
+                else
+                {
+                    AddSweetAlertWarningPopup("Attendance record not found.");
+                }
+
+                return RedirectToAction("Absent");
+            }
+            catch (Exception ex)
+            {
+                AddSweetAlertWarningPopup("An error occurred while updating the reason.");
+                return RedirectToAction("Present");
+            }
+        }
+
         #endregion
     }
 }

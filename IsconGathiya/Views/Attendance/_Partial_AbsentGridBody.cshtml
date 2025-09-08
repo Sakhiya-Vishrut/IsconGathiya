@@ -1,93 +1,43 @@
 ﻿@using IsconGathiya.Common
+@using IsconGathiya.Helper
 @using IsconGathiya.ViewModel
-@model EmployeeViewModel
-
-<link rel="stylesheet" href="~/Viewcss/Attendance.css" />
+@model AttendanceViewModel
 
 <div class="table-wrapper">
     <form method="post">
-        <input type="hidden" name="shiftType" value="@Model.employeeDetails.Shift" />
+        <input type="hidden" name="attendanceId" value="@Model.attendanceDetails.AttendancId" />
         <div class="table-container">
-            <table class="table">
+            <table class="table table-striped table-bordered display w-100" style="width:100%" id="basic-2">
                 <thead>
                     <tr>
                         <th class="text-center">Branch</th>
                         <th class="text-center">Shift</th>
                         <th class="text-center">Employee</th>
-                        <th class="text-center">Sign out</th>
+                        <th class="text-center">Reason</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.employeeDetailsList == null || !Model.employeeDetailsList.Any())
+                    @for (int i = 0; i < Model.attendanceDetailsList.Count; i++)
                     {
+                        var Attendance = Model.attendanceDetailsList[i];
                         <tr>
-                            <td class="no-data text-center" colspan="4">
-                                <i class="fas fa-info-circle"></i>
-                                <strong>No Employee Records</strong>
-                                <p>Add employees to start tracking attendance</p>
+                            <td class="text-center table-data text-uppercase">@Attendance.BranchName</td>
+                            <td class="text-center table-data">@(Attendance.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)Attendance.Shift) : "_")</td>
+                            <td class="text-center table-data text-uppercase">@Attendance.EmployeeName</td>
+                            <td class="text-center">
+                                <textarea asp-for="attendanceDetails.Reason" name="attendanceDetailsList[@i].Reason" class="form-control" rows="2" placeholder="Enter reason">@Attendance.Reason</textarea>
+                            </td>
+                            <td class="text-center">
+                                <a type="button" asp-action="UpdateReason" asp-controller="Attendance" asp-route-attendanceId="@Attendance.AttendancId.Encode()" class="btn btn-primary">Submit Reason</a>
                             </td>
                         </tr>
-                    }
-                    else
-                    {
-                        for (int j = 0; j < Model.employeeDetailsList.Count; j++)
-                        {
-                            var item = Model.employeeDetailsList[j];
-                            <tr class="jsgrid-row @(item.IsActive.HasValue && item.IsActive.Value ? "bg-light-success" : "bg-light-danger") text-center">
-                                <input type="hidden" name="attendanceDetailsList[@j].EmployeeId" value="@item.EmployeeId" />
-                                <input type="hidden" name="attendanceDetailsList[@j].AttendancId" value="@(item.AttendanceId ?? 0)" />
-
-                                <td>
-                                    <span class="branch-badge">@item.BranchName</span>
-                                </td>
-                                <td>
-                                    <span class="shift-badge">
-                                        @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "-")
-                                    </span>
-                                </td>
-                                @if (item.AttendanceId.HasValue || Model.IsAttendanceCompleted)
-                                {
-                                    bool isPresent = item.AttendanceStatus == 1;
-                                    <td>
-                                        <span class="@(isPresent ? "status-present" : "status-absent")">
-                                            @item.EmployeeName
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <!-- Sign Out Button -->
-                                            <a type="button" asp-action="SignoutEmployee" asp-controller="Attendance" class="btn btn-danger status-absent sign-out-btn" id="signOut-@item.EmployeeId">
-                                                Sign Out
-                                            </a>
-                                        </div>
-                                        <input type="hidden" name="attendanceDetailsList[@j].Status" id="emp-@item.EmployeeId" value="@item.AttendanceStatus" />
-                                    </td>
-
-                                }
-                                else
-                                {
-                                    <td>
-                                        <div class="form-check d-flex justify-content-center">
-                                            <input class="form-check-input custom-checkbox"
-                                                   type="checkbox"
-                                                   id="toggle-@item.EmployeeId"
-                                                   onchange="setStatus(@item.EmployeeId)" />
-                                            <label class="custom-checkbox-label" for="toggle-@item.EmployeeId"></label>
-                                        </div>
-                                        <input type="hidden" name="attendanceDetailsList[@j].Status" id="emp-@item.EmployeeId" value="2" />
-                                    </td>
-                                    <td>
-                                        <span class="status-absent">
-                                            @item.EmployeeName
-                                        </span>
-                                    </td>
-                                }
-                            </tr>
-                        }
                     }
                 </tbody>
             </table>
         </div>
-
     </form>
 </div>
+
+<script src="@Url.Content("~/assets/js/datatable/datatables/jquery.dataTables.min.js")"></script>
+<script src="@Url.Content("~/assets/js/datatable/datatables/datatable.custom.js")"></script>

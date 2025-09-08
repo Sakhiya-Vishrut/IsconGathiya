@@ -13,9 +13,17 @@ namespace IsconGathiya.Service.Attendance
     {
         List<EmployeeDTO> GetEmployeeDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate);
 
-        //List<AttandenceDTO> GetEmployeeAttandenceDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate);
+        List<AttandenceDTO> GetEmployeeAttandenceDataWithFilter(int branchId, short shiftType, DateTime attendanceDate);
+
+        List<AttandenceDTO> GetEmployeeAttandenceAbsentDataWithFilter(int branchId, short shiftType, DateTime attendanceDate);
 
         List<Branch> GetBranchList();
+
+        Task<bool> SignoutDetails(EmpAttendance model, int userId);
+
+        Task<AttandenceDTO> GetAttendanceById(int attendanceId);
+
+        Task<bool> UpdateReason(EmpAttendance empAttendance, int adminId);
 
         void UpdateEmployeeBranch(int employeeId, int newBranchId, int shift);
 

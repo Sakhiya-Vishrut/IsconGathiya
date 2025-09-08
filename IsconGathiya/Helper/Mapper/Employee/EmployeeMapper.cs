@@ -63,6 +63,8 @@ namespace IsconGathiya.Helper.Mapper.Employee
                     .ForMember(dest => dest.WhatsAppNumber, mo => mo.MapFrom(src => src.employee.WhatsAppNumber))
                     .ForMember(dest => dest.BirthDate, mo => mo.MapFrom(src => src.employee.BirthDate))
                     .ForMember(dest => dest.Email, mo => mo.MapFrom(src => src.employee.Email))
+                    .ForMember(dest => dest.FamilyMemberName, mo => mo.MapFrom(src => src.employee.FamilyMemberName))
+                    .ForMember(dest => dest.FamilyNumber, mo => mo.MapFrom(src => src.employee.FamilyNumber))
                     .ForMember(dest => dest.AlternateNumber, mo => mo.MapFrom(src => src.employee.AlternateNumber))
                     .ForMember(dest => dest.Address, mo => mo.MapFrom(src => src.employee.Address))
                     .ForMember(dest => dest.Gender, mo => mo.MapFrom(src => src.employee.Gender))

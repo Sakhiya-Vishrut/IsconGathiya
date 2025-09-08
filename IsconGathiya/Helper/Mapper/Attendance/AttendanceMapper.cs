@@ -3,6 +3,7 @@ using AutoMapper;
 using IsconGathiya.Domain;
 using IsconGathiya.Domain.DataModels;
 using static IsconGathiya.ViewModel.AttendanceViewModel;
+using static IsconGathiya.ViewModel.BranchViewModel;
 using static IsconGathiya.ViewModel.EmployeeViewModel;
 
 namespace IsconGathiya.Helper.Mapper.Attendance
@@ -11,7 +12,8 @@ namespace IsconGathiya.Helper.Mapper.Attendance
     {
         public static List<EmployeeDetails> ToModel(this List<EmployeeDTO> entity)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<EmployeeDTO, EmployeeDetails>()
                     .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.employee.EmployeeId))
                     .ForMember(dest => dest.BranchId, mo => mo.MapFrom(src => src.employee.BranchId))
@@ -27,24 +29,11 @@ namespace IsconGathiya.Helper.Mapper.Attendance
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<EmployeeDTO>, List<EmployeeDetails>>(entity);
         }
-        public static List<AttendanceDetails> ToModel(this List<AttandenceDTO> entity)
-        {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<AttandenceDTO, AttendanceDetails>()
-                    .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.employee.EmployeeId))
-                    .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.EmpAttendanc.AttendancId))
-                    .ForMember(dest => dest.SignInDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignInDate))
-                    .ForMember(dest => dest.SignoutDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignoutDate))
-                    .ForMember(dest => dest.Status, mo => mo.MapFrom(src => src.EmpAttendanc.Status))
-                    .ForMember(dest => dest.Reason, mo => mo.MapFrom(src => src.EmpAttendanc.Reason));
-            });
-            IMapper mapper = config.CreateMapper();
-            return mapper.Map<List<AttandenceDTO>, List<AttendanceDetails>>(entity);
-        }
 
         public static List<EmpAttendance> ToModel(this List<AttendanceDetails> entity)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<AttendanceDetails, EmpAttendance>()
                     .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.EmployeeId))
                     .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.AttendancId))
@@ -56,6 +45,51 @@ namespace IsconGathiya.Helper.Mapper.Attendance
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<AttendanceDetails>, List<EmpAttendance>>(entity);
+        }
+
+        public static EmpAttendance ToModel(this AttendanceDetails entity)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AttendanceDetails, EmpAttendance>()
+                    .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.AttendancId))
+                    .ForMember(dest => dest.SignoutDate, mo => mo.MapFrom(src => src.SignoutDate));
+            });
+            IMapper mapper = config.CreateMapper();
+            return mapper.Map<AttendanceDetails, EmpAttendance>(entity);
+        }
+
+        public static List<AttendanceDetails> ToModel(this List<AttandenceDTO> entity)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AttandenceDTO, AttendanceDetails>()
+                    .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.employee.EmployeeId))
+                    .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.EmpAttendanc.AttendancId))
+                    .ForMember(dest => dest.BranchName, mo => mo.MapFrom(src => src.branch.BranchName))
+                    .ForMember(dest => dest.EmployeeName, mo => mo.MapFrom(src => src.employee.EmployeeName))
+                    .ForMember(dest => dest.Shift, mo => mo.MapFrom(src => (short)src.employee.Shift))
+                    .ForMember(dest => dest.SignInDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignInDate))
+                    .ForMember(dest => dest.SignoutDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignoutDate))
+                    .ForMember(dest => dest.Status, mo => mo.MapFrom(src => src.EmpAttendanc.Status))
+                    .ForMember(dest => dest.Reason, mo => mo.MapFrom(src => src.EmpAttendanc.Reason));
+            });
+            IMapper mapper = config.CreateMapper();
+            return mapper.Map<List<AttandenceDTO>, List<AttendanceDetails>>(entity);
+        }
+
+        public static AttendanceDetails ToModel(this AttandenceDTO entity)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AttandenceDTO, AttendanceDetails>()
+                    .ForMember(dest => dest.AttendancId, mo => mo.MapFrom(src => src.EmpAttendanc.AttendancId))
+                    .ForMember(dest => dest.Reason, mo => mo.MapFrom(src => src.EmpAttendanc.Reason))
+                    .ForMember(dest => dest.SignoutDate, mo => mo.MapFrom(src => src.EmpAttendanc.SignoutDate));
+            });
+
+            IMapper mapper = config.CreateMapper();
+            return mapper.Map<AttandenceDTO, AttendanceDetails>(entity);
         }
     }
 }

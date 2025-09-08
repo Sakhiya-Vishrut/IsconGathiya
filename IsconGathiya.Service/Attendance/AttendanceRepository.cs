@@ -1,4 +1,5 @@
 ﻿// File: Services/AttendanceRepository.cs
+using DocumentFormat.OpenXml.Spreadsheet;
 using IsconGathiya.Common;
 using IsconGathiya.Common.DependencyInjection;
 using IsconGathiya.Domain;
@@ -48,28 +49,54 @@ namespace IsconGathiya.Service.Attendance
 
         #endregion
 
-        //#region GetEmployeeDataWithFilter
-        //public List<AttandenceDTO> GetEmployeeAttandenceDataWithFilter(int adminBranchId, short shift, DateTime attendanceDate)
-        //{
-        //    var filteredAttendances = _context.EmpAttendances.Where(a => a.SignInDate == null && a.SignInDate.Value.Date == attendanceDate.Date).ToList();
+        #region GetEmployeeAttandenceDataWithFilter
+        public List<AttandenceDTO> GetEmployeeAttandenceDataWithFilter(int branchId, short shiftType, DateTime attendanceDate)
+        {
+            try
+            {
 
-        //    var baseQuery = (from employee in _context.EmpEmployees
-        //                     join branch in _context.Branches on employee.BranchId equals branch.BranchId into bj
-        //                     from branch in bj.DefaultIfEmpty()
-        //                     join att in filteredAttendances on employee.EmployeeId equals att.EmployeeId into attj
-        //                     from att in attj.DefaultIfEmpty()
-        //                     where employee.BranchId == adminBranchId && employee.Shift == shift
-        //                     orderby employee.ModifiedAt descending
-        //                     select new AttandenceDTO
-        //                     {
-        //                         employee = employee,
-        //                         branch = branch,
-        //                     }).ToList();
+                var baseQuery = _context.EmpAttendances.Where(a => a.Status == 1 && a.SignInDate.HasValue && a.SignInDate.Value.Date == attendanceDate && a.SignoutDate == null && a.Employee.BranchId == branchId &&
+                    a.Employee.Shift == shiftType).Select(a => new AttandenceDTO
+                    {
+                        employee = a.Employee,
+                        branch = a.Employee.Branch,
+                        EmpAttendanc = a
+                    })
+                        .ToList();
 
-        //    return baseQuery;
-        //}
+                return baseQuery;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching attendance data", ex);
+            }
+        }
 
-        //#endregion
+        #endregion
+
+        #region GetEmployeeAttandenceAbsentDataWithFilter
+        public List<AttandenceDTO> GetEmployeeAttandenceAbsentDataWithFilter(int branchId, short shiftType, DateTime attendanceDate)
+        {
+            try
+            {
+
+                var baseQuery = _context.EmpAttendances.Where(a => a.Status == 2 && a.Reason == null && a.SignInDate.HasValue && a.SignInDate.Value.Date == attendanceDate && a.SignoutDate == null && a.Employee.BranchId == branchId &&
+                    a.Employee.Shift == shiftType).Select(a => new AttandenceDTO
+                    {
+                        employee = a.Employee,
+                        branch = a.Employee.Branch,
+                        EmpAttendanc = a
+                    }).ToList();
+
+                return baseQuery;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching attendance data", ex);
+            }
+        }
+
+        #endregion
 
         #region GetBranchList
         public List<Branch> GetBranchList()
@@ -152,5 +179,69 @@ namespace IsconGathiya.Service.Attendance
 
         }
         #endregion
+
+        public Task<AttandenceDTO> GetAttendanceById(int attendanceId)
+        {
+            var branch = _context.EmpAttendances
+                .Where(c => c.AttendancId == attendanceId)
+                .Select(c => new AttandenceDTO
+                {
+                    EmpAttendanc = c
+                }).FirstOrDefaultAsync();
+
+            return branch;
+        }
+
+        public async Task<bool> SignoutDetails(EmpAttendance model, int userId)
+        {
+            try
+            {
+                DateTime CurrentDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
+                var existingEmpAttendance = await _context.EmpAttendances.FirstOrDefaultAsync(c => c.AttendancId == model.AttendancId);
+
+                if (existingEmpAttendance != null)
+                {
+                    existingEmpAttendance.SignoutDate = CurrentDate;
+                    existingEmpAttendance.Reason = model.Reason;
+                    existingEmpAttendance.ModifiedAt = CurrentDate;
+                    existingEmpAttendance.ModifiedBy = Guid.Parse("123e4567-e89b-12d3-a456-426614174000");
+
+                    _context.EmpAttendances.Update(existingEmpAttendance);
+                    await _context.SaveChangesAsync();
+
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateReason(EmpAttendance model, int userId)
+        {
+            try
+            {
+                var existingEmpAttendance = await _context.EmpAttendances.FirstOrDefaultAsync(c => c.AttendancId == model.AttendancId);
+                if (existingEmpAttendance == null)
+                    return false;
+
+                existingEmpAttendance.Reason = model.Reason;
+                existingEmpAttendance.ModifiedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                existingEmpAttendance.ModifiedBy = Guid.Parse("123e4567-e89b-12d3-a456-426614174000");
+
+                _context.EmpAttendances.Update(existingEmpAttendance);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

@@ -65,8 +65,8 @@
         <div class="col-sm-12">
             <div class="card p-3">
                 <div class="card-block row">
-                    <div id="AttendanceabsentContainer">
-                        <partial name="_Partial_AbsentGridBody" model="Model" />
+                    <div id="AttendancePresentContainer">
+                        <partial name="_Partial_PresentGridBody" model="Model" />
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
 
 @section BodyEndScript {
     <script src="~/viewjs/Attendance.js"></script>
-@*     <script>
+    <script>
         $(document).ready(function () {
             const $shiftInputs = $('#ShiftSwitchGroup input[type=radio][name=shiftType]');
 
@@ -91,11 +91,11 @@
                 fnShowMainProgress();
 
                 $.ajax({
-                    url: '@Url.Action("GetEmployeesAttendenceAbsentByShift", "Attendance")',
+                    url: '@Url.Action("GetEmployeesAttendencePresentByShift", "Attendance")',
                     type: 'GET',
                     data: { shiftType: shiftValue },
                     success: function (response) {
-                        $('#AttendanceabsentContainer').html(response);
+                        $('#AttendancePresentContainer').html(response);
                     },
                     error: function (xhr, status, error) {
                         console.error("Error loading data:", xhr.status, error);
@@ -109,5 +109,5 @@
 
             $shiftInputs.filter(':checked').trigger('change');
         });
-    </script> *@
+    </script>
 }
