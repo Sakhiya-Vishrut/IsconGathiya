@@ -1,0 +1,19 @@
+﻿@model AttendanceViewModel
+@using IsconGathiya.Common
+@using IsconGathiya.ViewModel
+
+<div class="main-container">
+    <form asp-action="UpdateReason" asp-controller="Attendance" method="post">
+        <input type="hidden" name="attendanceDetails.AttendancId" value="@Model.attendanceDetails.AttendancId" />
+        <div class="mb-3">
+            <textarea asp-for="attendanceDetails.Reason" class="form-control" placeholder="Enter Reason for absent" id="exampleTextarea" rows="4" required></textarea>
+        </div>
+
+        <!-- Centering the button using d-flex and justify-content-center -->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+</div>
+

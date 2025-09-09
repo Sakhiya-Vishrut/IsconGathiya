@@ -345,37 +345,29 @@ namespace IsconGathiya.Controllers
         #endregion
 
         #region UpdateReason
-        public async Task<IActionResult> UpdateReason(string attendanceId, AttendanceViewModel model)
+        public async Task<IActionResult> UpdateReason(AttendanceViewModel model)
         {
             try
             {
-                int? AttendanceId = attendanceId.Decode();
-                var attendanceDetails = await _attendanceRepository.GetAttendanceById((int)AttendanceId);
+                // Decode and get the AttendanceId from the model
+                int? AttendanceId = model.attendanceDetails.AttendancId;
 
-                if (attendanceDetails == null)
+                if (AttendanceId == null)
                 {
-                    AddSweetAlertWarningPopup("Attendance record not found.");
+                    AddSweetAlertWarningPopup("Attendance ID is missing.");
                     return RedirectToAction("Present");
                 }
 
-                if (attendanceDetails != null)
+                var empAttendance = new EmpAttendance();
+                bool success = await _attendanceRepository.UpdateReason(model.attendanceDetails.ToModel(), Convert.ToInt32(CV.AdminId()));
+
+                if (success)
                 {
-                    var empAttendance = new EmpAttendance();
-
-                    bool success = await _attendanceRepository.UpdateReason(empAttendance, Convert.ToInt32(CV.AdminId()));
-
-                    if (success)
-                    {
-                        AddSweetAlertSuccessPopup("Reason updated successfully.");
-                    }
-                    else
-                    {
-                        AddSweetAlertWarningPopup("Failed to update reason.");
-                    }
+                    AddSweetAlertSuccessPopup("Reason updated successfully.");
                 }
                 else
                 {
-                    AddSweetAlertWarningPopup("Attendance record not found.");
+                    AddSweetAlertWarningPopup("Failed to update reason.");
                 }
 
                 return RedirectToAction("Absent");
@@ -387,6 +379,23 @@ namespace IsconGathiya.Controllers
             }
         }
 
+        #endregion
+
+        #region StockView
+        [HttpGet, Route("Attendance/AbsentView", Name = "AbsentViewModel")]
+        public IActionResult AbsentView(string encodeAbsentid)
+        {
+            try
+            {
+                var model = new AttendanceViewModel();
+                model.attendanceDetails.AttendancId = (int)encodeAbsentid.Decode();
+                return PartialView("_Parital_Absent_View",model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToRoute("Error_404");
+            }
+        }
         #endregion
     }
 }

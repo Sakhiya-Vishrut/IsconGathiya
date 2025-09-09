@@ -10,10 +10,10 @@
             <table class="table table-striped table-bordered display w-100" style="width:100%" id="basic-2">
                 <thead>
                     <tr>
+                        <th scope="col" class="text-center">No</th>
                         <th class="text-center">Branch</th>
                         <th class="text-center">Shift</th>
                         <th class="text-center">Employee</th>
-                        <th class="text-center">Reason</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -22,18 +22,17 @@
                     {
                         var Attendance = Model.attendanceDetailsList[i];
                         <tr>
+                            <td class="text-center">@(@i + 1)</td>  
                             <td class="text-center table-data text-uppercase">@Attendance.BranchName</td>
                             <td class="text-center table-data">@(Attendance.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)Attendance.Shift) : "_")</td>
                             <td class="text-center table-data text-uppercase">@Attendance.EmployeeName</td>
                             <td class="text-center">
-                                <textarea asp-for="attendanceDetails.Reason" name="attendanceDetailsList[@i].Reason" class="form-control" rows="2" placeholder="Enter reason">@Attendance.Reason</textarea>
-                            </td>
-                            <td class="text-center">
-                                <a type="button" asp-action="UpdateReason" asp-controller="Attendance" asp-route-attendanceId="@Attendance.AttendancId.Encode()" class="btn btn-primary">Submit Reason</a>
+                                <a onclick="fnAbsentViewModal('@Attendance.AttendancId.Encode()')" class="btn btn-primary">Reason</a>
                             </td>
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </form>

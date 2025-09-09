@@ -20,3 +20,19 @@
 //    $('#emp-' + employeeId).val(status);
 //}
 
+function fnAbsentViewModal(encodeAbsentid) {
+    // Fetch data for modal content
+    debugger;
+    $.ajax({
+        type: 'GET',
+        url: getAbsentViewModel,
+        data: { encodeAbsentid: encodeAbsentid },
+        success: function (data) {
+            $("#AbsentViewModelBody").empty();
+            $("#AbsentViewModelBody").html(data);
+            $('#AbsentViewModel').modal("show");
+        },
+        error: function () {
+        },
+    });
+}

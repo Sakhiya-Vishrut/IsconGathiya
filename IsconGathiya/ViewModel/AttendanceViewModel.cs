@@ -26,6 +26,7 @@ namespace IsconGathiya.ViewModel
             public DateTime? SignInDate { get; set; }
             public DateTime? SignoutDate { get; set; }
             public short? Status { get; set; }
+            [Required(ErrorMessage = "Reason is required.")]
             public string? Reason { get; set; }
             public string? BranchName { get; set; }
             public string? EmployeeName { get; set; }

@@ -21,6 +21,7 @@
 
 function fnEmployeeViewModal(encodeEmployeeId) {
     // Fetch data for modal content
+    debugger;
     $.ajax({
         type: 'GET',
         url: getEmployeeViewModel,

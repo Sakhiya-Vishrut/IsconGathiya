@@ -74,7 +74,28 @@
     </div>
 </div>
 
+@section BodyModalSection {
+    <div class="modal fade" id="AbsentViewModel" tabindex="-1" aria-labelledby="badgeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable d-flex justify-content-center align-items-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="badgeModalLabel">Add Reason</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="AbsentViewModelBody">
+                    <!-- Your content here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
 @section BodyEndScript {
+    <script>
+        var getAbsentViewModel = "@Url.RouteUrl("AbsentViewModel")";
+    </script>
     <script src="~/viewjs/Attendance.js"></script>
 @*     <script>
         $(document).ready(function () {
