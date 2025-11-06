@@ -74,15 +74,11 @@
                             @(item.Shift != null ? Enums.GetEnumDescription<Enums.Shift>((int)item.Shift) : "_")
                         </td>
                         <td class="text-center">
-                            <div class="form-check form-switch justify-content-center d-flex">
-                                <input class="form-check-input toggle-active"
-                                       type="checkbox"
-                                       role="switch"
-                                       id="toggle-@item.EmployeeId"
-                                       name="SelectedEmployeeIds"
-                                       value="@item.EmployeeId"
-                                       data-employee-id="@item.EmployeeId" />
-                            </div>
+                            <input type="checkbox"
+                                   id="toggle-@item.EmployeeId"
+                                   name="SelectedEmployeeIds"
+                                   value="@item.EmployeeId"
+                                   style="transform: scale(1.5); margin: 0;" />
                         </td>
                     </tr>
 

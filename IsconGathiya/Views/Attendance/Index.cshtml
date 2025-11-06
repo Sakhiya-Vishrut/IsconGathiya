@@ -82,32 +82,32 @@
         $(document).ready(function () {
             const $shiftInputs = $('#ShiftSwitchGroup input[type=radio][name=shiftType]');
 
-            // $shiftInputs.on('change', function () {
-            //     const shiftValue = $(this).val();
+            $shiftInputs.on('change', function () {
+                const shiftValue = $(this).val();
 
-            //     if (!shiftValue) {
-            //         alert("Please select a valid shift.");
-            //         return;
-            //     }
+                if (!shiftValue) {
+                    alert("Please select a valid shift.");
+                    return;
+                }
 
-            //     fnShowMainProgress();
+                fnShowMainProgress();
 
-            //     $.ajax({
-            //         url: '@Url.Action("GetEmployeesAttendenceByShift", "Attendance")',
-            //         type: 'GET',
-            //         data: { shiftType: shiftValue },
-            //         success: function (response) {
-            //             $('#AttendanceTableContainer').html(response);
-            //         },
-            //         error: function (xhr, status, error) {
-            //             console.error("Error loading data:", xhr.status, error);
-            //             alert("Error loading employee data. Please try again.");
-            //         },
-            //         complete: function () {
-            //             fnHideMainProgress();
-            //         }
-            //     });
-            // });
+                $.ajax({
+                    url: '@Url.Action("GetEmployeesAttendenceByShift", "Attendance")',
+                    type: 'GET',
+                    data: { shiftType: shiftValue },
+                    success: function (response) {
+                        $('#AttendanceTableContainer').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error loading data:", xhr.status, error);
+                        alert("Error loading employee data. Please try again.");
+                    },
+                    complete: function () {
+                        fnHideMainProgress();
+                    }
+                });
+            });
 
             $shiftInputs.filter(':checked').trigger('change');
         });

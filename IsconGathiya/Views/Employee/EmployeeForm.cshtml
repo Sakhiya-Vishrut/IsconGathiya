@@ -155,12 +155,12 @@
                                                 </div>
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="cityDropDown">City<span class="txt-danger">*</span></label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control w-100 select2-state"
-                                                            id="cityDropDown"
-                                                            asp-for="employeeDetails.CityId"
-                                                            data-placeholder="Select City" required>
-                                                        <option value="">-- Select City --</option>
-                                                    </select>
+                                                        <select class="form-control w-100 select2-state"
+                                                                id="cityDropDown"
+                                                                asp-for="employeeDetails.CityId"
+                                                                data-placeholder="Select City" required>
+                                                            <option value="">-- Select City --</option>
+                                                        </select>
                                                     <span asp-validation-for="employeeDetails.CityId" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -241,6 +241,7 @@
                                                 <label class="form-label col-lg-2 col-md-3 col-sm-12 text-start my-2" for="education">Education</label>
                                                 <div class="col-lg-10 col-md-9 col-sm-12">
                                                     <input type="text" class="form-control" asp-for="employeeDetails.Education" id="education" placeholder="Enter education details">
+                                                    <span asp-validation-for="employeeDetails.Education" class="text-danger"></span>
                                                 </div>
                                             </div>
 

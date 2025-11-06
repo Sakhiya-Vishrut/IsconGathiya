@@ -24,7 +24,6 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddHttpContextAccessor();
 ConfigItems.Initialize(builder.Services.BuildServiceProvider().GetService<IHttpContextAccessor>(), configuration);
-AWSHelper.Initialize(builder.Services.BuildServiceProvider().GetRequiredService<IHttpContextAccessor>());
 ServiceRegistry.RegisterServices(builder.Services);
 
 var app = builder.Build();

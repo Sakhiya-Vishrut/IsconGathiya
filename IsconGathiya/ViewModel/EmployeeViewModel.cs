@@ -79,6 +79,7 @@ namespace IsconGathiya.ViewModel
             public string? EmployeeImage { get; set; }
 
             [StringLength(100, ErrorMessage = "Education cannot exceed 100 characters.")]
+            [Required(ErrorMessage = "Education is required.")]
             public string? Education { get; set; }
 
             [Required(ErrorMessage = "Gender is required.")]
